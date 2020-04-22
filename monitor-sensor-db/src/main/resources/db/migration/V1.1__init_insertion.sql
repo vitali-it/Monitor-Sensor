@@ -1,0 +1,2 @@
+INSERT INTO monitor_sensor.USER_APP(login, password, created_date, updated_date, role) VALUES('admin', '$2a$10$WZvJKgDM9KSX2dr0MsQmMu4EpZsZKafBLNPpE.pwZz75TSTIiwfcS', '2020-04-22T21:01:28.392', '2020-04-22T21:01:28.392', 'ADMIN');
+INSERT INTO monitor_sensor.USER_APP(login, password, created_date, updated_date) VALUES('user', '$2a$10$WZvJKgDM9KSX2dr0MsQmMu4EpZsZKafBLNPpE.pwZz75TSTIiwfcS', '2020-04-22T21:05:28.372', '2020-04-22T21:05:28.372');
