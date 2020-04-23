@@ -16,7 +16,7 @@ CREATE TABLE monitor_sensor.USER_APP (
 	id SERIAL PRIMARY KEY,
 	login VARCHAR(32) UNIQUE,
 	password VARCHAR(68),
-	role ROLE,
+	role ROLE default 'VIEWER',
 	created_date TIMESTAMP,
 	updated_date TIMESTAMP
 );

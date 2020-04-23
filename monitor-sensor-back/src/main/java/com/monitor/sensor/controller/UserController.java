@@ -7,7 +7,6 @@ import com.monitor.sensor.service.UserService;
 import com.monitor.sensor.ui.User;
 
 @RestController
-@CrossOrigin
 @RequestMapping("api/v1/users")
 @RequiredArgsConstructor
 public class UserController {

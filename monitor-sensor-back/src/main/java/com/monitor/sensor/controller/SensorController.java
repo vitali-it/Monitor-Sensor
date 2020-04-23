@@ -8,7 +8,6 @@ import com.monitor.sensor.service.SensorService;
 import com.monitor.sensor.ui.Sensor;
 
 @RestController
-@CrossOrigin
 @RequestMapping("api/v1/sensors")
 @RequiredArgsConstructor
 public class SensorController {
