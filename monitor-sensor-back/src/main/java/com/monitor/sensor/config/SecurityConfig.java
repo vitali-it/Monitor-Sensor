@@ -30,16 +30,16 @@ import lombok.SneakyThrows;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtEntryPoint entry;
+    private final JwtEntryPoint entryPoint;
 
-    private final JwtTokenFilter jwtFilter;
+    private final JwtTokenFilter jwtTokenFilter;
 
-    private final UserDetailsService service;
+    private final UserDetailsService detailService;
 
     @Autowired
     @SneakyThrows
     public void configureGlobal(final AuthenticationManagerBuilder auth) {
-        auth.userDetailsService(service).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(detailService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
@@ -50,10 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @Override
     @SneakyThrows
-    public AuthenticationManager authenticationManager() {
+    public AuthenticationManager authenticationManagerBean() {
         return super.authenticationManagerBean();
     }
-
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -64,16 +63,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             }
         };
     }
-
+    
     @Override
     @SneakyThrows
     protected void configure(final HttpSecurity httpSecurity) {
         httpSecurity.cors().and().csrf().disable().authorizeRequests().antMatchers("/auth").permitAll()
                 .antMatchers("**/actuator/**").permitAll().antMatchers("/v2/api-docs").permitAll()
                 .antMatchers("/swagger*/**").permitAll().antMatchers("/configuration/**").permitAll()
-                .antMatchers("/webjars/**").permitAll().antMatchers(HttpMethod.POST, "/api/v1/users").hasRole("ADMIN")
-                .anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(entry).and()
+                .antMatchers("/webjars/**").permitAll().antMatchers(HttpMethod.POST, "/api/v1/users").hasRole("ADMIN").anyRequest()
+                .authenticated().and().exceptionHandling().authenticationEntryPoint(entryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

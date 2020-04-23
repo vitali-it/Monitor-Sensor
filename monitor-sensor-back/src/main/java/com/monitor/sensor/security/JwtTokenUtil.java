@@ -3,6 +3,8 @@ package com.monitor.sensor.security;
 import java.util.*;
 import java.util.function.Function;
 import io.jsonwebtoken.*;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +13,8 @@ public class JwtTokenUtil {
 
     public static final long JWT_TOKEN_VALIDITY = 60 * 60;
 
-    private final String secret = "javasecret";
+    @Value("${security.jwt.secret}")
+    private String secret;
 
     public String getUsernameFromToken(final String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -50,12 +53,12 @@ public class JwtTokenUtil {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
-    
+
     public String getUsernameFromRequestTokenHeader(final String requestTokenHeader) {
         final String jwtToken = extractTokenFromRequestTokenHeader(requestTokenHeader).get();
         return getUsernameFromToken(jwtToken);
     }
-    
+
     public Optional<String> extractTokenFromRequestTokenHeader(final String requestTokenHeader) {
         final Optional<String> token;
         if (requestTokenHeader == null) {

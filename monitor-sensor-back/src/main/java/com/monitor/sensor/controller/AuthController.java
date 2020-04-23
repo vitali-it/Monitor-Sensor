@@ -27,8 +27,9 @@ public class AuthController {
 
     private final UserDetailsService userDetailsService;
 
-    @PostMapping(value = "/authentication")
-    public ResponseEntity<Map<String, Object>> createAuthenticationToken(@RequestBody final JwtRequest authenticationRequest) {
+    @PostMapping(value = "/auth")
+    public ResponseEntity<Map<String, Object>> createAuthenticationToken(
+            @RequestBody final JwtRequest authenticationRequest) {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
