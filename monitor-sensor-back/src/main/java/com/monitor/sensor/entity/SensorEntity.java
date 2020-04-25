@@ -24,7 +24,7 @@ public class SensorEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false)
     private String model;
 
     @Column(nullable = true, unique = false)

@@ -1,8 +1,13 @@
 package com.monitor.sensor.controller;
 
 import java.util.List;
+
+import javax.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.monitor.sensor.service.SensorService;
 import com.monitor.sensor.ui.Sensor;
@@ -17,5 +22,26 @@ public class SensorController {
     @GetMapping
     public List<Sensor> receiveAll() {
         return service.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public Sensor receiveById(@PathVariable final Integer id) {
+        return service.getById(id);
+    }
+
+    @PostMapping
+    public ResponseEntity<Sensor> createOneWithNestedObj(@Valid @RequestBody final Sensor sensor) {
+        return new ResponseEntity<>(service.addOneWithNestedObj(sensor), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Sensor> updateOne(@Valid @RequestBody final Sensor sensor, @PathVariable final Integer id) {
+        return ResponseEntity.ok(service.modifyOneWithNestedObj(sensor, id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Integer> deleteOne(@PathVariable final Integer id) {
+        service.removeOne(id);
+        return ResponseEntity.ok(id);
     }
 }

@@ -11,24 +11,25 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.github.javafaker.Faker;
-import com.monitor.sensor.service.SensorService;
-import com.monitor.sensor.ui.Sensor;
+import com.monitor.sensor.service.SensorUnitService;
+import com.monitor.sensor.ui.SensorUnit;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SensorControllerTest {
+public class SensorUnitControllerTest {
 
     @InjectMocks
-    private SensorController controller;
+    private SensorUnitController controller;
 
     @Mock
-    private SensorService service;
+    private SensorUnitService service;
 
     private static final Faker FAKER = Faker.instance(Locale.ENGLISH, ThreadLocalRandom.current());
 
     @Test
     public void shouldReceiveAll() {
-        controller.receiveAll();
-        Mockito.verify(service, Mockito.times(1)).getAll();
+        final Integer id = FAKER.number().randomDigit();
+        controller.receiveById(id);
+        Mockito.verify(service, Mockito.times(1)).getById(id);
     }
 
     @Test
@@ -38,18 +39,18 @@ public class SensorControllerTest {
     }
 
     @Test
-    public void shouldCreateOneWithNestedObj() {
-        Sensor sensor = Mockito.mock(Sensor.class);
-        controller.createOneWithNestedObj(sensor);
-        Mockito.verify(service, Mockito.times(1)).addOneWithNestedObj(sensor);
+    public void shouldCreateOne() {
+        final SensorUnit sensorUnit = Mockito.mock(SensorUnit.class);
+        controller.createOne(sensorUnit);
+        Mockito.verify(service, Mockito.times(1)).addOne(sensorUnit);
     }
 
     @Test
     public void shouldUpdateOne() {
         final Integer id = FAKER.number().randomDigit();
-        final Sensor sensor = Mockito.mock(Sensor.class);
-        controller.updateOne(sensor, id);
-        Mockito.verify(service, Mockito.times(1)).modifyOneWithNestedObj(sensor, id);
+        final SensorUnit sensorUnit = Mockito.mock(SensorUnit.class);
+        controller.updateOne(sensorUnit, id);
+        Mockito.verify(service, Mockito.times(1)).modifyOne(sensorUnit, id);
     }
 
     @Test
