@@ -1,0 +1,27 @@
+<div>
+  <h1>
+    Sensor Table
+  </h1>
+  <table style="width:80%">
+    <tr>
+      <th>Name</th>
+      <th>Model</th>
+      <th>Type</th>
+      <th>Range</th>
+      <th>Unit</th>
+      <th>Location</th>
+    </tr>
+    <tr style="text-align:center" *ngFor="let item of sensorCollection">
+      <td>{{item.name}}</td>
+      <td>{{item.model}}</td>
+      <td>{{item.sensorUnit.sensorType}}</td>
+      <td>{{item.sensorUnit.range}}</td>
+      <td>{{item.sensorUnit.unit}}</td>
+      <td>{{item.location}}</td>
+    </tr>  
+  </table>
+  <span>
+    <button>Add Sensor</button>
+    <h3 *ngIf="sensorCollection">Total: {{sensorCollection.length}}</h3>
+  </span>
+</div>
