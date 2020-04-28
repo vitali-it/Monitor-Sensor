@@ -18,4 +18,9 @@ export class SensorService {
                     return result;
                 }));
     }
+
+    addOne(model: SensorModel): Observable<SensorModel> {
+        const dto = this.builder.unBuild(model);
+        return this.repository.saveOne(dto);
+    }
 }

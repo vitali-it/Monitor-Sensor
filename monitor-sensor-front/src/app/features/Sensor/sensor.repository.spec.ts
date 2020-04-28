@@ -33,6 +33,21 @@ describe('Sensor Repository', () => {
             .subscribe(data => {
                 expect(data).not.toBeNull();
                 expect(data).toBeDefined();
+                expect(httpClient.get).toHaveBeenCalled();
+            });
+    });
+
+    it('should save an element', () => {
+        const dto = new SensorDto();
+        const dtoArr = new Array<SensorDto>();
+        dtoArr.push(dto);
+        spyOn(httpClient, 'post').and.returnValue(of(dto));
+
+        repository.saveOne(dto)
+            .subscribe(data => {
+                expect(data).not.toBeNull();
+                expect(data).toBeDefined();
+                expect(httpClient.post).toHaveBeenCalled();
             });
     });
 });

@@ -1,0 +1,42 @@
+<div>
+  <form [formGroup]="formGroup">
+    <div>
+      <div>
+        <label>Name * </label>
+        <input formControlName="name"/>
+      </div>
+      <div>
+        <label>Model * </label>
+        <input formControlName="model"/>
+      </div>
+      <div>
+        <label>Range * </label>
+        <input formControlName="range"/>
+      </div>
+      <div>
+        <label>Type * </label>
+        <select formControlName="type">
+          <option *ngFor="let enum of sensorType | keyvalue">{{ enum.key }}</option>
+        </select>
+      </div>
+      <div>
+        <label>Unit * </label>
+        <select formControlName="unit">
+          <option *ngFor="let enum of sensorType | keyvalue">{{ enum.value }}</option>
+        </select>
+      </div>
+      <div>
+        <label>Location </label>
+        <input formControlName="location"/>
+      </div>
+      <div>
+        <label>Description </label>
+        <textarea formControlName="description"></textarea>
+      </div>
+    </div>
+    <div>
+      <button (click)="onSave()">SAVE</button>
+      <button>CANCEL</button>
+    </div>
+  </form>
+</div>

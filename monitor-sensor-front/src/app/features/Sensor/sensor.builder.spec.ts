@@ -32,4 +32,16 @@ describe('Sensor Builder', () => {
         expect(model[0].sensorUnit).toBe(dto.sensorUnit);
         expect(model[0].name).toBe(dto.name);
     });
+
+    it('should un-build', () => {
+        const model = new SensorDto();
+
+        const dto = builder.unBuild(model);
+        expect(model.id).toBe(dto.id);
+        expect(model.description).toBe(dto.description);
+        expect(model.location).toBe(dto.location);
+        expect(model.model).toBe(dto.model);
+        expect(model.sensorUnit).toBe(dto.sensorUnit);
+        expect(model.name).toBe(dto.name);
+    });
 });

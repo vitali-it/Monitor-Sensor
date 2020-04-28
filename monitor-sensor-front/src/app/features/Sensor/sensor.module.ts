@@ -5,13 +5,19 @@ import { SensorRepository } from './sensor.repository';
 import { SensorComponent } from './sensor.component';
 import { SensorRoutingModule } from './sensor.routing-module';
 import { SharedModule } from 'src/app/shared.module';
+import { SensorAddEditComponent } from './sensor.component-add-edit';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         SharedModule,
-        SensorRoutingModule
+        SensorRoutingModule,
+        ReactiveFormsModule
     ],
-    declarations: [SensorComponent],
+    declarations: [
+        SensorComponent,
+        SensorAddEditComponent
+    ],
     providers: [
         SensorService,
         SensorBuilder,

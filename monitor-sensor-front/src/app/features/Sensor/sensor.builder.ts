@@ -22,4 +22,18 @@ export class SensorBuilder {
         }
         return myArray;
     }
+
+    unBuild(model: SensorModel): SensorDto {
+        if (!model) {
+            return null;
+        }
+        const dto = new SensorDto();
+        dto.id = model ? model.id : 0;
+        dto.description = model ? model.description : null;
+        dto.location = model ? model.location : null;
+        dto.model = model ? model.model : null;
+        dto.sensorUnit = model ? model.sensorUnit : null;
+        dto.name = model ? model.name : null;
+        return dto;
+    }
 }
