@@ -37,6 +37,19 @@ describe('Sensor Service', () => {
             .subscribe(data => {
                 expect(data).toBeDefined();
                 expect(dtoArr[0].name).toBe(data[0].name);
+                expect(repository.findAll).toHaveBeenCalled();
+            });
+    });
+
+    it('should get an element by its id', () => {
+        const dto = new SensorDto();
+        spyOn(repository, 'findById').and.returnValue(of(dto));
+
+        service.getById(1)
+            .subscribe(data => {
+                expect(data).toBeDefined();
+                expect(dto.name).toBe(data.name);
+                expect(repository.findById).toHaveBeenCalled();
             });
     });
 
@@ -52,6 +65,21 @@ describe('Sensor Service', () => {
                 expect(data).toBeDefined();
                 expect(model.name).toBe(data.name);
                 expect(repository.saveOne).toHaveBeenCalled();
+            });
+    });
+
+    it('should modify an element', () => {
+        const dto = new SensorDto();
+        const dtoArr = new Array<SensorDto>();
+        dtoArr.push(dto);
+        const model = new SensorModel();
+        spyOn(repository, 'updateOne').and.returnValue(of(dtoArr));
+
+        service.modifyOne(model, 1)
+            .subscribe(data => {
+                expect(data).toBeDefined();
+                expect(model.name).toBe(data.name);
+                expect(repository.updateOne).toHaveBeenCalled();
             });
     });
 });

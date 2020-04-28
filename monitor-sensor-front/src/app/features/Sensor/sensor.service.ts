@@ -19,8 +19,21 @@ export class SensorService {
                 }));
     }
 
+    getById(id: number): Observable<SensorModel> {
+        return this.repository.findById(id)
+                .pipe(map(data => {
+                    const result = this.builder.buildOne(data);
+                    return result;
+                }));
+    }
+
     addOne(model: SensorModel): Observable<SensorModel> {
         const dto = this.builder.unBuild(model);
         return this.repository.saveOne(dto);
+    }
+
+    modifyOne(model: SensorModel, id: number): Observable<SensorModel> {
+        const dto = this.builder.unBuild(model);
+        return this.repository.updateOne(dto, id);
     }
 }

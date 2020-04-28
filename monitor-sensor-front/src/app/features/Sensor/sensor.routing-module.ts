@@ -11,6 +11,10 @@ const routes: Routes = [
     {
         path: 'form',
         component: SensorAddEditComponent
+    },
+    {
+        path: 'form/:id',
+        component: SensorAddEditComponent
     }
 ];
 

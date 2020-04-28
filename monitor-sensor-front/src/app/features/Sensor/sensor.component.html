@@ -21,7 +21,7 @@
     </tr>  
   </table>
   <span>
-    <button>Add Sensor</button>
+    <button [routerLink]="['form']" routerLinkActive="router-link-active" >Add Sensor</button>
     <h3 *ngIf="sensorCollection">Total: {{sensorCollection.length}}</h3>
   </span>
 </div>

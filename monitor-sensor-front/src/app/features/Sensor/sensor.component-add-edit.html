@@ -35,8 +35,8 @@
       </div>
     </div>
     <div>
-      <button (click)="onSave()">SAVE</button>
-      <button>CANCEL</button>
+      <button type="button" [routerLink]="['/sensors']" routerLinkActive="router-link-active" (click)="onSave()">SAVE</button>
+      <button type="button" [routerLink]="['/sensors']" routerLinkActive="router-link-active" >CANCEL</button>
     </div>
   </form>
 </div>

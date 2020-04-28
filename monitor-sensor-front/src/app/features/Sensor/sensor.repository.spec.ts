@@ -37,6 +37,18 @@ describe('Sensor Repository', () => {
             });
     });
 
+    it('should find an element by its id', () => {
+        const dto = new SensorDto();
+        spyOn(httpClient, 'get').and.returnValue(of(dto));
+
+        repository.findById(1)
+            .subscribe(data => {
+                expect(data).not.toBeNull();
+                expect(data).toBeDefined();
+                expect(httpClient.get).toHaveBeenCalled();
+            });
+    });
+
     it('should save an element', () => {
         const dto = new SensorDto();
         const dtoArr = new Array<SensorDto>();
@@ -44,6 +56,20 @@ describe('Sensor Repository', () => {
         spyOn(httpClient, 'post').and.returnValue(of(dto));
 
         repository.saveOne(dto)
+            .subscribe(data => {
+                expect(data).not.toBeNull();
+                expect(data).toBeDefined();
+                expect(httpClient.post).toHaveBeenCalled();
+            });
+    });
+
+    it('should update an element', () => {
+        const dto = new SensorDto();
+        const dtoArr = new Array<SensorDto>();
+        dtoArr.push(dto);
+        spyOn(httpClient, 'put').and.returnValue(of(dto));
+
+        repository.updateOne(dto, 1)
             .subscribe(data => {
                 expect(data).not.toBeNull();
                 expect(data).toBeDefined();
