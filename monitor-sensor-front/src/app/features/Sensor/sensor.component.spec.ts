@@ -1,5 +1,6 @@
 import { SensorComponent } from './sensor.component';
-import { SensorFetchAllAction, SensorSetSelectedAction } from './sensor.actions';
+import { SensorFetchAllAction,
+    SensorSetSelectedAction, SensorDeleteOneAction } from './sensor.actions';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { SensorState } from './sensor.state';
 import { TestBed, async } from '@angular/core/testing';
@@ -89,5 +90,18 @@ describe('Sensor Component', () => {
 
         expect(store.dispatch).toHaveBeenCalledWith(action);
         expect(obj).toBeDefined();
+    });
+
+    it('should dispatch on delete', () => {
+        const obj = new SensorModel();
+        const component = TestBed.createComponent(SensorComponent);
+        const componentInstance = component.debugElement.componentInstance;
+        const action = new SensorDeleteOneAction(obj.id);
+
+        spyOn(service, 'deleteById').and.returnValue(of(obj.id));
+        spyOn(store, 'dispatch').withArgs(action).and.callThrough();
+        componentInstance.onDelete(obj.id);
+
+        expect(store.dispatch).toHaveBeenCalledWith(action);
     });
 });

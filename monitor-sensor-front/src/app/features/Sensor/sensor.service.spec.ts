@@ -45,7 +45,7 @@ describe('Sensor Service', () => {
         const dto = new SensorDto();
         spyOn(repository, 'findById').and.returnValue(of(dto));
 
-        service.getById(1)
+        service.getById(dto.id)
             .subscribe(data => {
                 expect(data).toBeDefined();
                 expect(dto.name).toBe(data.name);
@@ -75,11 +75,23 @@ describe('Sensor Service', () => {
         const model = new SensorModel();
         spyOn(repository, 'updateOne').and.returnValue(of(dtoArr));
 
-        service.modifyOne(model, 1)
+        service.modifyOne(model, model.id)
             .subscribe(data => {
                 expect(data).toBeDefined();
                 expect(model.name).toBe(data.name);
                 expect(repository.updateOne).toHaveBeenCalled();
+            });
+    });
+
+    it('should delete an element', () => {
+        const model = new SensorModel();
+        spyOn(repository, 'removeById').and.returnValue(of(model.id));
+
+        service.deleteById(1)
+            .subscribe(data => {
+                expect(data).not.toBeNaN();
+                expect(data).toBe(model.id);
+                expect(repository.removeById).toHaveBeenCalled();
             });
     });
 });

@@ -2,7 +2,7 @@ import { SensorService } from './sensor.service';
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { SensorModel } from './sensor.model';
 import { SensorFetchAllAction, SensorEditOneAction,
-     SensorFetchByIdAction, SensorCreateOneAction, SensorSetSelectedAction } from './sensor.actions';
+     SensorFetchByIdAction, SensorCreateOneAction, SensorSetSelectedAction, SensorDeleteOneAction } from './sensor.actions';
 import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
@@ -65,8 +65,8 @@ export class SensorState {
     }
 
     @Action(SensorCreateOneAction)
-    createOne({getState, patchState}: StateContext<SensorStateModel>, {obj}: SensorCreateOneAction) {
-        return this.service.addOne(obj)
+    createOne({getState, patchState}: StateContext<SensorStateModel>, {payload}: SensorCreateOneAction) {
+        return this.service.addOne(payload)
             .pipe(tap(thisSensor => {
                 const state = getState();
                 patchState({
@@ -78,13 +78,27 @@ export class SensorState {
     }
 
     @Action(SensorEditOneAction)
-    editOne({getState, patchState}: StateContext<SensorStateModel>, {obj, id}: SensorEditOneAction) {
-        return this.service.modifyOne(obj, id)
+    editOne({getState, patchState}: StateContext<SensorStateModel>, {payload, id}: SensorEditOneAction) {
+        return this.service.modifyOne(payload, id)
             .pipe(tap(thisSensor => {
                 const state = getState();
                 patchState({
                     ...state,
                     thisSensor
+                });
+            }
+        ));
+    }
+
+    @Action(SensorDeleteOneAction)
+    deleteOne({getState, setState}: StateContext<SensorStateModel>, {id}: SensorDeleteOneAction) {
+        return this.service.deleteById(id)
+            .pipe(tap(() => {
+                const state = getState();
+                const resultList = state.sensors.filter(el => el.id !== id);
+                setState({
+                    ...state,
+                    sensors: resultList
                 });
             }
         ));

@@ -38,4 +38,10 @@ export class SensorRepository {
             .put<SensorDto>(`http://localhost:8088/api/v1/sensors/${id}`, obj, this.httpOptions)
             .pipe(map(data => data));
     }
+
+    removeById(id: number): Observable<number> {
+        return this.httpClient
+            .delete<number>(`http://localhost:8088/api/v1/sensors/${id}`)
+            .pipe(map(data => data));
+    }
 }

@@ -25,14 +25,14 @@ export class SensorCreateOneAction {
 
     static readonly type = SENSOR_CREATE_ONE;
 
-    constructor(public obj: SensorModel) { }
+    constructor(public payload: SensorModel) { }
 }
 
 export class SensorEditOneAction {
 
     static readonly type = SENSOR_EDIT_ONE;
 
-    constructor(public obj: SensorModel, public id: number) { }
+    constructor(public payload: SensorModel, public id: number) { }
 }
 
 export class SensorDeleteOneAction {

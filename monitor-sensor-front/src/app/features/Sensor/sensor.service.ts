@@ -36,4 +36,8 @@ export class SensorService {
         const dto = this.builder.unBuild(model);
         return this.repository.updateOne(dto, id);
     }
+
+    deleteById(id: number): Observable<number> {
+        return this.repository.removeById(id);
+    }
 }

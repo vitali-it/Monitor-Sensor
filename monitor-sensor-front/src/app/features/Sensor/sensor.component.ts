@@ -3,7 +3,8 @@ import { Observable } from 'rxjs';
 import { SensorModel } from './sensor.model';
 import { Select, Store } from '@ngxs/store';
 import { SensorState } from './sensor.state';
-import { SensorFetchAllAction, SensorSetSelectedAction } from './sensor.actions';
+import { SensorFetchAllAction, SensorDeleteOneAction,
+    SensorSetSelectedAction } from './sensor.actions';
 
 @Component({
     selector: 'app-feature-sensor',
@@ -21,5 +22,12 @@ export class SensorComponent implements OnInit {
 
     onEdit(obj: SensorModel) {
         this.store.dispatch(new SensorSetSelectedAction(obj));
+    }
+
+    onDelete(id: number) {
+        if (window.confirm('Are you really sure that you want to delete the sensor?')) {
+            this.store.dispatch(new SensorDeleteOneAction(id));
+        }
+        return false;
     }
 }

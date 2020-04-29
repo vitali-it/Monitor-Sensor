@@ -40,7 +40,7 @@ describe('Sensor Repository', () => {
         const dto = new SensorDto();
         spyOn(httpClient, 'get').and.returnValue(of(dto));
 
-        repository.findById(1)
+        repository.findById(dto.id)
             .subscribe(data => {
                 expect(data).not.toBeNull();
                 expect(data).toBeDefined();
@@ -66,10 +66,20 @@ describe('Sensor Repository', () => {
         dtoArr.push(dto);
         spyOn(httpClient, 'put').and.returnValue(of(dto));
 
-        repository.updateOne(dto, 1)
+        repository.updateOne(dto, dto.id)
             .subscribe(data => {
                 expect(data).not.toBeNull();
                 expect(data).toBeDefined();
+            });
+    });
+
+    it('should remove an element', () => {
+        const dto = new SensorDto();
+        spyOn(httpClient, 'delete').and.returnValue(of(dto.id));
+        repository.removeById(dto.id)
+            .subscribe((data) => {
+                expect(data).not.toBeNaN();
+                expect(httpClient.delete).toHaveBeenCalled();
             });
     });
 });
