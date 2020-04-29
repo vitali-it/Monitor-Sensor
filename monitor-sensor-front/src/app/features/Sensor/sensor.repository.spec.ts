@@ -33,7 +33,6 @@ describe('Sensor Repository', () => {
             .subscribe(data => {
                 expect(data).not.toBeNull();
                 expect(data).toBeDefined();
-                expect(httpClient.get).toHaveBeenCalled();
             });
     });
 
@@ -45,7 +44,6 @@ describe('Sensor Repository', () => {
             .subscribe(data => {
                 expect(data).not.toBeNull();
                 expect(data).toBeDefined();
-                expect(httpClient.get).toHaveBeenCalled();
             });
     });
 
@@ -59,7 +57,6 @@ describe('Sensor Repository', () => {
             .subscribe(data => {
                 expect(data).not.toBeNull();
                 expect(data).toBeDefined();
-                expect(httpClient.post).toHaveBeenCalled();
             });
     });
 
@@ -73,7 +70,6 @@ describe('Sensor Repository', () => {
             .subscribe(data => {
                 expect(data).not.toBeNull();
                 expect(data).toBeDefined();
-                expect(httpClient.post).toHaveBeenCalled();
             });
     });
 });

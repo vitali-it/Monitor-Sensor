@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core.module';
+import { NgxsModule } from '@ngxs/store';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { CoreModule } from './core.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    CoreModule
+    CoreModule,
+    NgxsModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

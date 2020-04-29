@@ -7,12 +7,15 @@ import { SensorRoutingModule } from './sensor.routing-module';
 import { SharedModule } from 'src/app/shared.module';
 import { SensorAddEditComponent } from './sensor.component-add-edit';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxsModule } from '@ngxs/store';
+import { SensorState } from './sensor.state';
 
 @NgModule({
     imports: [
         SharedModule,
         SensorRoutingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        NgxsModule.forFeature([SensorState])
     ],
     declarations: [
         SensorComponent,

@@ -1,27 +1,25 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { SensorService } from './sensor.service';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { SensorModel } from './sensor.model';
+import { Select, Store } from '@ngxs/store';
+import { SensorState } from './sensor.state';
+import { SensorFetchAllAction, SensorSetSelectedAction } from './sensor.actions';
 
 @Component({
     selector: 'app-feature-sensor',
     templateUrl: './sensor.component.html'
 })
-export class SensorComponent implements OnInit, OnDestroy {
+export class SensorComponent implements OnInit {
 
-    private subscription: Subscription;
-    public sensorCollection: Array<SensorModel>;
+    constructor(private readonly store: Store) { }
 
-    constructor(private readonly service: SensorService) { }
+    @Select(SensorState.selectAllData) sensorCollection: Observable<Array<SensorModel>>;
 
     ngOnInit(): void {
-        this.subscription = this.service.getAll()
-        .subscribe(allFetched => this.sensorCollection = allFetched);
+        this.store.dispatch(new SensorFetchAllAction());
     }
 
-    ngOnDestroy(): void {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
+    onEdit(obj: SensorModel) {
+        this.store.dispatch(new SensorSetSelectedAction(obj));
     }
 }

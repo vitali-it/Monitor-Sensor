@@ -1,11 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { SensorService } from './sensor.service';
+import { Subscription, Observable } from 'rxjs';
 import { SensorModel } from './sensor.model';
 import { SensorType } from '../SensorUnit/sensorunit.enum';
 import { SensorUnitModel } from '../SensorUnit/sensorunit.model';
 import { ActivatedRoute } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
+import { SensorState } from './sensor.state';
+import { SensorFetchByIdAction, SensorFetchAllAction,
+    SensorEditOneAction, SensorCreateOneAction } from './sensor.actions';
 
 @Component({
     selector: 'app-feature-sensor-add-edit',
@@ -14,31 +17,43 @@ import { ActivatedRoute } from '@angular/router';
 export class SensorAddEditComponent implements OnInit, OnDestroy {
 
     public formGroup: FormGroup;
-    private subscriptionAddition: Subscription;
-    private subscriptionUpdate: Subscription;
-    private subscriptionFetchById: Subscription;
+    public subscriptionFetchById: Subscription;
     public sensorCollection: Array<SensorModel>;
     public sensor: SensorModel;
     public sensorType = SensorType;
     public isUpdate: boolean;
     private sensorId: number;
 
-    constructor(private readonly service: SensorService,
-                private readonly route: ActivatedRoute) { }
+    @Select(SensorState.selectDataById) selectedSensor: Observable<SensorModel>;
+
+    constructor(private readonly route: ActivatedRoute,
+                private readonly store: Store) { }
 
     ngOnInit(): void {
         this.sensorId = this.route.snapshot.params.id;
         this.sensor = new SensorModel();
         this.sensor.sensorUnit = new SensorUnitModel();
         this.initForm(this.sensor);
+        this.whetherToUpdate();
+    }
+
+    private whetherToUpdate() {
         if (this.sensorId) {
             this.isUpdate = true;
-            this.subscriptionFetchById = this.service.getById(this.sensorId)
-            .subscribe(retrieved => { this.sensor = retrieved; this.initForm(this.sensor); });
+            this.subscriptionFetchById = this.selectedSensor
+                .subscribe(retrieved => {
+                    this.sensor = retrieved;
+                    if (this.sensor) {
+                        this.initForm(this.sensor);
+                    }
+                    else {
+                        this.store.dispatch(new SensorFetchByIdAction(this.sensorId));
+                    }
+                });
         }
     }
 
-    private initForm(sensor: SensorModel) {
+    public initForm(sensor: SensorModel) {
         const keys = Object.keys(SensorType);
         this.formGroup = new FormGroup({
             name: new FormControl({
@@ -81,17 +96,12 @@ export class SensorAddEditComponent implements OnInit, OnDestroy {
         this.sensor.sensorUnit.sensorType = this.formGroup.get('type').value;
         this.sensor.sensorUnit.unit = this.formGroup.get('unit').value;
         this.isUpdate ?
-            this.subscriptionUpdate = this.service.modifyOne(this.sensor, this.sensorId).subscribe() :
-            this.subscriptionAddition = this.service.addOne(this.sensor).subscribe();
+            this.store.dispatch(new SensorEditOneAction(this.sensor, this.sensorId)) :
+            this.store.dispatch(new SensorCreateOneAction(this.sensor));
+        this.store.dispatch(SensorFetchAllAction);
     }
 
     ngOnDestroy(): void {
-        if (this.subscriptionAddition) {
-            this.subscriptionAddition.unsubscribe();
-        }
-        if (this.subscriptionUpdate) {
-            this.subscriptionUpdate.unsubscribe();
-        }
         if (this.subscriptionFetchById) {
             this.subscriptionFetchById.unsubscribe();
         }
