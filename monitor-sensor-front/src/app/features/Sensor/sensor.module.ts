@@ -5,13 +5,24 @@ import { SensorRepository } from './sensor.repository';
 import { SensorComponent } from './sensor.component';
 import { SensorRoutingModule } from './sensor.routing-module';
 import { SharedModule } from 'src/app/shared.module';
+import { SensorAddEditComponent } from './sensor.component-add-edit';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgxsModule } from '@ngxs/store';
+import { SensorState } from './sensor.state';
+import { ValidationPipe } from './sensor.pipe';
 
 @NgModule({
     imports: [
         SharedModule,
-        SensorRoutingModule
+        SensorRoutingModule,
+        ReactiveFormsModule,
+        NgxsModule.forFeature([SensorState])
     ],
-    declarations: [SensorComponent],
+    declarations: [
+        SensorComponent,
+        ValidationPipe,
+        SensorAddEditComponent
+    ],
     providers: [
         SensorService,
         SensorBuilder,

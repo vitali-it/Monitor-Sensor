@@ -35,4 +35,51 @@ describe('Sensor Repository', () => {
                 expect(data).toBeDefined();
             });
     });
+
+    it('should find an element by its id', () => {
+        const dto = new SensorDto();
+        spyOn(httpClient, 'get').and.returnValue(of(dto));
+
+        repository.findById(dto.id)
+            .subscribe(data => {
+                expect(data).not.toBeNull();
+                expect(data).toBeDefined();
+            });
+    });
+
+    it('should save an element', () => {
+        const dto = new SensorDto();
+        const dtoArr = new Array<SensorDto>();
+        dtoArr.push(dto);
+        spyOn(httpClient, 'post').and.returnValue(of(dto));
+
+        repository.saveOne(dto)
+            .subscribe(data => {
+                expect(data).not.toBeNull();
+                expect(data).toBeDefined();
+            });
+    });
+
+    it('should update an element', () => {
+        const dto = new SensorDto();
+        const dtoArr = new Array<SensorDto>();
+        dtoArr.push(dto);
+        spyOn(httpClient, 'put').and.returnValue(of(dto));
+
+        repository.updateOne(dto, dto.id)
+            .subscribe(data => {
+                expect(data).not.toBeNull();
+                expect(data).toBeDefined();
+            });
+    });
+
+    it('should remove an element', () => {
+        const dto = new SensorDto();
+        spyOn(httpClient, 'delete').and.returnValue(of(dto.id));
+        repository.removeById(dto.id)
+            .subscribe((data) => {
+                expect(data).not.toBeNaN();
+                expect(httpClient.delete).toHaveBeenCalled();
+            });
+    });
 });

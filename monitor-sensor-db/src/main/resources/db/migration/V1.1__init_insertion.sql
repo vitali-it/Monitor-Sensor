@@ -4,7 +4,7 @@ INSERT INTO monitor_sensor.USER_APP(login, password, created_date, updated_date)
 INSERT INTO monitor_sensor.SENSOR_UNIT(sensor_type,	unit, range) VALUES('PRESSURE', 'bar', 15);
 INSERT INTO monitor_sensor.SENSOR_UNIT(sensor_type,	unit, range) VALUES('VOLTAGE', 'voltage', 25);
 INSERT INTO monitor_sensor.SENSOR_UNIT(sensor_type,	unit, range) VALUES('TEMPERATURE', '°C', 25);
-INSERT INTO monitor_sensor.SENSOR_UNIT(sensor_type,	unit, range) VALUES('VOLTAGE', '%', 25);
+INSERT INTO monitor_sensor.SENSOR_UNIT(sensor_type,	unit, range) VALUES('HUMIDITY', '%', 25);
 
 INSERT INTO monitor_sensor.SENSOR(sensor_type_id, name, model, description, location, created_date, updated_date) 
 			VALUES(1, 'Sens1', 'MDL1', 'description1', 'Minsk', '2020-04-25T01:05:56.956', '2020-04-25T01:05:57.443');

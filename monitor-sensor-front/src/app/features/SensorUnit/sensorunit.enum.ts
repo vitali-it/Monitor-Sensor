@@ -1,4 +1,7 @@
 export enum SensorType {
 
-    PRESSURE, VOLTAGE, TEMPERATURE, HUMIDITY
+    PRESSURE = 'bar',
+    VOLTAGE = 'voltage',
+    TEMPERATURE = '°C',
+    HUMIDITY = '%',
 }
