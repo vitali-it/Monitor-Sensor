@@ -9,6 +9,7 @@ import { SensorAddEditComponent } from './sensor.component-add-edit';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 import { SensorState } from './sensor.state';
+import { ValidationPipe } from './sensor.pipe';
 
 @NgModule({
     imports: [
@@ -19,6 +20,7 @@ import { SensorState } from './sensor.state';
     ],
     declarations: [
         SensorComponent,
+        ValidationPipe,
         SensorAddEditComponent
     ],
     providers: [

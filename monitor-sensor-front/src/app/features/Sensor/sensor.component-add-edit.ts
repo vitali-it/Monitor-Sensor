@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, DoCheck, AfterViewInit, AfterContentChecked } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { SensorModel } from './sensor.model';
@@ -14,20 +14,24 @@ import { SensorFetchByIdAction, SensorFetchAllAction,
     selector: 'app-feature-sensor-add-edit',
     templateUrl: './sensor.component-add-edit.html'
 })
-export class SensorAddEditComponent implements OnInit, OnDestroy {
+export class SensorAddEditComponent implements OnInit, OnDestroy, AfterContentChecked {
 
     public formGroup: FormGroup;
     public subscriptionFetchById: Subscription;
     public sensorCollection: Array<SensorModel>;
     public sensor: SensorModel;
     public sensorType = SensorType;
-    public isUpdate: boolean;
+    private isUpdate: boolean;
+    public isSubmitted: boolean;
     private sensorId: number;
 
     @Select(SensorState.selectDataById) selectedSensor: Observable<SensorModel>;
 
     constructor(private readonly route: ActivatedRoute,
                 private readonly store: Store) { }
+    ngAfterContentChecked(): void {
+        this.isSubmitted = this.formGroup.invalid;
+    }
 
     ngOnInit(): void {
         this.sensorId = this.route.snapshot.params.id;
@@ -59,31 +63,31 @@ export class SensorAddEditComponent implements OnInit, OnDestroy {
             name: new FormControl({
                 value: sensor.name,
                 disabled: false
-            }, [Validators.required]),
+            }, [Validators.required, Validators.minLength(5), Validators.maxLength(30)]),
             model: new FormControl({
                 value: sensor.model,
                 disabled: false
-            }),
+            }, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]),
             range: new FormControl({
                 value: sensor.sensorUnit.range,
                 disabled: false
-            }),
+            }, [Validators.required, Validators.max(10000), Validators.min(-1000)]),
             type: new FormControl({
                 value: sensor.sensorUnit.sensorType || keys[keys.length - 1],
                 disabled: false
-            }),
+            }, [Validators.required]),
             unit: new FormControl({
                 value: sensor.sensorUnit.unit || SensorType[keys[keys.length - 1]],
                 disabled: false
-            }),
+            }, [Validators.required, Validators.minLength(1), Validators.maxLength(15)]),
             location: new FormControl({
                 value: sensor.location,
                 disabled: false
-            }),
+            }, [Validators.required, Validators.maxLength(40)]),
             description: new FormControl({
                 value: sensor.description,
                 disabled: false
-            }),
+            }, Validators.maxLength(200)),
         });
     }
 
@@ -95,10 +99,15 @@ export class SensorAddEditComponent implements OnInit, OnDestroy {
         this.sensor.sensorUnit.range = this.formGroup.get('range').value;
         this.sensor.sensorUnit.sensorType = this.formGroup.get('type').value;
         this.sensor.sensorUnit.unit = this.formGroup.get('unit').value;
-        this.isUpdate ?
-            this.store.dispatch(new SensorEditOneAction(this.sensor, this.sensorId)) :
-            this.store.dispatch(new SensorCreateOneAction(this.sensor));
-        this.store.dispatch(SensorFetchAllAction);
+        this.isSubmitted = true;
+        if (this.formGroup.invalid) {
+            return;
+        } else {
+            this.isUpdate ?
+                this.store.dispatch(new SensorEditOneAction(this.sensor, this.sensorId)) :
+                this.store.dispatch(new SensorCreateOneAction(this.sensor));
+            this.store.dispatch(SensorFetchAllAction);
+        }
     }
 
     ngOnDestroy(): void {

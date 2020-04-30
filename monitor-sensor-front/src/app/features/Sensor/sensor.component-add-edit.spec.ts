@@ -8,15 +8,10 @@ import { SensorRepository } from './sensor.repository';
 import { NgxsModule, Store } from '@ngxs/store';
 import { HttpClientModule } from '@angular/common/http';
 import { SensorAddEditComponent } from './sensor.component-add-edit';
-import { Subscription, of } from 'rxjs';
-import { ReactiveFormsModule, FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { ReactiveFormsModule } from '@angular/forms';
 import { SensorRoutingModule } from './sensor.routing-module';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SensorFetchByIdAction, SensorFetchAllAction,
-    SensorEditOneAction, SensorCreateOneAction } from './sensor.actions';
-import { SensorModel } from './sensor.model';
-import { SensorDto } from './sensor.dto';
-import { SensorUnitDto } from '../SensorUnit/sensorunit.dto';
 
 
 describe('Sensor Add Edit Component', () => {
@@ -24,7 +19,6 @@ describe('Sensor Add Edit Component', () => {
     let httpTestingController: HttpTestingController;
     let store: Store;
     let service: SensorService;
-    const formBuilder: FormBuilder = new FormBuilder();
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -42,8 +36,7 @@ describe('Sensor Add Edit Component', () => {
             providers: [
                 SensorRepository,
                 SensorService,
-                SensorBuilder,
-                { provide: FormBuilder, useValue: formBuilder }
+                SensorBuilder
             ]
         }).compileComponents();
     }));
