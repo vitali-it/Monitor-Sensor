@@ -19,13 +19,29 @@
       <div>
         <label>Type * </label>
         <select formControlName="type">
-          <option *ngFor="let enum of sensorType | keyvalue">{{ enum.key }}</option>
+          <ng-container *ngFor="let enum of sensorType | keyvalue">
+            <option *ngIf="sensorId && sensor && sensor.sensorUnit.sensorType !== enum.key">{{ enum.key }}</option>
+          </ng-container>
+          <ng-container *ngIf="sensorId && sensor">
+            <option selected>{{sensor.sensorUnit.sensorType}}</option>
+          </ng-container>
+          <ng-container *ngIf="!sensorId">
+            <option *ngFor="let enum of sensorType | keyvalue">{{enum.key}}</option>
+          </ng-container>
         </select>
       </div>
       <div>
         <label>Unit * </label>
         <select formControlName="unit">
-          <option *ngFor="let enum of sensorType | keyvalue">{{ enum.value }}</option>
+          <ng-container *ngFor="let enum of sensorType | keyvalue">
+            <option *ngIf="sensorId && sensor && sensor.sensorUnit.unit !== enum.value">{{ enum.value }}</option>
+          </ng-container>
+          <ng-container *ngIf="sensorId && sensor">
+            <option selected>{{sensor.sensorUnit.unit}}</option>
+          </ng-container>
+          <ng-container *ngIf="!sensorId">
+            <option *ngFor="let enum of sensorType | keyvalue">{{enum.value}}</option>
+          </ng-container>
         </select>
       </div>
       <div>
@@ -40,7 +56,7 @@
       </div>
     </div>
     <div>
-      <button type="button" [routerLink]="['/sensors']" routerLinkActive="router-link-active" [disabled]="isSubmitted" (click)="onSave()">SAVE</button>
+      <button type="button" [routerLink]="['/sensors']" routerLinkActive="router-link-active" [disabled]="isDisabled" (click)="onSave()">SAVE</button>
       <button type="button" [routerLink]="['/sensors']" routerLinkActive="router-link-active">CANCEL</button>
     </div>
   </form>

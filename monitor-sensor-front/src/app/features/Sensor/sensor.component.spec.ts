@@ -61,7 +61,7 @@ describe('Sensor Component', () => {
         expect(componentInstance).toBeTruthy();
     });
 
-    it('should dispatch all on init', () => {
+    it('should dispatch all on ngAfterContentInit', () => {
         const obj = new SensorModel();
         const dto = new SensorDto();
         dto.sensorUnit = new SensorUnitDto();
@@ -72,7 +72,7 @@ describe('Sensor Component', () => {
 
         spyOn(service, 'getAll').and.returnValue(of([dto]));
         spyOn(store, 'dispatch').withArgs(action).and.callThrough();
-        componentInstance.ngOnInit();
+        componentInstance.ngAfterContentInit();
         component.detectChanges();
 
         expect(store.dispatch).toHaveBeenCalledWith(action);

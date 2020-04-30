@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, DoCheck, AfterViewInit, AfterContentChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, DoCheck } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { SensorModel } from './sensor.model';
@@ -7,14 +7,14 @@ import { SensorUnitModel } from '../SensorUnit/sensorunit.model';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { SensorState } from './sensor.state';
-import { SensorFetchByIdAction, SensorFetchAllAction,
-    SensorEditOneAction, SensorCreateOneAction } from './sensor.actions';
+import { SensorFetchByIdAction, SensorEditOneAction,
+    SensorCreateOneAction } from './sensor.actions';
 
 @Component({
     selector: 'app-feature-sensor-add-edit',
     templateUrl: './sensor.component-add-edit.html'
 })
-export class SensorAddEditComponent implements OnInit, OnDestroy, AfterContentChecked {
+export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
 
     public formGroup: FormGroup;
     public subscriptionFetchById: Subscription;
@@ -22,16 +22,13 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, AfterContentCh
     public sensor: SensorModel;
     public sensorType = SensorType;
     private isUpdate: boolean;
-    public isSubmitted: boolean;
-    private sensorId: number;
+    public isDisabled: boolean;
+    public sensorId: number;
 
     @Select(SensorState.selectDataById) selectedSensor: Observable<SensorModel>;
 
     constructor(private readonly route: ActivatedRoute,
                 private readonly store: Store) { }
-    ngAfterContentChecked(): void {
-        this.isSubmitted = this.formGroup.invalid;
-    }
 
     ngOnInit(): void {
         this.sensorId = this.route.snapshot.params.id;
@@ -91,6 +88,10 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, AfterContentCh
         });
     }
 
+    ngDoCheck(): void {
+        this.isDisabled = this.formGroup.invalid;
+    }
+
     onSave() {
         this.sensor.description = this.formGroup.get('description').value;
         this.sensor.name = this.formGroup.get('name').value;
@@ -99,15 +100,10 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, AfterContentCh
         this.sensor.sensorUnit.range = this.formGroup.get('range').value;
         this.sensor.sensorUnit.sensorType = this.formGroup.get('type').value;
         this.sensor.sensorUnit.unit = this.formGroup.get('unit').value;
-        this.isSubmitted = true;
-        if (this.formGroup.invalid) {
-            return;
-        } else {
-            this.isUpdate ?
-                this.store.dispatch(new SensorEditOneAction(this.sensor, this.sensorId)) :
-                this.store.dispatch(new SensorCreateOneAction(this.sensor));
-            this.store.dispatch(SensorFetchAllAction);
-        }
+
+        this.isUpdate ?
+            this.store.dispatch(new SensorEditOneAction(this.sensor, this.sensorId)) :
+            this.store.dispatch(new SensorCreateOneAction(this.sensor));
     }
 
     ngOnDestroy(): void {

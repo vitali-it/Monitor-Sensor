@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterContentInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SensorModel } from './sensor.model';
 import { Select, Store } from '@ngxs/store';
@@ -10,13 +10,13 @@ import { SensorFetchAllAction, SensorDeleteOneAction,
     selector: 'app-feature-sensor',
     templateUrl: './sensor.component.html'
 })
-export class SensorComponent implements OnInit {
+export class SensorComponent implements AfterContentInit {
 
     constructor(private readonly store: Store) { }
 
     @Select(SensorState.selectAllData) sensorCollection: Observable<Array<SensorModel>>;
 
-    ngOnInit(): void {
+    ngAfterContentInit(): void {
         this.store.dispatch(new SensorFetchAllAction());
     }
 

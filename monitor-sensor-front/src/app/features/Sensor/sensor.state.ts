@@ -1,8 +1,8 @@
 import { SensorService } from './sensor.service';
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { SensorModel } from './sensor.model';
-import { SensorFetchAllAction, SensorEditOneAction,
-     SensorFetchByIdAction, SensorCreateOneAction, SensorSetSelectedAction, SensorDeleteOneAction } from './sensor.actions';
+import { SensorFetchAllAction, SensorEditOneAction, SensorFetchByIdAction,
+    SensorCreateOneAction, SensorSetSelectedAction, SensorDeleteOneAction } from './sensor.actions';
 import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
@@ -67,24 +67,26 @@ export class SensorState {
     @Action(SensorCreateOneAction)
     createOne({getState, patchState}: StateContext<SensorStateModel>, {payload}: SensorCreateOneAction) {
         return this.service.addOne(payload)
-            .pipe(tap(thisSensor => {
+            .pipe(tap(result => {
                 const state = getState();
                 patchState({
-                    ...state,
-                    thisSensor
+                    sensors: [...state.sensors, result]
                 });
             }
         ));
     }
 
     @Action(SensorEditOneAction)
-    editOne({getState, patchState}: StateContext<SensorStateModel>, {payload, id}: SensorEditOneAction) {
+    editOne({getState, setState}: StateContext<SensorStateModel>, {payload, id}: SensorEditOneAction) {
         return this.service.modifyOne(payload, id)
-            .pipe(tap(thisSensor => {
+            .pipe(tap(result => {
                 const state = getState();
-                patchState({
+                const shallowList = [...state.sensors];
+                const idx = shallowList.findIndex(item => item.id === id);
+                shallowList[idx] = result;
+                setState({
                     ...state,
-                    thisSensor
+                    sensors: shallowList
                 });
             }
         ));
