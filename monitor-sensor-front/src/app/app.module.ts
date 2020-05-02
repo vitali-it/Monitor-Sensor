@@ -3,7 +3,9 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core.module';
+import { SharedModule } from './shared.module';
 import { NgxsModule } from '@ngxs/store';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,8 @@ import { NgxsModule } from '@ngxs/store';
     BrowserModule,
     AppRoutingModule,
     CoreModule,
-    NgxsModule.forRoot(),
+    SharedModule,
+    NgxsModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

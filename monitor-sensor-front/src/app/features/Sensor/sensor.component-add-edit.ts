@@ -54,7 +54,7 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
         }
     }
 
-    public initForm(sensor: SensorModel) {
+    private initForm(sensor: SensorModel) {
         const keys = Object.keys(SensorType);
         this.formGroup = new FormGroup({
             name: new FormControl({
