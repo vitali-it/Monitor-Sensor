@@ -1,6 +1,6 @@
 export class AuthDto {
 
-    token: string; 
+    token: string;
     role: string;
 
     public static convert(response: any): AuthDto {

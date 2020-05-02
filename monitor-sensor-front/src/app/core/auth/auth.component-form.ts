@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, DoCheck } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -6,10 +6,10 @@ import { Router } from '@angular/router';
 import { UserAuthModel } from 'src/app/features/User/user-auth.model';
 
 @Component({
-    selector: 'auth-form',
+    selector: 'app-auth-form',
     templateUrl: 'auth.component-form.html'
 })
-export class AuthFormComponent implements OnInit, OnDestroy {
+export class AuthFormComponent implements OnInit, OnDestroy, DoCheck {
 
     public subscription: Subscription;
     public form: FormGroup;
@@ -48,7 +48,7 @@ export class AuthFormComponent implements OnInit, OnDestroy {
         this.subscription = this.service.logIn(this.model)
                             .subscribe(data => {
                                 this.service.setTokenAndRole(data);
-                                this.router.navigate(['/sensors'])
+                                this.router.navigate(['/sensors']);
                             });
     }
 

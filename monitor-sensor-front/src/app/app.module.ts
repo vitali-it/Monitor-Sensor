@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core.module';
 import { SharedModule } from './shared.module';
 import { NgxsModule } from '@ngxs/store';
-import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,7 +17,6 @@ import { HttpClientModule } from '@angular/common/http';
     SharedModule,
     NgxsModule.forRoot()
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

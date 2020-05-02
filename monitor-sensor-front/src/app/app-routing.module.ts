@@ -6,9 +6,9 @@ import { LoginGuard } from './core/guard/login.guard';
 
 const routes: Routes = [
   {
-    path: '' , 
-    redirectTo:'auth',
-    pathMatch:'full'
+    path: '' ,
+    redirectTo: 'auth',
+    pathMatch: 'full'
   },
   {
     path: 'auth',
@@ -18,6 +18,7 @@ const routes: Routes = [
   {
     path: 'sensors',
     canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     loadChildren: () => import('./features/Sensor/sensor.module').then(el => el.SensorModule)
   }
 ];

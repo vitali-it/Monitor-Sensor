@@ -15,7 +15,7 @@ export class AuthRepository {
           headers: new HttpHeaders({ 'Content-type': 'application/json' })
       };
     }
-  
+
     signIn(dto: UserAuthDto): Observable<AuthDto> {
       return this.http.post<AuthDto>(`http://localhost:8088/auth`, JSON.stringify(dto), this.httpOptions)
           .pipe(map(response => {
