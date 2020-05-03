@@ -1,3 +1,4 @@
+<app-header></app-header>
 <div>
   <h1>
     Sensor Table
@@ -25,8 +26,8 @@
       </td>
     </tr>  
   </table>
-  <span *ngIf="isAllowed">
-    <button [routerLink]="['form']" routerLinkActive="router-link-active" >Add Sensor</button>
+  <span>
+    <button [routerLink]="['form']" routerLinkActive="router-link-active" *ngIf="isAllowed">Add Sensor</button>
     <h3 *ngIf="sensorCollection | async">Total: {{(sensorCollection | async).length}}</h3>
   </span>
 </div>

@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core.module';
 import { SharedModule } from './shared.module';
 import { NgxsModule } from '@ngxs/store';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { NgxsModule } from '@ngxs/store';
   ],
   imports: [
     BrowserModule,
+    RouterModule,
     AppRoutingModule,
     CoreModule,
     SharedModule,

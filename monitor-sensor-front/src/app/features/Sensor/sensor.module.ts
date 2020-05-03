@@ -9,10 +9,12 @@ import { SensorAddEditComponent } from './sensor.component-add-edit';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 import { SensorState } from './sensor.state';
+import { HeaderModule } from 'src/app/core/header/header.module';
 
 @NgModule({
     imports: [
         SharedModule,
+        HeaderModule,
         SensorRoutingModule,
         ReactiveFormsModule,
         NgxsModule.forFeature([SensorState])
