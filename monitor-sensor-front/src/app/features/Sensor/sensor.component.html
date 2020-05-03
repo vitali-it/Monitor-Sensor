@@ -10,7 +10,7 @@
       <th>Range</th>
       <th>Unit</th>
       <th>Location</th>
-      <th>Operation</th>
+      <th *ngIf="isAllowed">Operation</th>
     </tr>
     <tr style="text-align:center" *ngFor="let item of sensorCollection | async">
       <td>{{item.name}}</td>
@@ -19,13 +19,13 @@
       <td>{{item.sensorUnit.range}}</td>
       <td>{{item.sensorUnit.unit}}</td>
       <td>{{item.location}}</td>
-      <td>
+      <td *ngIf="isAllowed">
         <button [routerLink]="['form', item.id]" routerLinkActive="router-link-active"  (click) = 'onEdit(item)'>Edit</button> | 
         <button (click) = 'onDelete(item.id)'>Delete</button> 
       </td>
     </tr>  
   </table>
-  <span>
+  <span *ngIf="isAllowed">
     <button [routerLink]="['form']" routerLinkActive="router-link-active" >Add Sensor</button>
     <h3 *ngIf="sensorCollection | async">Total: {{(sensorCollection | async).length}}</h3>
   </span>

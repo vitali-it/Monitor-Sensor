@@ -17,6 +17,8 @@ import { SensorModel } from './sensor.model';
 import { of } from 'rxjs';
 import { SensorDto } from './sensor.dto';
 import { SensorUnitDto } from '../SensorUnit/sensorunit.dto';
+import { AuthService } from 'src/app/core/auth/auth.service';
+import { AuthRepository } from 'src/app/core/auth/auth.repository';
 
 describe('Sensor Component', () => {
 
@@ -40,7 +42,9 @@ describe('Sensor Component', () => {
             providers: [
                 SensorRepository,
                 SensorService,
-                SensorBuilder
+                SensorBuilder,
+                AuthService,
+                AuthRepository
             ]
         }).compileComponents();
     }));

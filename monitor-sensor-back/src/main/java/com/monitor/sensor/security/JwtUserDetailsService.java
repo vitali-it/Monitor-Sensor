@@ -40,7 +40,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         if (UserRole.ADMIN.equals(user.getRole())) {
             builder.roles("ADMIN");
         } else {
-            builder.roles("REGULAR");
+            builder.roles("VIEWER");
         }
 
         return builder.build();

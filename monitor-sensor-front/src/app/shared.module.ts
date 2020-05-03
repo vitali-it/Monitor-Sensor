@@ -4,8 +4,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ValidationPipe } from './core/pipe/validation.pipe';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 import { GlobalErrorHandler } from './core/interceptor/global-error.handler';
-import { AuthGuard } from './core/guard/auth.guard';
-import { LoginGuard } from './core/guard/login.guard';
+import { RoleGuard } from './core/guard/role.guard';
 
 @NgModule({
   imports: [
@@ -18,8 +17,7 @@ import { LoginGuard } from './core/guard/login.guard';
     ValidationPipe
   ],
   providers: [
-    AuthGuard,
-    LoginGuard,
+    RoleGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
