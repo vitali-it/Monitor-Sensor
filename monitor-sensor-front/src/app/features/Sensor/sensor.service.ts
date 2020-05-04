@@ -19,6 +19,23 @@ export class SensorService {
                 }));
     }
 
+    getAllByPage(page: number): Observable<Array<any>> {
+        return this.repository.findAllByPage(page)
+                .pipe(map(data => {
+                    const firstEl = 'content';
+                    const secondEl = 'totalPages';
+                    const thirdEl = 'totalElements';
+                    const content = this.builder.build(data[firstEl]);
+                    const totalPages = data[secondEl];
+                    const totalElements = data[thirdEl];
+                    const res = new Array();
+                    res.push(content);
+                    res.push(totalPages);
+                    res.push(totalElements);
+                    return res;
+                }));
+    }
+
     getById(id: number): Observable<SensorModel> {
         return this.repository.findById(id)
                 .pipe(map(data => {

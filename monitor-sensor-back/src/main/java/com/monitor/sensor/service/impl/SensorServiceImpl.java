@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -31,6 +34,12 @@ public class SensorServiceImpl implements SensorService {
     @Override
     public List<Sensor> getAll() {
         return repo.findAll().stream().map(mapper::entityToDomain).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<SensorEntity> getAll(final Integer page) {
+        Pageable pageable = PageRequest.of(page, 4);
+        return repo.findAll(pageable);
     }
 
     @Override

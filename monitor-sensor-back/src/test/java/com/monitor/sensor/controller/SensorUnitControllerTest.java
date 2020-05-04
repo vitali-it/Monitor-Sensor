@@ -27,15 +27,15 @@ public class SensorUnitControllerTest {
 
     @Test
     public void shouldReceiveAll() {
-        final Integer id = FAKER.number().randomDigit();
-        controller.receiveById(id);
-        Mockito.verify(service, Mockito.times(1)).getById(id);
+        controller.receiveAll();
+        Mockito.verify(service, Mockito.times(1)).getAll();
     }
 
     @Test
     public void shouldReceiveById() {
-        controller.receiveAll();
-        Mockito.verify(service, Mockito.times(1)).getAll();
+        final Integer id = FAKER.number().randomDigit();
+        controller.receiveById(id);
+        Mockito.verify(service, Mockito.times(1)).getById(id);
     }
 
     @Test

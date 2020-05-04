@@ -2,7 +2,7 @@ import { SensorService } from './sensor.service';
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { SensorModel } from './sensor.model';
 import { SensorFetchAllAction, SensorEditOneAction, SensorFetchByIdAction,
-    SensorCreateOneAction, SensorSetSelectedAction, SensorDeleteOneAction } from './sensor.actions';
+    SensorCreateOneAction, SensorSetSelectedAction, SensorDeleteOneAction, SensorFetchAllByPageAction } from './sensor.actions';
 import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
@@ -11,7 +11,9 @@ import { Injectable } from '@angular/core';
     name: 'sensorState',
     defaults: {
         thisSensor: null,
-        sensors: null
+        sensors: null,
+        totalPages: 0,
+        totalElements: 0
     }
 })
 @Injectable()
@@ -22,6 +24,16 @@ export class SensorState {
     @Selector()
     static selectAllData(stateModel: SensorStateModel): Array<SensorModel> {
         return stateModel.sensors;
+    }
+
+    @Selector()
+    static selectTotalPages(stateModel: SensorStateModel): number {
+        return stateModel.totalPages;
+    }
+
+    @Selector()
+    static selectTotalElements(stateModel: SensorStateModel): number {
+        return stateModel.totalElements;
     }
 
     @Selector()
@@ -46,6 +58,25 @@ export class SensorState {
                 setState({
                     ...state,
                     sensors
+                });
+            }
+        ));
+    }
+
+    @Action(SensorFetchAllByPageAction)
+    fetchAllByPage({getState, setState}: StateContext<SensorStateModel>, {page}: SensorFetchAllByPageAction) {
+        return this.service.getAllByPage(page)
+            .pipe(tap(data => {
+                const state = getState();
+                const content = data[0];
+                const totalPages = data[1];
+                const totalElements = data[2];
+
+                setState({
+                    ...state,
+                    sensors: content,
+                    totalPages,
+                    totalElements
                 });
             }
         ));
@@ -111,4 +142,6 @@ class SensorStateModel {
 
     thisSensor: SensorModel;
     sensors: Array<SensorModel>;
+    totalPages: number;
+    totalElements: number;
 }

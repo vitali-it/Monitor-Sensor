@@ -22,6 +22,12 @@ export class SensorRepository {
             .pipe(map(data => data));
     }
 
+    findAllByPage(page: number): Observable<any> {
+        return this.httpClient
+            .get<any>(`${environment.baseUrl}sensors/page?page=${page}`)
+            .pipe(map(data => data));
+    }
+
     findById(id: number): Observable<SensorDto> {
         return this.httpClient
             .get<SensorDto>(`${environment.baseUrl}sensors/${id}`)

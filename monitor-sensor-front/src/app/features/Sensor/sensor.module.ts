@@ -10,11 +10,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 import { SensorState } from './sensor.state';
 import { HeaderModule } from 'src/app/core/header/header.module';
+import { PaginationModule } from '../pagination/pagination.module';
 
 @NgModule({
     imports: [
         SharedModule,
         HeaderModule,
+        PaginationModule,
         SensorRoutingModule,
         ReactiveFormsModule,
         NgxsModule.forFeature([SensorState])

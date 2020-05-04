@@ -1,6 +1,7 @@
 import { SensorModel } from './sensor.model';
 
 const SENSOR_FETCH_ALL = '[SENSOR] Fetch all objects';
+const SENSOR_FETCH_ALL_BY_PAGE = '[SENSOR] Fetch all objects with pagination';
 const SENSOR_FETCH_BY_ID = '[SENSOR] Fetch one object by id';
 const SENSOR_CREATE_ONE = '[SENSOR] Create one object';
 const SENSOR_EDIT_ONE = '[SENSOR] Edit one object';
@@ -12,6 +13,13 @@ export class SensorFetchAllAction {
     static readonly type = SENSOR_FETCH_ALL;
 
     constructor() { }
+}
+
+export class SensorFetchAllByPageAction {
+
+    static readonly type = SENSOR_FETCH_ALL_BY_PAGE;
+
+    constructor(public page: number) { }
 }
 
 export class SensorFetchByIdAction {
