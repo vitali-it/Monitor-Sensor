@@ -1,6 +1,6 @@
 import { UserRole } from './user.enum';
 
-export class UserModel {
+export class UserDto {
 
     public id: number;
     public login: string;

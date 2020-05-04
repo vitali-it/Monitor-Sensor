@@ -3,7 +3,9 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core.module';
+import { SharedModule } from './shared.module';
 import { NgxsModule } from '@ngxs/store';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -11,11 +13,12 @@ import { NgxsModule } from '@ngxs/store';
   ],
   imports: [
     BrowserModule,
+    RouterModule,
     AppRoutingModule,
     CoreModule,
-    NgxsModule.forRoot(),
+    SharedModule,
+    NgxsModule.forRoot()
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SensorDto } from './sensor.dto';
 import { map } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class SensorRepository {
@@ -17,31 +18,31 @@ export class SensorRepository {
 
     findAll(): Observable<Array<SensorDto>> {
         return this.httpClient
-            .get<Array<SensorDto>>('http://localhost:8088/api/v1/sensors')
+            .get<Array<SensorDto>>(`${environment.baseUrl}sensors`)
             .pipe(map(data => data));
     }
 
     findById(id: number): Observable<SensorDto> {
         return this.httpClient
-            .get<SensorDto>(`http://localhost:8088/api/v1/sensors/${id}`)
+            .get<SensorDto>(`${environment.baseUrl}sensors/${id}`)
             .pipe(map(data => data));
     }
 
     saveOne(obj: SensorDto): Observable<any> {
         return this.httpClient
-            .post<SensorDto>('http://localhost:8088/api/v1/sensors', obj, this.httpOptions)
+            .post<SensorDto>(`${environment.baseUrl}sensors`, obj, this.httpOptions)
             .pipe(map(data => data));
     }
 
     updateOne(obj: SensorDto, id: number): Observable<any> {
         return this.httpClient
-            .put<SensorDto>(`http://localhost:8088/api/v1/sensors/${id}`, obj, this.httpOptions)
+            .put<SensorDto>(`${environment.baseUrl}sensors/${id}`, obj, this.httpOptions)
             .pipe(map(data => data));
     }
 
     removeById(id: number): Observable<number> {
         return this.httpClient
-            .delete<number>(`http://localhost:8088/api/v1/sensors/${id}`)
+            .delete<number>(`${environment.baseUrl}sensors/${id}`)
             .pipe(map(data => data));
     }
 }
