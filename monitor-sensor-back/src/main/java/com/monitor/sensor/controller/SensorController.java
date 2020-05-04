@@ -6,9 +6,12 @@ import javax.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.monitor.sensor.entity.SensorEntity;
 import com.monitor.sensor.service.SensorService;
 import com.monitor.sensor.ui.Sensor;
 
@@ -22,6 +25,11 @@ public class SensorController {
     @GetMapping
     public List<Sensor> receiveAll() {
         return service.getAll();
+    }
+
+    @GetMapping("/page")
+    public Page<SensorEntity> receiveAll(@RequestParam(defaultValue = "0") final Integer page) {
+        return service.getAll(page);
     }
 
     @GetMapping("/{id}")

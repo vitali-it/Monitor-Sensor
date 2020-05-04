@@ -5,16 +5,19 @@ import { ValidationPipe } from './core/pipe/validation.pipe';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 import { GlobalErrorHandler } from './core/interceptor/global-error.handler';
 import { RoleGuard } from './core/guard/role.guard';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
+    FormsModule
   ],
   declarations: [ValidationPipe],
   exports: [
     CommonModule,
-    ValidationPipe
+    ValidationPipe,
+    FormsModule
   ],
   providers: [
     RoleGuard,
