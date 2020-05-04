@@ -32,9 +32,17 @@ public class SensorControllerTest {
     }
 
     @Test
+    public void shouldReceiveAllWithPagination() {
+        final Integer page = FAKER.number().randomDigit();
+        controller.receiveAll(page);
+        Mockito.verify(service, Mockito.times(1)).getAll(page);
+    }
+
+    @Test
     public void shouldReceiveById() {
-        controller.receiveAll();
-        Mockito.verify(service, Mockito.times(1)).getAll();
+        final Integer id = FAKER.number().randomDigit();
+        controller.receiveById(id);
+        Mockito.verify(service, Mockito.times(1)).getById(id);
     }
 
     @Test

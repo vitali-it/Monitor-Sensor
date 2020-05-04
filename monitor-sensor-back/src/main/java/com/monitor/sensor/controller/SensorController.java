@@ -1,7 +1,6 @@
 package com.monitor.sensor.controller;
 
 import java.util.List;
-
 import javax.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
