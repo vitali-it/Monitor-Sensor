@@ -2,7 +2,7 @@ import { SensorService } from './sensor.service';
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { SensorModel } from './sensor.model';
 import { SensorFetchAllAction, SensorEditOneAction, SensorFetchByIdAction,
-    SensorCreateOneAction, SensorSetSelectedAction, SensorDeleteOneAction, SensorFetchAllByPageAction } from './sensor.actions';
+    SensorCreateOneAction, SensorSetSelectedAction, SensorDeleteOneAction, SensorFetchAllByPageAction, SensorSearchAction } from './sensor.actions';
 import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
@@ -50,6 +50,15 @@ export class SensorState {
         });
     }
 
+    @Action(SensorSearchAction)
+    searchForSensors({getState, setState}: StateContext<SensorStateModel>, {substr, page}: SensorSearchAction) {
+        return this.service.seekBySubstrWithPage(substr, page)
+            .pipe(tap(data => {
+                this.setStateWithPagination(getState, data, setState);
+            }
+        ));
+    }
+
     @Action(SensorFetchAllAction)
     fetchAll({getState, setState}: StateContext<SensorStateModel>) {
         return this.service.getAll()
@@ -67,17 +76,7 @@ export class SensorState {
     fetchAllByPage({getState, setState}: StateContext<SensorStateModel>, {page}: SensorFetchAllByPageAction) {
         return this.service.getAllByPage(page)
             .pipe(tap(data => {
-                const state = getState();
-                const content = data[0];
-                const totalPages = data[1];
-                const totalElements = data[2];
-
-                setState({
-                    ...state,
-                    sensors: content,
-                    totalPages,
-                    totalElements
-                });
+                this.setStateWithPagination(getState, data, setState);
             }
         ));
     }
@@ -135,6 +134,19 @@ export class SensorState {
                 });
             }
         ));
+    }
+
+    private setStateWithPagination(getState: () => SensorStateModel, data: any[], setState) {
+        const state = getState();
+        const content = data[0];
+        const totalPages = data[1];
+        const totalElements = data[2];
+        setState({
+            ...state,
+            sensors: content,
+            totalPages,
+            totalElements
+        });
     }
 }
 

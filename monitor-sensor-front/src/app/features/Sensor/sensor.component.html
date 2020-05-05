@@ -3,6 +3,11 @@
   <h1 style="text-align: center;">
     Sensor Table
   </h1>
+  <nav style="display:inline-block;margin-right:40%;">
+      <input type="search" [(ngModel)]="soughtData">
+      <button *ngIf="isSought" type="submit" style="color: rgb(121, 19, 75);" (click)="ngAfterContentInit()">Show all</button>
+      <button (click)="onSearch()" type="submit" style="color: rgb(36, 121, 19);">Search</button>
+  </nav>
   <table style="width:80%">
     <tr>
       <th>Name</th>

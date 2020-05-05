@@ -4,9 +4,12 @@ import { SensorModel } from './sensor.model';
 import { Select, Store } from '@ngxs/store';
 import { SensorState } from './sensor.state';
 import { SensorDeleteOneAction, SensorSetSelectedAction,
-    SensorFetchAllByPageAction} from './sensor.actions';
+    SensorFetchAllByPageAction,
+    SensorSearchAction,
+    SensorFetchAllAction} from './sensor.actions';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { UserRole } from '../User/user.enum';
+import { SensorService } from './sensor.service';
 
 @Component({
     selector: 'app-feature-sensor',
@@ -18,8 +21,10 @@ export class SensorComponent implements OnInit, AfterContentInit, OnDestroy {
     public pageQuantitySubscription: Subscription;
     public totalPages: Array<number>;
     public currentPage: number;
+    public isSought: boolean;
+    public soughtData: string;
 
-    constructor(private readonly store: Store, private readonly authService: AuthService) { }
+    constructor(private readonly store: Store, private service: SensorService, private readonly authService: AuthService) { }
 
     @Select(SensorState.selectAllData) sensorCollection: Observable<Array<SensorModel>>;
 
@@ -35,22 +40,37 @@ export class SensorComponent implements OnInit, AfterContentInit, OnDestroy {
     }
 
     ngAfterContentInit(): void {
+        this.isSought = false;
         this.store.dispatch(new SensorFetchAllByPageAction(this.currentPage));
+    }
+
+    onSearch() {
+        this.isSought = true;
+        this.store.dispatch(new SensorSearchAction(this.soughtData, this.currentPage));
     }
 
     onPage(templatePage: number) {
         this.currentPage = templatePage;
-        this.store.dispatch(new SensorFetchAllByPageAction(this.currentPage));
+        this.whetherToShowSearchedCollection();
     }
 
     onPrevious() {
         this.currentPage -= 1;
-        this.store.dispatch(new SensorFetchAllByPageAction(this.currentPage));
+        this.whetherToShowSearchedCollection();
     }
 
     onNext() {
         this.currentPage += 1 ;
-        this.store.dispatch(new SensorFetchAllByPageAction(this.currentPage));
+        this.whetherToShowSearchedCollection();
+    }
+
+    private whetherToShowSearchedCollection() {
+        if (this.isSought) {
+            this.store.dispatch(new SensorSearchAction(this.soughtData, this.currentPage));
+        }
+        else {
+            this.store.dispatch(new SensorFetchAllByPageAction(this.currentPage));
+        }
     }
 
     onEdit(obj: SensorModel) {
