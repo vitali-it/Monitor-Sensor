@@ -31,6 +31,12 @@ public class SensorController {
         return service.getAll(page);
     }
 
+    @GetMapping("/search")
+    public Page<SensorEntity> search(@RequestParam(defaultValue = "0") final Integer page,
+            @RequestParam final String substr) {
+        return service.getAllBySubstr(page, substr);
+    }
+
     @GetMapping("/{id}")
     public Sensor receiveById(@PathVariable final Integer id) {
         return service.getById(id);

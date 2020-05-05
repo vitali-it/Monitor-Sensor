@@ -22,4 +22,6 @@ public interface SensorService {
     void removeOne(Integer id);
 
     Page<SensorEntity> getAll(Integer page);
+
+    Page<SensorEntity> getAllBySubstr(Integer page, String substr);
 }
