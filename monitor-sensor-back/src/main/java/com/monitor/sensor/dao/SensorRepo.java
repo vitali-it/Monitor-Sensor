@@ -12,9 +12,10 @@ import com.monitor.sensor.entity.SensorEntity;
 @Repository
 public interface SensorRepo extends JpaRepository<SensorEntity, Integer> {
 
-    @Query("FROM SensorEntity s WHERE UPPER(s.sensorUnit.unit) LIKE %:substr% OR "
-            + "STR(s.sensorUnit.sensorType) LIKE %:substr% OR STR(s.sensorUnit.range) LIKE %:substr% OR "
-            + "UPPER(s.description) LIKE %:substr% OR UPPER(s.location) LIKE %:substr% OR "
-            + "UPPER(s.name) LIKE %:substr% OR UPPER(s.model) LIKE %:substr%")
+    @Query("FROM SensorEntity s WHERE UPPER(s.sensorUnit.unit) LIKE %:substr%  ESCAPE '|' OR "
+            + "STR(s.sensorUnit.sensorType) LIKE %:substr% ESCAPE '|' OR "
+            + "STR(s.sensorUnit.range) LIKE %:substr% ESCAPE '|' OR "
+            + "UPPER(s.description) LIKE %:substr% ESCAPE '|' OR UPPER(s.location) LIKE %:substr% ESCAPE '|' OR "
+            + "UPPER(s.name) LIKE %:substr% ESCAPE '|' OR UPPER(s.model) LIKE %:substr% ESCAPE '|'")
     Page<SensorEntity> searchThroughAllFields(@Param("substr") final String substr, Pageable pageable);
 }

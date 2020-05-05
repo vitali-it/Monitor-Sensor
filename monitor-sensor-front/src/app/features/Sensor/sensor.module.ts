@@ -11,12 +11,14 @@ import { NgxsModule } from '@ngxs/store';
 import { SensorState } from './sensor.state';
 import { HeaderModule } from 'src/app/core/header/header.module';
 import { PaginationModule } from '../pagination/pagination.module';
+import { SearchModule } from '../search/search.module';
 
 @NgModule({
     imports: [
         SharedModule,
         HeaderModule,
         PaginationModule,
+        SearchModule,
         SensorRoutingModule,
         ReactiveFormsModule,
         NgxsModule.forFeature([SensorState])

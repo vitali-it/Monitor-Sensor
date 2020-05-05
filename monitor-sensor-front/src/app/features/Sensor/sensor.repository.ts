@@ -29,8 +29,9 @@ export class SensorRepository {
     }
 
     findBySubstrAndPage(substr: string, page: number): Observable<any> {
+        const encoded = encodeURIComponent(substr);
         return this.httpClient
-            .get<any>(`${environment.baseUrl}sensors/search?page=${page}&substr=${substr}`)
+            .get<any>(`${environment.baseUrl}sensors/search?page=${page}&substr=${encoded}`)
             .pipe(map(data => data));
     }
 

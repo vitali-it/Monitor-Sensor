@@ -1,6 +1,6 @@
 import { SensorComponent } from './sensor.component';
 import { SensorSetSelectedAction,
-    SensorDeleteOneAction, SensorFetchAllByPageAction } from './sensor.actions';
+    SensorDeleteOneAction, SensorFetchAllByPageAction, SensorSearchAction } from './sensor.actions';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { SensorState } from './sensor.state';
 import { TestBed, async } from '@angular/core/testing';
@@ -80,6 +80,28 @@ describe('Sensor Component', () => {
         expect([obj]).toBeDefined();
     });
 
+    it('should dispatch all on search', () => {
+        const { componentInstance, obj } = fakeObjects();
+        componentInstance.soughtData = '';
+        const action = new SensorSearchAction(componentInstance.soughtData, componentInstance.currentPage);
+
+        spyOn(service, 'seekBySubstrWithPage').and.returnValue(of([]));
+        spyOn(store, 'dispatch').withArgs(action).and.callThrough();
+        componentInstance.onSearch();
+
+        expect(store.dispatch).toHaveBeenCalledWith(action);
+        expect([obj]).toBeDefined();
+    });
+
+    it('should change south data', () => {
+        const { componentInstance } = fakeObjects();
+        const val = 'new';
+        componentInstance.soughtData = '';
+        componentInstance.southDataChange(val);
+
+        expect(componentInstance.soughtData).toEqual(val);
+    });
+
     it('should dispatch all on next page', () => {
         const { componentInstance, obj } = fakeObjects();
         const action = new SensorFetchAllByPageAction(componentInstance.currentPage + 1);
@@ -106,16 +128,17 @@ describe('Sensor Component', () => {
     });
 
     it('should dispatch all on page(number)', () => {
-        const { componentInstance, component, obj } = fakeObjects();
-        const action = new SensorFetchAllByPageAction(componentInstance.currentPage);
+        const { componentInstance, obj } = fakeObjects();
 
+        const page = 1;
+        const action = new SensorFetchAllByPageAction(page);
         spyOn(service, 'getAllByPage').and.returnValue(of([]));
         spyOn(store, 'dispatch').withArgs(action).and.callThrough();
-        componentInstance.onPage(componentInstance.currentPage);
-        component.detectChanges();
+        componentInstance.onPage(page);
 
         expect(store.dispatch).toHaveBeenCalledWith(action);
         expect([obj]).toBeDefined();
+        expect(componentInstance.currentPage).toEqual(page);
     });
 
     it('should dispatch on edit', () => {

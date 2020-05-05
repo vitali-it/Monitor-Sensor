@@ -4,10 +4,8 @@ import { SensorModel } from './sensor.model';
 import { Select, Store } from '@ngxs/store';
 import { SensorState } from './sensor.state';
 import { SensorDeleteOneAction, SensorSetSelectedAction,
-    SensorFetchAllByPageAction,
-    SensorSearchAction,
-    SensorFetchAllAction} from './sensor.actions';
-import { AuthService } from 'src/app/core/auth/auth.service';
+    SensorFetchAllByPageAction, SensorSearchAction } from './sensor.actions';
+import { AuthService } from '../../core/auth/auth.service';
 import { UserRole } from '../User/user.enum';
 import { SensorService } from './sensor.service';
 
@@ -42,6 +40,10 @@ export class SensorComponent implements OnInit, AfterContentInit, OnDestroy {
     ngAfterContentInit(): void {
         this.isSought = false;
         this.store.dispatch(new SensorFetchAllByPageAction(this.currentPage));
+    }
+
+    southDataChange(value: string) {
+        this.soughtData = value;
     }
 
     onSearch() {
