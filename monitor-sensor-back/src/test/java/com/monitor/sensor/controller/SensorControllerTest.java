@@ -37,6 +37,14 @@ public class SensorControllerTest {
         controller.receiveAll(page);
         Mockito.verify(service, Mockito.times(1)).getAll(page);
     }
+    
+    @Test
+    public void shouldSeekBySubStrAllWithPagination() {
+        final Integer page = FAKER.number().randomDigit();
+        final String substr = FAKER.lorem().toString();
+        controller.search(page, substr);
+        Mockito.verify(service, Mockito.times(1)).getAllBySubstr(page, substr);
+    }
 
     @Test
     public void shouldReceiveById() {

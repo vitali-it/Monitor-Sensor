@@ -7,6 +7,7 @@ const SENSOR_CREATE_ONE = '[SENSOR] Create one object';
 const SENSOR_EDIT_ONE = '[SENSOR] Edit one object';
 const SENSOR_DELETE_ONE = '[SENSOR] Delete one object';
 const SENSOR_SET_SELECTED = '[SENSOR] Set selected object';
+const SENSOR_SEARCH = '[SENSOR] Search for objects';
 
 export class SensorFetchAllAction {
 
@@ -54,6 +55,12 @@ export class SensorSetSelectedAction {
 
     static readonly type = SENSOR_SET_SELECTED;
 
-    constructor(public payload: SensorModel) {
-    }
+    constructor(public payload: SensorModel) { }
+}
+
+export class SensorSearchAction {
+
+    static readonly type = SENSOR_SEARCH;
+
+    constructor(public substr: any, public page: number) { }
 }

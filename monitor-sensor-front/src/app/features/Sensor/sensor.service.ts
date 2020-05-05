@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SensorRepository } from './sensor.repository';
 import { SensorBuilder } from './sensor.builder';
 import { SensorModel } from './sensor.model';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
@@ -19,20 +19,17 @@ export class SensorService {
                 }));
     }
 
+    seekBySubstrWithPage(substr: string, page: number): Observable<Array<any>> {
+        return this.repository.findBySubstrAndPage(substr, page)
+                .pipe(map(data => {
+                    return this.pageToCollection(data);
+                }));
+    }
+
     getAllByPage(page: number): Observable<Array<any>> {
         return this.repository.findAllByPage(page)
                 .pipe(map(data => {
-                    const firstEl = 'content';
-                    const secondEl = 'totalPages';
-                    const thirdEl = 'totalElements';
-                    const content = this.builder.build(data[firstEl]);
-                    const totalPages = data[secondEl];
-                    const totalElements = data[thirdEl];
-                    const res = new Array();
-                    res.push(content);
-                    res.push(totalPages);
-                    res.push(totalElements);
-                    return res;
+                    return this.pageToCollection(data);
                 }));
     }
 
@@ -56,5 +53,19 @@ export class SensorService {
 
     deleteById(id: number): Observable<number> {
         return this.repository.removeById(id);
+    }
+
+    private pageToCollection(data: any) {
+        const firstEl = 'content';
+        const secondEl = 'totalPages';
+        const thirdEl = 'totalElements';
+        const content = this.builder.build(data[firstEl]);
+        const totalPages = data[secondEl];
+        const totalElements = data[thirdEl];
+        const res = new Array();
+        res.push(content);
+        res.push(totalPages);
+        res.push(totalElements);
+        return res;
     }
 }

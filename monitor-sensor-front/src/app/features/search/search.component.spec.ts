@@ -1,16 +1,16 @@
-import { PaginationComponent } from './pagination.component';
+import { SearchComponent } from './search.component';
 import { async, TestBed } from '@angular/core/testing';
 
-describe('Pagination Component', () => {
+describe('Search Component', () => {
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
-        declarations: [PaginationComponent]
+        declarations: [SearchComponent]
       }).compileComponents();
     }));
 
     it('should create itself', () => {
-      const component = TestBed.createComponent(PaginationComponent);
+      const component = TestBed.createComponent(SearchComponent);
       const componentInstance = component.debugElement.componentInstance;
       expect(componentInstance).toBeTruthy();
     });

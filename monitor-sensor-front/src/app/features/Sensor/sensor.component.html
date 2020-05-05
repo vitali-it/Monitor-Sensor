@@ -3,6 +3,7 @@
   <h1 style="text-align: center;">
     Sensor Table
   </h1>
+  <app-feature-search (searchEvent)="onSearch()" (restartEvent)="ngAfterContentInit()" (soughtDataEvent)="southDataChange($event)" [isSought]="isSought" [soughtData]="soughtData"></app-feature-search>
   <table style="width:80%">
     <tr>
       <th>Name</th>

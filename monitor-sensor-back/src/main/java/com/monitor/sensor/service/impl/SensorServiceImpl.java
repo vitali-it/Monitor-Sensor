@@ -43,6 +43,18 @@ public class SensorServiceImpl implements SensorService {
     }
 
     @Override
+    public Page<SensorEntity> getAllBySubstr(final Integer page, final String substr) {
+        Pageable pageable = PageRequest.of(page, 4);
+        final String toQueryStr = strManager(substr);
+        return repo.searchThroughAllFields(toQueryStr, pageable);
+    }
+
+    private String strManager(final String substr) {
+        final String toQueryStr = substr.toUpperCase().replaceAll("%", "|%").replaceAll("_", "|_").replaceAll("#", "|#");
+        return toQueryStr;
+    }
+
+    @Override
     @SneakyThrows
     public Sensor getById(final Integer id) {
         return mapper.entityToDomain(getEntityById(id));

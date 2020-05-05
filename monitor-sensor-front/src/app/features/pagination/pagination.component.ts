@@ -8,9 +8,9 @@ export class PaginationComponent {
 
     @Input() public totalPages: Array<number>;
     @Input() public currentPage: number;
-    @Output() pageEvent = new EventEmitter<number>();
-    @Output() previousEvent = new EventEmitter<number>();
-    @Output() nextEvent = new EventEmitter<number>();
+    @Output() public pageEvent = new EventEmitter<number>();
+    @Output() public previousEvent = new EventEmitter<number>();
+    @Output() public nextEvent = new EventEmitter<number>();
 
     constructor() { }
 
