@@ -11,6 +11,7 @@ import { SensorService } from './sensor.service';
 
 @Component({
     selector: 'app-feature-sensor',
+    styleUrls: ['./sensor.component.css'],
     templateUrl: './sensor.component.html'
 })
 export class SensorComponent implements OnInit, AfterContentInit, OnDestroy {
@@ -21,6 +22,7 @@ export class SensorComponent implements OnInit, AfterContentInit, OnDestroy {
     public currentPage: number;
     public isSought: boolean;
     public soughtData: string;
+    public isHover: string;
 
     constructor(private readonly store: Store, private service: SensorService, private readonly authService: AuthService) { }
 

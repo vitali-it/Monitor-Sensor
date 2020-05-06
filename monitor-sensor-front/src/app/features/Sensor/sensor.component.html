@@ -4,7 +4,7 @@
     Sensor Table
   </h1>
   <app-feature-search (searchEvent)="onSearch()" (restartEvent)="ngAfterContentInit()" (soughtDataEvent)="southDataChange($event)" [isSought]="isSought" [soughtData]="soughtData"></app-feature-search>
-  <table style="width:80%">
+  <table style="width:80%; padding-top: 5%">
     <tr>
       <th>Name</th>
       <th>Model</th>
@@ -15,20 +15,22 @@
       <th *ngIf="isAllowed">Operation</th>
     </tr>
     <tr style="text-align:center" *ngFor="let item of sensorCollection | async">
-      <td>{{item.name}}</td>
+      <td class="field">{{item.name}}
+        <div class="hint">{{item.description}}</div>
+      </td>
       <td>{{item.model}}</td>
       <td>{{item.sensorUnit.sensorType}}</td>
       <td>{{item.sensorUnit.range}}</td>
       <td>{{item.sensorUnit.unit}}</td>
       <td>{{item.location}}</td>
       <td *ngIf="isAllowed">
-        <button [routerLink]="['form', item.id]" routerLinkActive="router-link-active"  (click) = 'onEdit(item)'>Edit</button> | 
-        <button (click) = 'onDelete(item.id)'>Delete</button> 
+        <button style="color: rgb(199, 40, 186);" [routerLink]="['form', item.id]" routerLinkActive="router-link-active"  (click) = 'onEdit(item)'>Edit</button> | 
+        <button style="color: rgb(199, 40, 40);" (click) = 'onDelete(item.id)'>Delete</button> 
       </td>
     </tr>  
   </table>
   <div style="background-color: coral; position: fixed; bottom: 3%; width: 98%;">
-    <button style="display:inline-block; margin-left: 4%; margin-right:10%;" [routerLink]="['form']" routerLinkActive="router-link-active" *ngIf="isAllowed">Add Sensor</button>
+    <button style="color: rgb(14, 114, 14); display:inline-block; margin-left: 4%; margin-right:10%;" [routerLink]="['form']" routerLinkActive="router-link-active" *ngIf="isAllowed">Add Sensor</button>
     <div *ngIf="!isAllowed" style="display:inline-block; margin-left: 17%; margin-right:10%"></div>
     <app-feature-pagination (previousEvent)="onPrevious()" (nextEvent)="onNext()" (pageEvent)="onPage($event)" [totalPages]="totalPages" [currentPage]="currentPage"></app-feature-pagination>
     <h3 style="display:inline-block; margin-left: 15%; margin-right: 4%" *ngIf="sensorCollection | async">Total: {{(elementsQuantity | async)}}</h3>
