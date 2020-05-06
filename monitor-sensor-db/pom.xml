@@ -3,7 +3,7 @@
   <groupId>db.migration</groupId>
   <artifactId>monitor-sensor-db</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>monitor-sensor-db</name>
+
       <build>
         <plugins>
             <plugin>
@@ -16,12 +16,13 @@
                     <password>${POSTGRESQL_PASSWORD}</password>
                     <baselineOnMigrate>true</baselineOnMigrate>
                     <baselineVersion>0</baselineVersion>
+                    <encoding>cp1252</encoding>
                 </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>org.postgresql</groupId>
                         <artifactId>postgresql</artifactId>
-                        <version>42.2.12</version>
+                        <version>42.2.8</version>
                     </dependency>
                 </dependencies>
             </plugin>

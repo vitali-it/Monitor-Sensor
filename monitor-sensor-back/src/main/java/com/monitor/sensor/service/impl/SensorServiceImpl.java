@@ -49,11 +49,6 @@ public class SensorServiceImpl implements SensorService {
         return repo.searchThroughAllFields(toQueryStr, pageable);
     }
 
-    private String strManager(final String substr) {
-        final String toQueryStr = substr.toUpperCase().replaceAll("%", "|%").replaceAll("_", "|_").replaceAll("#", "|#");
-        return toQueryStr;
-    }
-
     @Override
     @SneakyThrows
     public Sensor getById(final Integer id) {
@@ -71,12 +66,14 @@ public class SensorServiceImpl implements SensorService {
 
     @Override
     public Sensor addOne(final Sensor sensor) {
+        rangeVerification(sensor);
         final SensorEntity entity = mapper.domainToEntity(sensor);
         return modelCreation(entity);
     }
 
     @Override
     public Sensor addOneWithNestedObj(final Sensor sensor) {
+        rangeVerification(sensor);
         final SensorUnitEntity sensorUnitEntity = sensorUnitService.addOneReturningEntity(sensor.getSensorUnit());
         final SensorEntity entity = mapper.domainToEntity(sensor);
         entity.setSensorUnit(sensorUnitEntity);
@@ -85,6 +82,7 @@ public class SensorServiceImpl implements SensorService {
 
     @Override
     public Sensor modifyOneWithNestedObj(final Sensor sensor, final Integer id) {
+        rangeVerification(sensor);
         final SensorEntity entityFound = getEntityById(id);
         final SensorUnitEntity sensorUnitModified = sensorUnitService.modifyOneReturningEntity(sensor.getSensorUnit(),
                 entityFound.getSensorUnit().getId());
@@ -103,5 +101,21 @@ public class SensorServiceImpl implements SensorService {
 
     private Sensor modelCreation(final SensorEntity entity) {
         return mapper.entityToDomain(repo.save(Objects.requireNonNull(entity)));
+    }
+
+    private String strManager(final String substr) {
+        final String toQueryStr =
+                substr.toUpperCase().replaceAll("%", "|%").replaceAll("_", "|_").replaceAll("#", "|#");
+        return toQueryStr;
+    }
+
+    private void rangeVerification(final Sensor sensor) {
+        if (sensor.getSensorUnit()
+                .getRangeBegin() 
+                > sensor
+                .getSensorUnit()
+                        .getRangeEnd()) {
+            throw new RuntimeException("The start value cannot exceed the range's end");
+        }
     }
 }
