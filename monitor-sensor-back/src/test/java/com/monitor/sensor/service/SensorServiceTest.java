@@ -44,13 +44,10 @@ public class SensorServiceTest {
 
     private static final Integer RANDOM_DIGIT = FAKER.number().randomDigit();
 
-    private Sensor sensor;
-
     private SensorEntity sensorEntity;
 
     @Before
     public void init() {
-        sensor = Mockito.mock(Sensor.class);
         sensorEntity = Mockito.mock(SensorEntity.class);
     }
 
@@ -68,16 +65,21 @@ public class SensorServiceTest {
 
     @Test
     public void shouldAddOne() {
-        final Sensor sensor = Mockito.mock(Sensor.class);
-        final SensorEntity sensorEntity = Mockito.mock(SensorEntity.class);
+        final Sensor sensor = fakeSensor();
 
         Mockito.when(repo.save(sensorEntity)).thenReturn(fakeEntity());
         Mockito.when(mapper.domainToEntity(sensor)).thenReturn(sensorEntity);
-
         service.addOne(sensor);
 
         Mockito.verify(repo, Mockito.times(1)).save(sensorEntity);
         Mockito.verify(mapper, Mockito.times(1)).domainToEntity(sensor);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void shouldThrowExceptionWhileAddingOne() {
+        final Sensor sensor = fakeSensorThrowing();
+
+        service.addOne(sensor);
     }
 
     @Test
@@ -109,6 +111,7 @@ public class SensorServiceTest {
     @Test
     public void shouldAddOneWithNestedObj() {
         final SensorUnit sensorUnit = Mockito.mock(SensorUnit.class);
+        final Sensor sensor = fakeSensor();
 
         Mockito.when(repo.save(sensorEntity)).thenReturn(fakeEntity());
         Mockito.when(mapper.domainToEntity(sensor)).thenReturn(sensorEntity);
@@ -120,8 +123,19 @@ public class SensorServiceTest {
         Mockito.verify(mapper, Mockito.times(1)).domainToEntity(sensor);
     }
 
+    @Test(expected = RuntimeException.class)
+    public void shouldThrowExceptionWhileAddingOneWithNestedObj() {
+        final SensorUnit sensorUnit = Mockito.mock(SensorUnit.class);
+        final Sensor sensor = fakeSensorThrowing();
+
+        sensorUnitService.addOneReturningEntity(sensorUnit);
+        service.addOneWithNestedObj(sensor);
+    }
+
     @Test
     public void shouldModifyOneWithNestedObj() {
+        final Sensor sensor = fakeSensor();
+
         final SensorUnit sensorUnit = Mockito.mock(SensorUnit.class);
         final SensorUnitEntity sensorUnitEntity = Mockito.mock(SensorUnitEntity.class);
         final SensorEntity fakeEntity = fakeEntity();
@@ -139,6 +153,16 @@ public class SensorServiceTest {
         Mockito.verify(repo, Mockito.times(1)).findById(RANDOM_DIGIT);
     }
 
+    @Test(expected = RuntimeException.class)
+    public void shouldThrowExceptionWhileModifyingOneWithNestedObj() {
+        final Sensor sensor = fakeSensorThrowing();
+
+        final SensorUnit sensorUnit = Mockito.mock(SensorUnit.class);
+
+        sensorUnitService.modifyOneReturningEntity(sensorUnit, RANDOM_DIGIT);
+        service.modifyOneWithNestedObj(sensor, RANDOM_DIGIT);
+    }
+
     @Test
     public void shouldRemoveOne() {
         service.removeOne(sensorEntity.getId());
@@ -153,5 +177,21 @@ public class SensorServiceTest {
         final SensorEntity entity = new SensorEntity();
         entity.setId(FAKER.number().randomDigit());
         return entity;
+    }
+
+    private Sensor fakeSensorThrowing() {
+        final Sensor sensor = new Sensor();
+        sensor.setSensorUnit(new SensorUnit());
+        sensor.getSensorUnit().setRangeBegin(1);
+        sensor.getSensorUnit().setRangeEnd(-1);
+        return sensor;
+    }
+
+    private Sensor fakeSensor() {
+        final Sensor sensor = new Sensor();
+        sensor.setSensorUnit(new SensorUnit());
+        sensor.getSensorUnit().setRangeBegin(1);
+        sensor.getSensorUnit().setRangeEnd(10);
+        return sensor;
     }
 }

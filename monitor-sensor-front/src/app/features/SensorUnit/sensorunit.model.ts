@@ -4,5 +4,6 @@ export class SensorUnitModel {
 
     public sensorType: SensorType;
     public unit: string;
-    public range: number;
+    public rangeBegin: number;
+    public rangeEnd: number;
 }

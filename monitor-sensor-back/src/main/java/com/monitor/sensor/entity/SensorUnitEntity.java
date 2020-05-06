@@ -27,6 +27,9 @@ public class SensorUnitEntity {
     @Column(nullable = false, unique = true)
     private String unit;
 
-    @Column(nullable = false, unique = false)
-    private Integer range;
+    @Column(name = "range_begin", nullable = false, unique = false)
+    private Integer rangeBegin;
+
+    @Column(name = "range_end", nullable = false, unique = false)
+    private Integer rangeEnd;
 }
