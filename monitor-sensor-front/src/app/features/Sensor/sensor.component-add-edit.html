@@ -1,67 +1,71 @@
 <app-header></app-header>
-<div style="padding:2%;">
-  <form [formGroup]="formGroup">
-    <div>
+<div class="form-container">
+  <div class="form-wrapper">
+    <form [formGroup]="formGroup">
       <div>
-        <label>Name * </label>
-        <input formControlName="name"/>
-        <div class = "invalid" *ngIf="formGroup.invalid && formGroup.get('name').dirty && formGroup.get('name').touched">{{formGroup.get('name') | invalidmessage}}</div>
+        <div>
+          <label>Name * </label>
+          <input formControlName="name"/>
+          <div class = "invalid" *ngIf="formGroup.invalid && formGroup.get('name').dirty && formGroup.get('name').touched">{{formGroup.get('name') | invalidmessage}}</div>
+        </div>
+        <div>
+          <label>Model * </label>
+          <input formControlName="model"/>
+          <div class = "invalid" *ngIf="formGroup.invalid && formGroup.get('model').dirty && formGroup.get('model').touched">{{formGroup.get('model') | invalidmessage}}</div>
+        </div>
+        <div>
+          <label>Range * </label><br>
+          <div style=" margin-left:5%; display: inline-flex">From</div> 
+          <input class="range" formControlName="rangeBegin"/>
+          <div style="display: inline-flex">To</div>
+          <input class="range" formControlName="rangeEnd"/><br>
+          <div class = "invalid" style="display: inline-block" *ngIf="formGroup.invalid && formGroup.get('rangeBegin').dirty && formGroup.get('rangeBegin').touched">{{formGroup.get('rangeBegin') | invalidmessage}}</div>
+          <div class = "invalid" style="display: inline-block; margin-left: 15%;" *ngIf="formGroup.invalid && formGroup.get('rangeEnd').dirty && formGroup.get('rangeEnd').touched">{{formGroup.get('rangeEnd') | invalidmessage}}</div>
+          <div class = "invalid" style="display: inline-block; margin-left: 15%;" *ngIf="isRangeIncorrect">The start value cannot exceed the range's end</div>
+        </div>
+        <div>
+          <label>Type * </label>
+          <select formControlName="type">
+            <ng-container *ngFor="let enum of sensorType | keyvalue">
+              <option *ngIf="sensorId && sensor && sensor.sensorUnit.sensorType !== enum.key">{{ enum.key }}</option>
+            </ng-container>
+            <ng-container *ngIf="sensorId && sensor">
+              <option selected>{{sensor.sensorUnit.sensorType}}</option>
+            </ng-container>
+            <ng-container *ngIf="!sensorId">
+              <option *ngFor="let enum of sensorType | keyvalue">{{enum.key}}</option>
+            </ng-container>
+          </select>
+        </div>
+        <div>
+          <label>Unit * </label>
+          <select formControlName="unit">
+            <ng-container *ngFor="let enum of sensorType | keyvalue">
+              <option *ngIf="sensorId && sensor && sensor.sensorUnit.unit !== enum.value">{{ enum.value }}</option>
+            </ng-container>
+            <ng-container *ngIf="sensorId && sensor">
+              <option selected>{{sensor.sensorUnit.unit}}</option>
+            </ng-container>
+            <ng-container *ngIf="!sensorId">
+              <option *ngFor="let enum of sensorType | keyvalue">{{enum.value}}</option>
+            </ng-container>
+          </select>
+        </div>
+        <div>
+          <label>Location </label>
+          <input formControlName="location"/>
+          <div class = "invalid" *ngIf="formGroup.invalid && formGroup.get('location').dirty && formGroup.get('location').touched">{{formGroup.get('location') | invalidmessage}}</div>
+        </div>
+        <div>
+          <label>Description </label>
+          <textarea rows="4" formControlName="description"></textarea>
+          <div class = "invalid" *ngIf="formGroup.invalid && formGroup.get('description').dirty && formGroup.get('description').touched">{{formGroup.get('description') | invalidmessage}}</div>
+        </div>
       </div>
-      <div>
-        <label>Model * </label>
-        <input formControlName="model"/>
-        <div class = "invalid" *ngIf="formGroup.invalid && formGroup.get('model').dirty && formGroup.get('model').touched">{{formGroup.get('model') | invalidmessage}}</div>
+      <div class="form-btn-container">
+        <button type="button" class="form-btn"  [disabled]="isDisabled" (click)="onSave()">SAVE</button>
+        <button type="button" class="form-btn" [routerLink]="['/sensors']" style="background-color: crimson">CANCEL</button>
       </div>
-      <div>
-        <label>Range * </label>
-        From <input formControlName="rangeBegin"/>
-        To <input formControlName="rangeEnd"/><br>
-        <div class = "invalid" style="display: inline-block" *ngIf="formGroup.invalid && formGroup.get('rangeBegin').dirty && formGroup.get('rangeBegin').touched">{{formGroup.get('rangeBegin') | invalidmessage}}</div>
-        <div class = "invalid" style="display: inline-block; margin-left: 15%;" *ngIf="formGroup.invalid && formGroup.get('rangeEnd').dirty && formGroup.get('rangeEnd').touched">{{formGroup.get('rangeEnd') | invalidmessage}}</div>
-        <div class = "invalid" style="display: inline-block; margin-left: 15%;" *ngIf="isRangeIncorrect">The start value cannot exceed the range's end</div>
-      </div>
-      <div>
-        <label>Type * </label>
-        <select formControlName="type">
-          <ng-container *ngFor="let enum of sensorType | keyvalue">
-            <option *ngIf="sensorId && sensor && sensor.sensorUnit.sensorType !== enum.key">{{ enum.key }}</option>
-          </ng-container>
-          <ng-container *ngIf="sensorId && sensor">
-            <option selected>{{sensor.sensorUnit.sensorType}}</option>
-          </ng-container>
-          <ng-container *ngIf="!sensorId">
-            <option *ngFor="let enum of sensorType | keyvalue">{{enum.key}}</option>
-          </ng-container>
-        </select>
-      </div>
-      <div>
-        <label>Unit * </label>
-        <select formControlName="unit">
-          <ng-container *ngFor="let enum of sensorType | keyvalue">
-            <option *ngIf="sensorId && sensor && sensor.sensorUnit.unit !== enum.value">{{ enum.value }}</option>
-          </ng-container>
-          <ng-container *ngIf="sensorId && sensor">
-            <option selected>{{sensor.sensorUnit.unit}}</option>
-          </ng-container>
-          <ng-container *ngIf="!sensorId">
-            <option *ngFor="let enum of sensorType | keyvalue">{{enum.value}}</option>
-          </ng-container>
-        </select>
-      </div>
-      <div>
-        <label>Location </label>
-        <input formControlName="location"/>
-        <div class = "invalid" *ngIf="formGroup.invalid && formGroup.get('location').dirty && formGroup.get('location').touched">{{formGroup.get('location') | invalidmessage}}</div>
-      </div>
-      <div>
-        <label>Description </label>
-        <textarea formControlName="description"></textarea>
-        <div class = "invalid" *ngIf="formGroup.invalid && formGroup.get('description').dirty && formGroup.get('description').touched">{{formGroup.get('description') | invalidmessage}}</div>
-      </div>
-    </div>
-    <div>
-      <button type="button" routerLinkActive="router-link-active" [disabled]="isDisabled" (click)="onSave()">SAVE</button>
-      <button type="button" [routerLink]="['/sensors']" routerLinkActive="router-link-active">CANCEL</button>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>

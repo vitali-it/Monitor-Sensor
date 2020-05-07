@@ -7,6 +7,7 @@ import { UserAuthModel } from 'src/app/features/User/user-auth.model';
 
 @Component({
     selector: 'app-auth-form',
+    styleUrls: ['auth.component-form.css'],
     templateUrl: 'auth.component-form.html'
 })
 export class AuthFormComponent implements OnInit, OnDestroy, DoCheck {

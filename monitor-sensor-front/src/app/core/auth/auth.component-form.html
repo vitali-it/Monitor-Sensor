@@ -1,20 +1,22 @@
-<div>
-    <form [formGroup]="form">
-        <div>
+<div class="form-container">
+    <div class="form-wrapper">
+        <form [formGroup]="form">
             <div>
-                <label>Login</label>
-                <input formControlName="username"/>
-                <div *ngIf="form.invalid && form.get('username').dirty && form.get('username').touched">{{form.get('username') | invalidmessage}}</div>
+                <div>
+                    <label>Login</label>
+                    <input placeholder="admin or user" formControlName="username"/>
+                    <div class="invalid" *ngIf="form.invalid && form.get('username').dirty && form.get('username').touched">{{form.get('username') | invalidmessage}}</div>
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input type="password" placeholder="0000 - for both" formControlName="password"/>
+                    <div class="invalid" *ngIf="form.invalid && form.get('password').dirty && form.get('password').touched">{{form.get('password') | invalidmessage}}</div>
+                </div>
             </div>
-            <div>
-                <label>Password</label>
-                <input type="password" formControlName="password"/>
-                <div *ngIf="form.invalid && form.get('password').dirty && form.get('password').touched">{{form.get('password') | invalidmessage}}</div>
+            <div class="form-btn-container">
+                <button class="form-btn" type='button' [disabled]="isDisabled" (click)="onSubmit()">Submit</button>
+                <button class="form-btn" type='button' style="background-color: crimson;" (click)="ngOnDestroy()">Clear</button>
             </div>
-        </div>
-        <div>
-            <button type='button' [disabled]="isDisabled" (click)="onSubmit()">Submit</button>
-            <button type='button' (click)="ngOnDestroy()">Reset</button>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
