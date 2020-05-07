@@ -32,7 +32,7 @@
   <div style="background-color: coral; position: fixed; bottom: 3%; width: 98%;">
     <button style="color: rgb(14, 114, 14); display:inline-block; margin-left: 4%; margin-right:10%;" [routerLink]="['form']" routerLinkActive="router-link-active" *ngIf="isAllowed">Add Sensor</button>
     <div *ngIf="!isAllowed" style="display:inline-block; margin-left: 17%; margin-right:10%"></div>
-    <app-feature-pagination (previousEvent)="onPrevious()" (nextEvent)="onNext()" (pageEvent)="onPage($event)" [totalPages]="totalPages" [currentPage]="currentPage"></app-feature-pagination>
+    <app-feature-pagination *ngIf="elementsQuantity | async" (previousEvent)="onPrevious()" (nextEvent)="onNext()" (pageEvent)="onPage($event)" [totalPages]="totalPages" [currentPage]="currentPage"></app-feature-pagination>
     <h3 style="display:inline-block; margin-left: 15%; margin-right: 4%" *ngIf="sensorCollection | async">Total: {{(elementsQuantity | async)}}</h3>
   </div>
 </div>

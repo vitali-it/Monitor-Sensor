@@ -17,11 +17,11 @@ public class SensorUnit {
     @NotNull(message = "(*) The field Unit is mandatory")
     @Size(min = 1, max = 15)
     private String unit;
-    
+
     @NotNull(message = "(*) The field Range Beginning is mandatory")
     @Range(min = -1000, max = 10000)
     private Integer rangeBegin;
-  
+
     @NotNull(message = "(*) The field Range End is mandatory")
     @Range(min = -1000, max = 10000)
     private Integer rangeEnd;

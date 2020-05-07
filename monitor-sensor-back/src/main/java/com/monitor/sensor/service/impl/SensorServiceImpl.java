@@ -16,6 +16,8 @@ import lombok.SneakyThrows;
 import com.monitor.sensor.dao.SensorRepo;
 import com.monitor.sensor.entity.SensorEntity;
 import com.monitor.sensor.entity.SensorUnitEntity;
+import com.monitor.sensor.error.NoUniqueException;
+import com.monitor.sensor.error.RangeException;
 import com.monitor.sensor.mapper.SensorMapper;
 import com.monitor.sensor.service.SensorService;
 import com.monitor.sensor.service.SensorUnitService;
@@ -74,6 +76,9 @@ public class SensorServiceImpl implements SensorService {
     @Override
     public Sensor addOneWithNestedObj(final Sensor sensor) {
         rangeVerification(sensor);
+        if (!isUniqueName(sensor.getName())) {
+            throw new NoUniqueException("The name already exists");
+        }
         final SensorUnitEntity sensorUnitEntity = sensorUnitService.addOneReturningEntity(sensor.getSensorUnit());
         final SensorEntity entity = mapper.domainToEntity(sensor);
         entity.setSensorUnit(sensorUnitEntity);
@@ -82,6 +87,9 @@ public class SensorServiceImpl implements SensorService {
 
     @Override
     public Sensor modifyOneWithNestedObj(final Sensor sensor, final Integer id) {
+        if (!isUniqueName(sensor.getName())) {
+            throw new NoUniqueException("The name already exists");
+        }
         rangeVerification(sensor);
         final SensorEntity entityFound = getEntityById(id);
         final SensorUnitEntity sensorUnitModified = sensorUnitService.modifyOneReturningEntity(sensor.getSensorUnit(),
@@ -99,6 +107,10 @@ public class SensorServiceImpl implements SensorService {
         repo.deleteById(id);
     }
 
+    private boolean isUniqueName(final String name) {
+        return !repo.findByName(name).isPresent();
+    }
+
     private Sensor modelCreation(final SensorEntity entity) {
         return mapper.entityToDomain(repo.save(Objects.requireNonNull(entity)));
     }
@@ -110,12 +122,8 @@ public class SensorServiceImpl implements SensorService {
     }
 
     private void rangeVerification(final Sensor sensor) {
-        if (sensor.getSensorUnit()
-                .getRangeBegin() 
-                > sensor
-                .getSensorUnit()
-                        .getRangeEnd()) {
-            throw new RuntimeException("The start value cannot exceed the range's end");
+        if (sensor.getSensorUnit().getRangeBegin() > sensor.getSensorUnit().getRangeEnd()) {
+            throw new RangeException("The start value cannot exceed the range's end");
         }
     }
 }
