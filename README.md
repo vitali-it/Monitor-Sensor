@@ -11,7 +11,6 @@ Open `monitor-sensor-db` maven app<br>
 1. Flyway may be used:<br>
 Run mvn `mvn flyway:migrate` <br>
 2. If you cannot handle Flyway, just run the scripts regular way<br>
-Move to `foxhunt-backend-admin` <br>
 Run `mvn clean package spring-boot:run`
 
 ### How to launch the server-side app
