@@ -12,6 +12,7 @@ import { SensorFetchByIdAction, SensorEditOneAction,
 
 @Component({
     selector: 'app-feature-sensor-add-edit',
+    styleUrls: ['./sensor.component-add-edit.css'],
     templateUrl: './sensor.component-add-edit.html'
 })
 export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
@@ -116,8 +117,10 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
         this.isUpdate ?
             this.store.dispatch(new SensorEditOneAction(this.sensor, this.sensorId)) :
             this.store.dispatch(new SensorCreateOneAction(this.sensor));
-
-        this.router.navigate(['/sensors']);
+        setTimeout(() => {
+            this.router.navigate(['/sensors']);
+        }, 1000);
+        // TODO: Find out a more elegant way for navigation, not failing tests
     }
 
     ngOnDestroy(): void {
