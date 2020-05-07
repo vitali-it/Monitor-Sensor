@@ -128,9 +128,16 @@ export class SensorState {
             .pipe(tap(() => {
                 const state = getState();
                 const resultList = state.sensors.filter(el => el.id !== id);
+                const totalElements = state.totalElements - 1;
+                let totalPages = state.totalPages;
+                if (((totalElements / 4) % 1).toFixed(2) === '0.00'){
+                    totalPages = state.totalPages - 1;
+                }
                 setState({
                     ...state,
-                    sensors: resultList
+                    sensors: resultList,
+                    totalElements,
+                    totalPages
                 });
             }
         ));
