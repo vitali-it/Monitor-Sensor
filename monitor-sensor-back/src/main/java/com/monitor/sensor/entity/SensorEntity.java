@@ -17,7 +17,7 @@ public class SensorEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "sensor_type_id", nullable = false)
     private SensorUnitEntity sensorUnit;
 
