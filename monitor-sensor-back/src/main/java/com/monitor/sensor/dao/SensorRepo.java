@@ -1,5 +1,7 @@
 package com.monitor.sensor.dao;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +21,6 @@ public interface SensorRepo extends JpaRepository<SensorEntity, Integer> {
             + "UPPER(s.description) LIKE %:substr% ESCAPE '|' OR UPPER(s.location) LIKE %:substr% ESCAPE '|' OR "
             + "UPPER(s.name) LIKE %:substr% ESCAPE '|' OR UPPER(s.model) LIKE %:substr% ESCAPE '|'")
     Page<SensorEntity> searchThroughAllFields(@Param("substr") final String substr, Pageable pageable);
+
+    Optional<SensorEntity> findByName(final String name);
 }

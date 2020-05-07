@@ -7,7 +7,6 @@ import { SensorDeleteOneAction, SensorSetSelectedAction,
     SensorFetchAllByPageAction, SensorSearchAction } from './sensor.actions';
 import { AuthService } from '../../core/auth/auth.service';
 import { UserRole } from '../User/user.enum';
-import { SensorService } from './sensor.service';
 
 @Component({
     selector: 'app-feature-sensor',
@@ -24,7 +23,7 @@ export class SensorComponent implements OnInit, AfterContentInit, OnDestroy {
     public soughtData: string;
     public isHover: string;
 
-    constructor(private readonly store: Store, private service: SensorService, private readonly authService: AuthService) { }
+    constructor(private readonly store: Store, private readonly authService: AuthService) { }
 
     @Select(SensorState.selectAllData) sensorCollection: Observable<Array<SensorModel>>;
 

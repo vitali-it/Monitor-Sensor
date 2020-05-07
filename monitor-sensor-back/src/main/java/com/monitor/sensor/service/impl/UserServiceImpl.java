@@ -15,9 +15,9 @@ import com.monitor.sensor.ui.User;
 public class UserServiceImpl implements UserService {
 
     private final UserRepo repo;
-    
+
     private final UserMapper mapper;
-    
+
     @Override
     public List<User> getAll() {
         return repo.findAll().stream().map(mapper::entityToDomain).collect(Collectors.toList());

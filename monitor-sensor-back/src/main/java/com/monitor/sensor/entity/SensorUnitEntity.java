@@ -6,6 +6,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.monitor.sensor.enums.SensorType;
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 
@@ -32,4 +33,8 @@ public class SensorUnitEntity {
 
     @Column(name = "range_end", nullable = false, unique = false)
     private Integer rangeEnd;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "sensorUnit", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, optional = true)
+    private SensorEntity sensorEntity;
 }

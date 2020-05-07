@@ -12,6 +12,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
+import com.monitor.sensor.error.AuthorizationException;
 import com.monitor.sensor.security.*;
 
 import lombok.RequiredArgsConstructor;
@@ -52,9 +54,9 @@ public class AuthController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (final DisabledException e) {
-            throw new RuntimeException("User is disabled", e);
+            throw new AuthorizationException("User is disabled", e);
         } catch (final BadCredentialsException e) {
-            throw new RuntimeException("Invalid credentials", e);
+            throw new AuthorizationException("Invalid credentials", e);
         }
     }
 

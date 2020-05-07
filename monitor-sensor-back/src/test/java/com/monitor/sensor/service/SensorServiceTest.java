@@ -20,6 +20,7 @@ import com.github.javafaker.Faker;
 import com.monitor.sensor.dao.SensorRepo;
 import com.monitor.sensor.entity.SensorEntity;
 import com.monitor.sensor.entity.SensorUnitEntity;
+import com.monitor.sensor.error.RangeException;
 import com.monitor.sensor.mapper.SensorMapper;
 import com.monitor.sensor.service.impl.SensorServiceImpl;
 import com.monitor.sensor.ui.Sensor;
@@ -75,7 +76,7 @@ public class SensorServiceTest {
         Mockito.verify(mapper, Mockito.times(1)).domainToEntity(sensor);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = RangeException.class)
     public void shouldThrowExceptionWhileAddingOne() {
         final Sensor sensor = fakeSensorThrowing();
 
@@ -123,7 +124,7 @@ public class SensorServiceTest {
         Mockito.verify(mapper, Mockito.times(1)).domainToEntity(sensor);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = RangeException.class)
     public void shouldThrowExceptionWhileAddingOneWithNestedObj() {
         final SensorUnit sensorUnit = Mockito.mock(SensorUnit.class);
         final Sensor sensor = fakeSensorThrowing();
@@ -153,7 +154,7 @@ public class SensorServiceTest {
         Mockito.verify(repo, Mockito.times(1)).findById(RANDOM_DIGIT);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = RangeException.class)
     public void shouldThrowExceptionWhileModifyingOneWithNestedObj() {
         final Sensor sensor = fakeSensorThrowing();
 

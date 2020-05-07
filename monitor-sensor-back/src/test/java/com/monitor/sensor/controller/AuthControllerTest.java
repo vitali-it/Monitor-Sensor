@@ -17,6 +17,7 @@ import org.springframework.security.authentication.*;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.github.javafaker.Faker;
+import com.monitor.sensor.error.AuthorizationException;
 import com.monitor.sensor.security.JwtRequest;
 import com.monitor.sensor.security.JwtTokenUtil;
 import com.monitor.sensor.security.JwtUserDetailsService;
@@ -55,7 +56,7 @@ public class AuthControllerTest {
 
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = AuthorizationException.class)
     public void shouldThrowExceptionWhileAuth() {
         Mockito.when(authenticationManager.authenticate(Mockito.any(UsernamePasswordAuthenticationToken.class)))
                 .thenThrow(DisabledException.class);
