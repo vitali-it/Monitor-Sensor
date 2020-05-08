@@ -64,8 +64,10 @@ describe('Sensor Add Edit Component', () => {
         const component = TestBed.createComponent(SensorAddEditComponent);
         const componentInstance = component.debugElement.componentInstance;
         fakeForm(componentInstance);
+        componentInstance.isNameReserved = false;
         componentInstance.ngDoCheck();
-        expect(componentInstance.isDisabled).toEqual(componentInstance.formGroup.invalid);
+        expect(componentInstance.isDisabled)
+                .toEqual(componentInstance.formGroup.invalid && componentInstance.isNameReserved);
     });
 
     it('should edit', () => {
@@ -113,9 +115,12 @@ describe('Sensor Add Edit Component', () => {
     it('should unsubscribe', () => {
         const component = TestBed.createComponent(SensorAddEditComponent);
         const componentInstance = component.componentInstance;
+        componentInstance.subscription = new Subscription();
         componentInstance.subscriptionFetchById = new Subscription();
+        spyOn(componentInstance.subscription, 'unsubscribe');
         spyOn(componentInstance.subscriptionFetchById, 'unsubscribe');
         componentInstance.ngOnDestroy();
+        expect(componentInstance.subscription.unsubscribe).toHaveBeenCalled();
         expect(componentInstance.subscriptionFetchById.unsubscribe).toHaveBeenCalled();
     });
 });

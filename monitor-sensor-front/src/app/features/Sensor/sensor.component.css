@@ -16,3 +16,24 @@
     visibility: visible;
     text-align: center;
 }
+
+table {
+    font-size: larger;
+}
+
+td, th {
+    border: ridge;
+    border-color: black;
+    border-width: 2px;
+}
+
+.btn-add {
+    color: rgb(14, 114, 14);
+    display:inline-block;
+    margin-left: 4%;
+    margin-right:10%;
+    font-weight: bolder;
+    border: ridge;
+    height: 2rem;
+    border-color: rgb(26, 2, 22);
+}

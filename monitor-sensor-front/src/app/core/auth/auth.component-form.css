@@ -52,3 +52,18 @@ input {
     margin: 5%;
     text-align: center;
 }
+
+.form-wrapper .disabled {
+    margin: 1%;
+    height: 36px;
+    background:whitesmoke;
+    border: 1px solid rgb(44, 1, 44);
+    box-sizing: border-box;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 17px;
+    width: 30%;
+    background-color: rgb(231, 231, 208);
+    color: white;
+}

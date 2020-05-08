@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { SensorState } from './sensor.state';
 import { SensorFetchByIdAction, SensorEditOneAction,
-    SensorCreateOneAction } from './sensor.actions';
+    SensorCreateOneAction, SensorFetchAllAction} from './sensor.actions';
 
 @Component({
     selector: 'app-feature-sensor-add-edit',
@@ -18,14 +18,19 @@ import { SensorFetchByIdAction, SensorEditOneAction,
 export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
 
     public formGroup: FormGroup;
+    public subscription: Subscription;
     public subscriptionFetchById: Subscription;
-    public sensorCollection: Array<SensorModel>;
+    public sensorWholeCollection: Array<SensorModel>;
     public sensor: SensorModel;
     public sensorType = SensorType;
     private isUpdate: boolean;
     public isDisabled: boolean;
+    public isNameReserved: boolean;
+    public currentNameWhenUpdating: string;
     public sensorId: number;
     public isRangeIncorrect: boolean;
+
+    @Select(SensorState.selectAllData) sensorCollection: Observable<Array<SensorModel>>;
 
     @Select(SensorState.selectDataById) selectedSensor: Observable<SensorModel>;
 
@@ -34,9 +39,13 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
                 private readonly store: Store) { }
 
     ngOnInit(): void {
+        this.store.dispatch(new SensorFetchAllAction());
         this.sensorId = this.route.snapshot.params.id;
         this.sensor = new SensorModel();
         this.sensor.sensorUnit = new SensorUnitModel();
+        this.subscription = this.sensorCollection.subscribe(col => {
+            this.sensorWholeCollection = col;
+        });
         this.initForm(this.sensor);
         this.whetherToUpdate();
     }
@@ -48,6 +57,7 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
                 .subscribe(retrieved => {
                     this.sensor = retrieved;
                     if (this.sensor) {
+                        this.currentNameWhenUpdating = this.sensor.name;
                         this.initForm(this.sensor);
                     }
                     else {
@@ -96,7 +106,24 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
     }
 
     ngDoCheck(): void {
-        this.isDisabled = this.formGroup.invalid;
+        if (this.sensorWholeCollection && this.formGroup.get('name')) {
+            this.isNameReserved = false;
+            let collection = this.sensorWholeCollection;
+            if (this.isUpdate) {
+                collection = this.sensorWholeCollection
+                    .filter(el =>  el.name.toLowerCase() !== this.currentNameWhenUpdating.toLowerCase());
+            }
+            if (this.formGroup.get('name').value) {
+                for (const el of collection) {
+                    if (this.formGroup.get('name').value.toLowerCase() === el.name.toLowerCase()) {
+                        this.isNameReserved = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        this.isDisabled = this.formGroup.invalid || this.isNameReserved;
         this.isRangeIncorrect = Number.parseInt(this.formGroup.get('rangeBegin').value, 10) >
                                 Number.parseInt(this.formGroup.get('rangeEnd').value, 10);
     }
@@ -119,13 +146,16 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
             this.store.dispatch(new SensorCreateOneAction(this.sensor));
         setTimeout(() => {
             this.router.navigate(['/sensors']);
-        }, 1000);
+        }, 500);
         // TODO: Find out a more elegant way for navigation, not failing tests
     }
 
     ngOnDestroy(): void {
         if (this.subscriptionFetchById) {
             this.subscriptionFetchById.unsubscribe();
+        }
+        if (this.subscription) {
+            this.subscription.unsubscribe();
         }
     }
 }
