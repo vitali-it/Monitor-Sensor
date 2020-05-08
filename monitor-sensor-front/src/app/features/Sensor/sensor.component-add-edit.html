@@ -64,7 +64,7 @@
         </div>
       </div>
       <div class="form-btn-container">
-        <button type="button" class="form-btn"  [disabled]="isDisabled" (click)="onSave()">SAVE</button>
+        <button type="button" [ngClass]="{'form-btn': !isDisabled, 'disabled': isDisabled}" [disabled]="isDisabled" (click)="onSave()">SAVE</button>
         <button type="button" class="form-btn" [routerLink]="['/sensors']" style="background-color: crimson">CANCEL</button>
       </div>
     </form>

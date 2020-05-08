@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="form-btn-container">
-                <button class="form-btn" type='button' [disabled]="isDisabled" (click)="onSubmit()">Submit</button>
+                <button [ngClass]="{'form-btn': !isDisabled, 'disabled': isDisabled}" type='button' [disabled]="isDisabled" (click)="onSubmit()">Submit</button>
                 <button class="form-btn" type='button' style="background-color: crimson;" (click)="ngOnDestroy()">Clear</button>
             </div>
         </form>
