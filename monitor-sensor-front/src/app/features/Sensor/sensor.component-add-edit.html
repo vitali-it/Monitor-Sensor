@@ -6,6 +6,7 @@
         <div>
           <label>Name * </label>
           <input formControlName="name"/>
+          <div class = "invalid" *ngIf="isNameReserved">The name already exists</div>
           <div class = "invalid" *ngIf="formGroup.invalid && formGroup.get('name').dirty && formGroup.get('name').touched">{{formGroup.get('name') | invalidmessage}}</div>
         </div>
         <div>
