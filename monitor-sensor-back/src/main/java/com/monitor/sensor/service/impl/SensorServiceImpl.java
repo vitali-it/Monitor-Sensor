@@ -35,7 +35,7 @@ public class SensorServiceImpl implements SensorService {
 
     @Override
     public List<Sensor> getAll() {
-        return repo.findAll().stream().map(mapper::entityToDomain).collect(Collectors.toList());
+        return repo.findAll().stream().map(mapper::entityToDomain).collect(Collectors.toUnmodifiableList()); // Java 10
     }
 
     @Override
