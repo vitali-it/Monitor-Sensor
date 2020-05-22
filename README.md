@@ -2,7 +2,7 @@
 Consists of 3 applications
 
 ## Requirements 
-Java 8 (JDK) or above<br>
+Java 13 (JDK) or above<br>
 Node.js latest stable versions<br>
 Postgresql<br>
 
@@ -19,7 +19,7 @@ Build the project by means of gradle<br>
 Launch the project. Remember since Spring Boot is applied,<br>
 you do not have to use an external tomcat.<br>
 Variables for connecting to the db may be found within `application.yml`<br>
-Swagger documentation can be rached via `http://localhost:8088/swagger-ui.html#`
+Swagger documentation can be reached via `http://localhost:8088/swagger-ui.html#`
 
 ### How to launch the client-side app
 Open `monitor-sensor-front` app<br>
