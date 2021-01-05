@@ -15,7 +15,6 @@ import { UserRole } from '../User/user.enum';
 })
 export class SensorComponent implements OnInit, AfterContentInit, OnDestroy {
 
-
     @Select(SensorState.selectAllData) sensorCollection: Observable<Array<SensorModel>>;
 
     @Select(SensorState.selectTotalPages) pagesQuantity: Observable<number>;
