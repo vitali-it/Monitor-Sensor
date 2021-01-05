@@ -18,8 +18,6 @@ export class AuthRepository {
 
     signIn(dto: UserAuthDto): Observable<AuthDto> {
       return this.http.post<AuthDto>(`http://localhost:8088/auth`, JSON.stringify(dto), this.httpOptions)
-          .pipe(map(response => {
-              return AuthDto.convert(response);
-          }));
+          .pipe(map(response => AuthDto.convert(response)));
     }
 }

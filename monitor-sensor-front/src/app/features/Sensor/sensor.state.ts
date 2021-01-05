@@ -2,7 +2,8 @@ import { SensorService } from './sensor.service';
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { SensorModel } from './sensor.model';
 import { SensorFetchAllAction, SensorEditOneAction, SensorFetchByIdAction,
-    SensorCreateOneAction, SensorSetSelectedAction, SensorDeleteOneAction, SensorFetchAllByPageAction, SensorSearchAction } from './sensor.actions';
+    SensorCreateOneAction, SensorSetSelectedAction, SensorDeleteOneAction,
+    SensorFetchAllByPageAction, SensorSearchAction } from './sensor.actions';
 import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 

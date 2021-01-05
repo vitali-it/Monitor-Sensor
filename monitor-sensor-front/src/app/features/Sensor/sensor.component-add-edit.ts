@@ -17,22 +17,22 @@ import { SensorFetchByIdAction, SensorEditOneAction,
 })
 export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
 
+    @Select(SensorState.selectAllData) sensorCollection: Observable<Array<SensorModel>>;
+
+    @Select(SensorState.selectDataById) selectedSensor: Observable<SensorModel>;
+
     public formGroup: FormGroup;
     public subscription: Subscription;
     public subscriptionFetchById: Subscription;
     public sensorWholeCollection: Array<SensorModel>;
     public sensor: SensorModel;
     public sensorType = SensorType;
-    private isUpdate: boolean;
     public isDisabled: boolean;
     public isNameReserved: boolean;
     public currentNameWhenUpdating: string;
     public sensorId: number;
     public isRangeIncorrect: boolean;
-
-    @Select(SensorState.selectAllData) sensorCollection: Observable<Array<SensorModel>>;
-
-    @Select(SensorState.selectDataById) selectedSensor: Observable<SensorModel>;
+    private isUpdate: boolean;
 
     constructor(private readonly route: ActivatedRoute,
                 private readonly router: Router,
@@ -48,6 +48,60 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
         });
         this.initForm(this.sensor);
         this.whetherToUpdate();
+    }
+
+    ngDoCheck(): void {
+        if (this.sensorWholeCollection && this.formGroup.get('name')) {
+            this.isNameReserved = false;
+            let collection = this.sensorWholeCollection;
+            if (this.isUpdate) {
+                collection = this.sensorWholeCollection
+                    .filter(el =>  el.name.toLowerCase() !== this.currentNameWhenUpdating.toLowerCase());
+            }
+            if (this.formGroup.get('name').value) {
+                for (const el of collection) {
+                    if (this.formGroup.get('name').value.toLowerCase() === el.name.toLowerCase()) {
+                        this.isNameReserved = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        this.isDisabled = this.formGroup.invalid || this.isNameReserved;
+        this.isRangeIncorrect = Number.parseInt(this.formGroup.get('rangeBegin').value, 10) >
+                                Number.parseInt(this.formGroup.get('rangeEnd').value, 10);
+    }
+
+    ngOnDestroy(): void {
+        if (this.subscriptionFetchById) {
+            this.subscriptionFetchById.unsubscribe();
+        }
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
+    }
+
+    onSave() {
+        this.sensor.description = this.formGroup.get('description').value;
+        this.sensor.name = this.formGroup.get('name').value;
+        this.sensor.location = this.formGroup.get('location').value;
+        this.sensor.model = this.formGroup.get('model').value;
+        this.sensor.sensorUnit.rangeBegin = Number.parseInt(this.formGroup.get('rangeBegin').value, 10);
+        this.sensor.sensorUnit.rangeEnd = Number.parseInt(this.formGroup.get('rangeEnd').value, 10);
+        this.sensor.sensorUnit.sensorType = this.formGroup.get('type').value;
+        this.sensor.sensorUnit.unit = this.formGroup.get('unit').value;
+        if (this.sensor.sensorUnit.rangeBegin > this.sensor.sensorUnit.rangeEnd) {
+            return;
+        }
+
+        this.isUpdate ?
+            this.store.dispatch(new SensorEditOneAction(this.sensor, this.sensorId)) :
+            this.store.dispatch(new SensorCreateOneAction(this.sensor));
+        setTimeout(() => {
+            this.router.navigate(['/sensors']);
+        }, 500);
+        // TODO: Find out a more elegant way for navigation, not failing tests
     }
 
     private whetherToUpdate() {
@@ -103,59 +157,5 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
                 disabled: false
             }, Validators.maxLength(200)),
         });
-    }
-
-    ngDoCheck(): void {
-        if (this.sensorWholeCollection && this.formGroup.get('name')) {
-            this.isNameReserved = false;
-            let collection = this.sensorWholeCollection;
-            if (this.isUpdate) {
-                collection = this.sensorWholeCollection
-                    .filter(el =>  el.name.toLowerCase() !== this.currentNameWhenUpdating.toLowerCase());
-            }
-            if (this.formGroup.get('name').value) {
-                for (const el of collection) {
-                    if (this.formGroup.get('name').value.toLowerCase() === el.name.toLowerCase()) {
-                        this.isNameReserved = true;
-                        break;
-                    }
-                }
-            }
-        }
-
-        this.isDisabled = this.formGroup.invalid || this.isNameReserved;
-        this.isRangeIncorrect = Number.parseInt(this.formGroup.get('rangeBegin').value, 10) >
-                                Number.parseInt(this.formGroup.get('rangeEnd').value, 10);
-    }
-
-    onSave() {
-        this.sensor.description = this.formGroup.get('description').value;
-        this.sensor.name = this.formGroup.get('name').value;
-        this.sensor.location = this.formGroup.get('location').value;
-        this.sensor.model = this.formGroup.get('model').value;
-        this.sensor.sensorUnit.rangeBegin = Number.parseInt(this.formGroup.get('rangeBegin').value, 10);
-        this.sensor.sensorUnit.rangeEnd = Number.parseInt(this.formGroup.get('rangeEnd').value, 10);
-        this.sensor.sensorUnit.sensorType = this.formGroup.get('type').value;
-        this.sensor.sensorUnit.unit = this.formGroup.get('unit').value;
-        if (this.sensor.sensorUnit.rangeBegin > this.sensor.sensorUnit.rangeEnd) {
-            return;
-        }
-
-        this.isUpdate ?
-            this.store.dispatch(new SensorEditOneAction(this.sensor, this.sensorId)) :
-            this.store.dispatch(new SensorCreateOneAction(this.sensor));
-        setTimeout(() => {
-            this.router.navigate(['/sensors']);
-        }, 500);
-        // TODO: Find out a more elegant way for navigation, not failing tests
-    }
-
-    ngOnDestroy(): void {
-        if (this.subscriptionFetchById) {
-            this.subscriptionFetchById.unsubscribe();
-        }
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
     }
 }

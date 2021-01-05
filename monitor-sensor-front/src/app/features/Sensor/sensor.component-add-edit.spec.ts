@@ -125,7 +125,7 @@ describe('Sensor Add Edit Component', () => {
     });
 });
 
-function fakeForm(componentInstance: SensorAddEditComponent) {
+const fakeForm = (componentInstance: SensorAddEditComponent) => {
     componentInstance.formGroup = new FormGroup({
         name: new FormControl(),
         model: new FormControl(),
@@ -136,4 +136,4 @@ function fakeForm(componentInstance: SensorAddEditComponent) {
         location: new FormControl(),
         description: new FormControl()
     });
-}
+};

@@ -168,7 +168,7 @@ describe('Sensor Component', () => {
     });
 });
 
-function fakeObjects() {
+const  fakeObjects = () => {
     const obj = new SensorModel();
     const dto = new SensorDto();
     dto.sensorUnit = new SensorUnitDto();
@@ -177,5 +177,5 @@ function fakeObjects() {
     componentInstance.currentPage = 0;
     componentInstance.totalPages = new Array<number>(2);
     return { componentInstance, component, obj };
-}
+};
 
