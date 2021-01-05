@@ -23,7 +23,7 @@ Swagger documentation can be reached via `http://localhost:8088/swagger-ui.html#
 
 ### How to launch the client-side app
 Open `monitor-sensor-front` app<br>
-First of all, you are required to install all the dependencies<br>
+First of all, you are required to install all the dependencies, `npm i` can be used for this<br>
 In order to run the application, use `ng serve -o`<br>
 In order to execute its tests, use `ng test`<br>
-In order to apply linter, use `ng lint`<br>
+In order to apply linter, use `npx ng lint --fix`<br>
