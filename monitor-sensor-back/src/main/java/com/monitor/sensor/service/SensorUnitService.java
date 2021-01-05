@@ -23,4 +23,8 @@ public interface SensorUnitService {
 
     void removeOne(Integer id);
 
+    List<SensorUnitEntity> getAllEntities();
+
+    void modifyAll(List<SensorUnitEntity> sensorUnitEntities);
+
 }

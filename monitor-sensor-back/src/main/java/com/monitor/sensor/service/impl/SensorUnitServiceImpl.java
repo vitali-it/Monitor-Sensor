@@ -30,6 +30,11 @@ public class SensorUnitServiceImpl implements SensorUnitService {
     }
 
     @Override
+    public List<SensorUnitEntity> getAllEntities() {
+        return repo.findAll();
+    }
+
+    @Override
     @SneakyThrows
     public SensorUnit getById(final Integer id) {
         return mapper.entityToDomain(getEntityById(id));
@@ -61,6 +66,11 @@ public class SensorUnitServiceImpl implements SensorUnitService {
         final SensorUnitEntity entity = mapper.domainToEntity(sensorUnit);
         entity.setId(id);
         return mapper.entityToDomain(repo.save(entity));
+    }
+
+    @Override
+    public void modifyAll(final List<SensorUnitEntity> sensorUnitEntities) {
+        repo.saveAll(sensorUnitEntities);
     }
 
     @Override

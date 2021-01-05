@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import io.jsonwebtoken.SignatureException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -23,5 +25,12 @@ public class GlobalExceptionHandler {
         ErrorBean error = new ErrorBean("An error occurred on the server side", LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorBean> jwtCorruptionHandler(final SignatureException exc) {
+        ErrorBean error = new ErrorBean("The token cannot be trusted", LocalDateTime.now(),
+                HttpStatus.UNAUTHORIZED.value());
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 }

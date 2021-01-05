@@ -1,6 +1,8 @@
 package com.monitor.sensor.entity;
 
 import lombok.Data;
+import lombok.ToString;
+
 import javax.persistence.*;
 
 import org.hibernate.annotations.Type;
@@ -13,6 +15,7 @@ import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 @Entity
 @Table(schema = "monitor_sensor", name = "sensor_unit")
 @Data
+@ToString(exclude = "sensorEntity")
 @TypeDef(name = "pgsql_enum", typeClass = PostgreSQLEnumType.class)
 public class SensorUnitEntity {
 
