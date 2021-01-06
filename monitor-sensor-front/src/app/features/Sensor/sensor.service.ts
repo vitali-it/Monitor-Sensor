@@ -21,16 +21,12 @@ export class SensorService {
 
     seekBySubstrWithPage(substr: string, page: number): Observable<Array<any>> {
         return this.repository.findBySubstrAndPage(substr, page)
-                .pipe(map(data => {
-                    return this.pageToCollection(data);
-                }));
+                .pipe(map(data => this.pageToCollection(data)));
     }
 
     getAllByPage(page: number): Observable<Array<any>> {
         return this.repository.findAllByPage(page)
-                .pipe(map(data => {
-                    return this.pageToCollection(data);
-                }));
+                .pipe(map(data => this.pageToCollection(data)));
     }
 
     getById(id: number): Observable<SensorModel> {

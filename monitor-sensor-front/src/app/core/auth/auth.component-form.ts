@@ -29,19 +29,6 @@ export class AuthFormComponent implements OnInit, OnDestroy, DoCheck {
         this.isDisabled = this.form.invalid;
     }
 
-    private initForm(model: UserAuthModel) {
-        this.form = new FormGroup({
-            username: new FormControl({
-                value: model.username,
-                disabled: false
-            }, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]),
-            password: new FormControl({
-                value: model.password,
-                disabled: false
-            }, [Validators.required, Validators.minLength(4)]),
-        });
-    }
-
     onSubmit() {
         this.model.password = this.form.get('password').value;
         this.model.username = this.form.get('username').value;
@@ -58,5 +45,18 @@ export class AuthFormComponent implements OnInit, OnDestroy, DoCheck {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
+    }
+
+    private initForm(model: UserAuthModel) {
+        this.form = new FormGroup({
+            username: new FormControl({
+                value: model.username,
+                disabled: false
+            }, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]),
+            password: new FormControl({
+                value: model.password,
+                disabled: false
+            }, [Validators.required, Validators.minLength(4)]),
+        });
     }
 }

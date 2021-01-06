@@ -15,6 +15,12 @@ import { UserRole } from '../User/user.enum';
 })
 export class SensorComponent implements OnInit, AfterContentInit, OnDestroy {
 
+    @Select(SensorState.selectAllData) sensorCollection: Observable<Array<SensorModel>>;
+
+    @Select(SensorState.selectTotalPages) pagesQuantity: Observable<number>;
+
+    @Select(SensorState.selectTotalElements) elementsQuantity: Observable<number>;
+
     public isAllowed: boolean;
     public pageQuantitySubscription: Subscription;
     public totalPages: Array<number>;
@@ -24,12 +30,6 @@ export class SensorComponent implements OnInit, AfterContentInit, OnDestroy {
     public isHover: string;
 
     constructor(private readonly store: Store, private readonly authService: AuthService) { }
-
-    @Select(SensorState.selectAllData) sensorCollection: Observable<Array<SensorModel>>;
-
-    @Select(SensorState.selectTotalPages) pagesQuantity: Observable<number>;
-
-    @Select(SensorState.selectTotalElements) elementsQuantity: Observable<number>;
 
     ngOnInit(): void {
         this.currentPage = 0;
@@ -41,6 +41,23 @@ export class SensorComponent implements OnInit, AfterContentInit, OnDestroy {
     ngAfterContentInit(): void {
         this.isSought = false;
         this.store.dispatch(new SensorFetchAllByPageAction(this.currentPage));
+    }
+
+    ngOnDestroy(): void {
+        if (this.pageQuantitySubscription) {
+            this.pageQuantitySubscription.unsubscribe();
+        }
+    }
+
+    onEdit(obj: SensorModel) {
+        this.store.dispatch(new SensorSetSelectedAction(obj));
+    }
+
+    onDelete(id: number) {
+        if (window.confirm('Are you really sure that you want to delete the sensor?')) {
+            this.store.dispatch(new SensorDeleteOneAction(id));
+        }
+        return false;
     }
 
     southDataChange(value: string) {
@@ -73,23 +90,6 @@ export class SensorComponent implements OnInit, AfterContentInit, OnDestroy {
         }
         else {
             this.store.dispatch(new SensorFetchAllByPageAction(this.currentPage));
-        }
-    }
-
-    onEdit(obj: SensorModel) {
-        this.store.dispatch(new SensorSetSelectedAction(obj));
-    }
-
-    onDelete(id: number) {
-        if (window.confirm('Are you really sure that you want to delete the sensor?')) {
-            this.store.dispatch(new SensorDeleteOneAction(id));
-        }
-        return false;
-    }
-
-    ngOnDestroy(): void {
-        if (this.pageQuantitySubscription) {
-            this.pageQuantitySubscription.unsubscribe();
         }
     }
 }

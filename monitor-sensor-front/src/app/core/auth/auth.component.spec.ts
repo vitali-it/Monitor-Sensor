@@ -84,10 +84,10 @@ describe('Auth Form Component', () => {
     });
 });
 
-function fakeForm(componentInstance: AuthFormComponent) {
+const fakeForm = (componentInstance: AuthFormComponent) => {
         componentInstance.form = new FormGroup({
             username: new FormControl(),
             password: new FormControl()
         });
-}
+};
 
