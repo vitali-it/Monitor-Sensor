@@ -53,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() {
         return super.authenticationManagerBean();
     }
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -63,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             }
         };
     }
-    
+
     @Override
     @SneakyThrows
     protected void configure(final HttpSecurity httpSecurity) {
@@ -71,10 +72,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("**/actuator/**").permitAll().antMatchers("/v2/api-docs").permitAll()
                 .antMatchers("/swagger*/**").permitAll().antMatchers("/configuration/**").permitAll()
                 .antMatchers("/webjars/**").permitAll().antMatchers(HttpMethod.POST, "**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "**").hasRole("ADMIN").antMatchers(HttpMethod.DELETE, "**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PATCH, "**").hasRole("ADMIN").anyRequest().authenticated()
-                .and().exceptionHandling().authenticationEntryPoint(entryPoint).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .antMatchers(HttpMethod.PUT, "**").hasRole("ADMIN").antMatchers(HttpMethod.DELETE, "**")
+                .hasRole("ADMIN").antMatchers(HttpMethod.PATCH, "**").hasRole("ADMIN").anyRequest().authenticated()
+                .and().exceptionHandling().authenticationEntryPoint(entryPoint).and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
