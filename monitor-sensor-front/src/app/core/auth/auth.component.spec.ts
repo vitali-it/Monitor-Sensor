@@ -1,6 +1,6 @@
 import { AuthService } from './auth.service';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthRoutingModule } from './auth.routing-module';
@@ -17,7 +17,7 @@ describe('Auth Form Component', () => {
     let httpTestingController: HttpTestingController;
     let service: AuthService;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 SharedModule,

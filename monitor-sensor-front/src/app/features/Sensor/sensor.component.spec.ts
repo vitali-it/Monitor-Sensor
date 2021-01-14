@@ -3,7 +3,7 @@ import { SensorSetSelectedAction,
     SensorDeleteOneAction, SensorFetchAllByPageAction, SensorSearchAction } from './sensor.actions';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { SensorState } from './sensor.state';
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { SharedModule } from 'src/app/shared.module';
 import { SensorBuilder } from './sensor.builder';
 import { SensorService } from './sensor.service';
@@ -27,7 +27,7 @@ describe('Sensor Component', () => {
     let store: Store;
     let service: SensorService;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 SharedModule,
@@ -168,7 +168,7 @@ describe('Sensor Component', () => {
     });
 });
 
-const  fakeObjects = () => {
+const fakeObjects = () => {
     const obj = new SensorModel();
     const dto = new SensorDto();
     dto.sensorUnit = new SensorUnitDto();

@@ -1,5 +1,5 @@
 import { AuthService } from '../auth/auth.service';
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '../../shared.module';
 import { AuthRepository } from '../auth/auth.repository';
@@ -9,7 +9,7 @@ describe('Header Component', () => {
 
     let authService: AuthService;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 SharedModule,

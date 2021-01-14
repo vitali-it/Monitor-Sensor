@@ -1,6 +1,6 @@
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { SensorState } from './sensor.state';
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { SharedModule } from 'src/app/shared.module';
 import { SensorBuilder } from './sensor.builder';
 import { SensorService } from './sensor.service';
@@ -23,7 +23,7 @@ describe('Sensor Add Edit Component', () => {
     let store: Store;
     let service: SensorService;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 SharedModule,

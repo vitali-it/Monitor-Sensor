@@ -1,9 +1,9 @@
 import { PaginationComponent } from './pagination.component';
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 
 describe('Pagination Component', () => {
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [PaginationComponent]
       }).compileComponents();
