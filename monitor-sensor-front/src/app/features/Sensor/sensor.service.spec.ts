@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { SensorRepository } from './sensor.repository';
-import { SharedModule } from 'src/app/shared.module';
+import { SharedModule } from '../../../app/shared.module';
 import { SensorDto } from './sensor.dto';
 import { of } from 'rxjs';
 import { SensorService } from './sensor.service';

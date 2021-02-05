@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanActivateChild, ActivatedRouteSnapshot,
+import { CanActivate, ActivatedRouteSnapshot,
   RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs';
-import { UserRole } from 'src/app/features/User/user.enum';
+import { UserRole } from '../../../app/features/User/user.enum';
 
 @Injectable()
 export class RoleGuard implements CanActivate {

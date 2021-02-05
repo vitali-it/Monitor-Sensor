@@ -29,6 +29,15 @@
             "style": "kebab-case"
           }
         ],
+        "@typescript-eslint/naming-convention": [
+          "warn",
+          {
+            "selector": "variable",
+            "format": ["camelCase"]
+          }
+        ],
+        "@typescript-eslint/no-unused-expressions": ["warn"],
+        "no-shadow": "off",
         "@angular-eslint/directive-selector": [
           "error",
           {

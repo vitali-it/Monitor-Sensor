@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { SensorComponent } from './sensor.component';
 import { Routes, RouterModule } from '@angular/router';
 import { SensorAddEditComponent } from './sensor.component-add-edit';
-import { RoleGuard } from 'src/app/core/guard/role.guard';
+import { RoleGuard } from '../../../app/core/guard/role.guard';
+import { FormGuard } from 'src/app/core/guard/form.guard';
 
 const routes: Routes = [
     {
@@ -12,12 +13,14 @@ const routes: Routes = [
     {
         path: 'form',
         component: SensorAddEditComponent,
-        canActivate: [RoleGuard]
+        canActivate: [RoleGuard],
+        canDeactivate: [FormGuard]
     },
     {
         path: 'form/:id',
         component: SensorAddEditComponent,
-        canActivate: [RoleGuard]
+        canActivate: [RoleGuard],
+        canDeactivate: [FormGuard]
     }
 ];
 

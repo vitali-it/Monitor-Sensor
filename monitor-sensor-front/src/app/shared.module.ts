@@ -25,12 +25,12 @@ import { FormsModule } from '@angular/forms';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-  },
-  {
+    },
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: GlobalErrorHandler,
       multi: true
-  }
+    }
   ]
 })
 export class SharedModule { }

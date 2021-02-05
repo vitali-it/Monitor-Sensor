@@ -5,11 +5,11 @@ import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthRoutingModule } from './auth.routing-module';
 import { HttpClientModule } from '@angular/common/http';
-import { SharedModule } from 'src/app/shared.module';
+import { SharedModule } from '../../../app/shared.module';
 import { AuthFormComponent } from './auth.component-form';
 import { AuthRepository } from './auth.repository';
 import { Subscription, of } from 'rxjs';
-import { UserAuthModel } from 'src/app/features/User/user-auth.model';
+import { UserAuthModel } from '../../../app/features/User/user-auth.model';
 import { AuthDto } from './auth.dto';
 
 describe('Auth Form Component', () => {
