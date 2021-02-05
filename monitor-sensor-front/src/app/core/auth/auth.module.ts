@@ -3,7 +3,7 @@ import { CoreModule } from '../../../app/core.module';
 import { AuthFormComponent } from './auth.component-form';
 import { AuthRoutingModule } from './auth.routing-module';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from 'src/app/shared.module';
+import { SharedModule } from '../../../app/shared.module';
 
 @NgModule({
     imports: [

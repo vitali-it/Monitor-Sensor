@@ -17,7 +17,6 @@ const routes: Routes = [
   {
     path: 'sensors',
     canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
     loadChildren: () => import('./features/Sensor/sensor.module').then(el => el.SensorModule)
   }
 ];

@@ -1,7 +1,7 @@
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { SensorState } from './sensor.state';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { SharedModule } from 'src/app/shared.module';
+import { SharedModule } from '../../../app/shared.module';
 import { SensorBuilder } from './sensor.builder';
 import { SensorService } from './sensor.service';
 import { SensorRepository } from './sensor.repository';

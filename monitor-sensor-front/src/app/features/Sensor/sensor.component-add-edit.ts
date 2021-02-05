@@ -104,6 +104,13 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
         // TODO: Find out a more elegant way for navigation, not failing tests
     }
 
+    leaveForm(): boolean {
+        if (!this.formGroup.dirty || confirm('The changes will not be saved. Proceed?')) {
+            return true;
+        }
+        return false;
+    }
+
     private whetherToUpdate() {
         if (this.sensorId) {
             this.isUpdate = true;

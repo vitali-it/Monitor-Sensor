@@ -4,14 +4,15 @@ import { SensorBuilder } from './sensor.builder';
 import { SensorRepository } from './sensor.repository';
 import { SensorComponent } from './sensor.component';
 import { SensorRoutingModule } from './sensor.routing-module';
-import { SharedModule } from 'src/app/shared.module';
+import { SharedModule } from '../../../app/shared.module';
 import { SensorAddEditComponent } from './sensor.component-add-edit';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 import { SensorState } from './sensor.state';
-import { HeaderModule } from 'src/app/core/header/header.module';
+import { HeaderModule } from '../../../app/core/header/header.module';
 import { PaginationModule } from '../pagination/pagination.module';
 import { SearchModule } from '../search/search.module';
+import { FormGuard } from '../../../app/core/guard/form.guard';
 
 @NgModule({
     imports: [
@@ -30,7 +31,8 @@ import { SearchModule } from '../search/search.module';
     providers: [
         SensorService,
         SensorBuilder,
-        SensorRepository
+        SensorRepository,
+        FormGuard
     ]
 })
 export class SensorModule { }

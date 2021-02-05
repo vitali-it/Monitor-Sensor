@@ -4,7 +4,7 @@ import { SensorSetSelectedAction,
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { SensorState } from './sensor.state';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { SharedModule } from 'src/app/shared.module';
+import { SharedModule } from '../../../app/shared.module';
 import { SensorBuilder } from './sensor.builder';
 import { SensorService } from './sensor.service';
 import { SensorRepository } from './sensor.repository';
@@ -17,8 +17,8 @@ import { SensorModel } from './sensor.model';
 import { of } from 'rxjs';
 import { SensorDto } from './sensor.dto';
 import { SensorUnitDto } from '../SensorUnit/sensorunit.dto';
-import { AuthService } from 'src/app/core/auth/auth.service';
-import { AuthRepository } from 'src/app/core/auth/auth.repository';
+import { AuthService } from '../../../app/core/auth/auth.service';
+import { AuthRepository } from '../../../app/core/auth/auth.repository';
 import { PaginationModule } from '../pagination/pagination.module';
 
 describe('Sensor Component', () => {

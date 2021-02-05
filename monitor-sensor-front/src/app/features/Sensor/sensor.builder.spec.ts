@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { SharedModule } from 'src/app/shared.module';
+import { SharedModule } from '../../../app/shared.module';
 import { SensorDto } from './sensor.dto';
 import { SensorBuilder } from './sensor.builder';
 

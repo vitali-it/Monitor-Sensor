@@ -27,7 +27,6 @@ export class SensorComponent implements OnInit, AfterContentInit, OnDestroy {
     public currentPage: number;
     public isSought: boolean;
     public soughtData: string;
-    public isHover: string;
 
     constructor(private readonly store: Store, private readonly authService: AuthService) { }
 

@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserAuthModel } from 'src/app/features/User/user-auth.model';
+import { UserAuthModel } from '../../../app/features/User/user-auth.model';
 
 @Component({
     selector: 'app-auth-form',
@@ -30,6 +30,9 @@ export class AuthFormComponent implements OnInit, OnDestroy, DoCheck {
     }
 
     onSubmit() {
+        if (!this.form) {
+            this.ngDoCheck();
+        }
         this.model.password = this.form.get('password').value;
         this.model.username = this.form.get('username').value;
 

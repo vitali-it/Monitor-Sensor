@@ -1,10 +1,10 @@
 import { AuthRepository } from './auth.repository';
 import { HttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { SharedModule } from 'src/app/shared.module';
+import { SharedModule } from '../../../app/shared.module';
 import { AuthDto } from './auth.dto';
 import { of } from 'rxjs';
-import { UserAuthDto } from 'src/app/features/User/user-auth.dto';
+import { UserAuthDto } from '../../../app/features/User/user-auth.dto';
 
 describe('Auth Repository', () => {
 
