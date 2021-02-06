@@ -32,6 +32,8 @@ public class SensorServiceImpl implements SensorService {
     private final SensorMapper mapper;
 
     private final SensorUnitService sensorUnitService;
+    
+    private final static String NAME_EXISTS = "The name already exists";
 
     @Override
     public List<Sensor> getAll() {
@@ -70,7 +72,7 @@ public class SensorServiceImpl implements SensorService {
     public Sensor addOne(final Sensor sensor) {
         rangeVerification(sensor);
         if (!isUniqueName(sensor.getName())) {
-            throw new NoUniqueException("The name already exists");
+            throw new NoUniqueException(NAME_EXISTS);
         }
         final SensorEntity entity = mapper.domainToEntity(sensor);
         return modelCreation(entity);
@@ -80,7 +82,7 @@ public class SensorServiceImpl implements SensorService {
     public Sensor addOneWithNestedObj(final Sensor sensor) {
         rangeVerification(sensor);
         if (!isUniqueName(sensor.getName())) {
-            throw new NoUniqueException("The name already exists");
+            throw new NoUniqueException(NAME_EXISTS);
         }
         final SensorUnitEntity sensorUnitEntity = sensorUnitService.addOneReturningEntity(sensor.getSensorUnit());
         final SensorEntity entity = mapper.domainToEntity(sensor);

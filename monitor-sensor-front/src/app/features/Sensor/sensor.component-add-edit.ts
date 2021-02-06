@@ -32,6 +32,7 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
     public currentNameWhenUpdating: string;
     public sensorId: number;
     public isRangeIncorrect: boolean;
+    public isCanceled: boolean;
     private isUpdate: boolean;
 
     constructor(private readonly route: ActivatedRoute,
@@ -43,32 +44,17 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
         this.sensorId = this.route.snapshot.params.id;
         this.sensor = new SensorModel();
         this.sensor.sensorUnit = new SensorUnitModel();
+
         this.subscription = this.sensorCollection.subscribe(col => {
             this.sensorWholeCollection = col;
         });
         this.initForm(this.sensor);
         this.whetherToUpdate();
+        this.isCanceled = true;
     }
 
     ngDoCheck(): void {
-        if (this.sensorWholeCollection && this.formGroup.get('name')) {
-            this.isNameReserved = false;
-            let collection = this.sensorWholeCollection;
-            if (this.isUpdate && this.currentNameWhenUpdating) {
-                collection = this.sensorWholeCollection
-                    .filter(el =>  el.name.toLowerCase() !== this.currentNameWhenUpdating.toLowerCase());
-            }
-            if (this.formGroup.get('name').value) {
-                for (const el of collection) {
-                    if (this.formGroup.get('name').value.toLowerCase() === el.name.toLowerCase()) {
-                        this.isNameReserved = true;
-                        break;
-                    }
-                }
-            }
-        }
-
-        this.isDisabled = this.formGroup.invalid || this.isNameReserved;
+        this.checkName();
         this.isRangeIncorrect = Number.parseInt(this.formGroup.get('rangeBegin').value, 10) >
                                 Number.parseInt(this.formGroup.get('rangeEnd').value, 10);
     }
@@ -83,6 +69,7 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
     }
 
     onSave() {
+        this.isCanceled = false;
         this.sensor.description = this.formGroup.get('description').value;
         this.sensor.name = this.formGroup.get('name').value;
         this.sensor.location = this.formGroup.get('location').value;
@@ -126,6 +113,27 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
                     }
                 });
         }
+    }
+
+    private checkName() {
+        if (this.sensorWholeCollection && this.formGroup.get('name')) {
+            this.isNameReserved = false;
+            let collection = this.sensorWholeCollection;
+            if (this.isUpdate && this.currentNameWhenUpdating) {
+                collection = this.sensorWholeCollection
+                    .filter(el =>  el.name.toLowerCase() !== this.currentNameWhenUpdating.toLowerCase());
+            }
+            if (this.formGroup.get('name').value) {
+                for (const el of collection) {
+                    if (this.formGroup.get('name').value.toLowerCase() === el.name.toLowerCase()) {
+                        this.isNameReserved = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        this.isDisabled = this.formGroup.invalid || this.isNameReserved;
     }
 
     private initForm(sensor: SensorModel) {

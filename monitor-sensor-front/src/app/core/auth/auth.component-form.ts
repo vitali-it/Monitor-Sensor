@@ -30,9 +30,6 @@ export class AuthFormComponent implements OnInit, OnDestroy, DoCheck {
     }
 
     onSubmit() {
-        if (!this.form) {
-            this.ngDoCheck();
-        }
         this.model.password = this.form.get('password').value;
         this.model.username = this.form.get('username').value;
 

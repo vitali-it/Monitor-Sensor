@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SensorRepository } from './sensor.repository';
 import { SensorBuilder } from './sensor.builder';
 import { SensorModel } from './sensor.model';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
