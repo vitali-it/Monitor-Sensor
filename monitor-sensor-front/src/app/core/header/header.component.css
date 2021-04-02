@@ -1,0 +1,24 @@
+.container {
+    background-color: rgb(180, 178, 28);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    position: sticky;
+    display: flex;
+}
+
+.inner {
+    margin-left: 40px;
+    padding: 1%;
+    flex-grow: 1;
+}
+
+p {
+    margin-right: 40px;
+    color: rgb(56, 1, 61);
+}
+
+button {
+    color: rgb(121, 19, 19);
+    border: solid;
+}

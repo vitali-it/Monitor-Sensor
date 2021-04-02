@@ -1,0 +1,17 @@
+input {
+  height: 2rem;
+  width: 17rem;
+}
+
+button {
+  height: 2rem;
+  font-weight: bold;
+}
+
+.btn-show {
+  color: rgb(121, 19, 75);
+}
+
+.btn-search {
+  color: rgb(36, 121, 19);
+}

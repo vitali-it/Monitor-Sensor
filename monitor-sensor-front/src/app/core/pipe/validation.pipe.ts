@@ -1,8 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'invalidmessage',
-    pure: false
+    name: 'invalidmessage'
 })
 export class ValidationPipe implements PipeTransform {
 
