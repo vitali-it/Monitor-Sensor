@@ -2,7 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'app-feature-search',
-    templateUrl: 'search.component.html'
+    templateUrl: 'search.component.html',
+    styleUrls: ['search.component.css']
 })
 export class SearchComponent {
 

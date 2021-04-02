@@ -1,5 +1,5 @@
-<nav style="display:inline-block">
-  <input type="search" style="height: 2rem; width: 17rem;" [(ngModel)]="soughtData" (ngModelChange)="southDataChange($event)">
-  <button *ngIf="isSought" type="submit" style="height: 2rem; color: rgb(121, 19, 75); font-weight: bold" (click)="afterContentInit()">Show all</button>
-  <button (click)="onSearch()" type="submit" style="height: 2rem; color: rgb(36, 121, 19); font-weight: bold">Search</button>
+<nav>
+  <input type="search" [(ngModel)]="soughtData" (ngModelChange)="southDataChange($event)">
+  <button class="btn-show" *ngIf="isSought" type="submit" (click)="afterContentInit()">Show all</button>
+  <button class="btn-search" (click)="onSearch()" type="submit">Search</button>
 </nav>

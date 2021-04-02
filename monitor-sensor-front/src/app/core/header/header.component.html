@@ -1,7 +1,8 @@
-<nav style="background-color: rgb(180, 178, 28);">
-    <div style="margin-left:40px; margin-right:1%; padding: 1%;">
-        <button style="display:inline-block; color: rgb(121, 19, 19); border: solid;" (click) = "onLogOut()" >Log Out
+<div class="container">
+    <div class="inner">
+        <button (click) = "onLogOut()" >Log Out
         </button>
     </div>
-</nav>
+    <p *ngIf="isAdmin">You are the Admin</p>
+</div>
   

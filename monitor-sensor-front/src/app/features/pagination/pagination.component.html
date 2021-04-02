@@ -1,6 +1,6 @@
-<span style="margin-left:4%">
+<span>
     <button [disabled] = "currentPage === 0" (click)="onPrevious()">Previous</button>
-    <div style="display:inline-block" *ngFor="let item of totalPages; index as id">
+    <div *ngFor="let item of totalPages; index as id">
       <button (click)="onPage(id)">{{id+1}}</button>
     </div>
     <button [disabled]="currentPage === totalPages.length-1" (click)="onNext()">Next</button>

@@ -2,7 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'app-feature-pagination',
-    templateUrl: 'pagination.component.html'
+    templateUrl: 'pagination.component.html',
+    styleUrls: ['pagination.component.css']
 })
 export class PaginationComponent {
 
