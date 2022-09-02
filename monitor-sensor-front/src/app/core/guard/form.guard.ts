@@ -5,10 +5,12 @@ import { SensorAddEditComponent } from '../../../app/features/Sensor/sensor.comp
 
 @Injectable()
 export class FormGuard implements CanDeactivate<SensorAddEditComponent> {
-
-    canDeactivate(component: SensorAddEditComponent, _currentRoute: ActivatedRouteSnapshot,
-        _currentState: RouterStateSnapshot, _nextState?: RouterStateSnapshot):
-        boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-            return component.isCanceled ? component.leaveForm() : true;
+    canDeactivate(
+        component: SensorAddEditComponent,
+        _currentRoute: ActivatedRouteSnapshot,
+        _currentState: RouterStateSnapshot,
+        _nextState?: RouterStateSnapshot
+    ): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+        return component.isCanceled ? component.leaveForm() : true;
     }
 }

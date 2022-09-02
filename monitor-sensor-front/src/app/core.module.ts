@@ -5,17 +5,10 @@ import { AuthRepository } from './core/auth/auth.repository';
 import { AuthGuard } from './core/guard/auth.guard';
 import { LoginGuard } from './core/guard/login.guard';
 import { FormBuilder } from '@angular/forms';
+import { HeaderModule } from './core/header/header.module';
 
 @NgModule({
-    imports: [
-        CommonModule
-    ],
-    providers: [
-        AuthService,
-        AuthRepository,
-        FormBuilder,
-        AuthGuard,
-        LoginGuard
-    ]
+    imports: [CommonModule],
+    providers: [AuthService, AuthRepository, FormBuilder, AuthGuard, LoginGuard, HeaderModule],
 })
-export class CoreModule { }
+export class CoreModule {}

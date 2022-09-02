@@ -13,17 +13,12 @@ describe('Auth Repository', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                SharedModule
-            ],
-            providers: [
-                AuthRepository
-            ]
+            imports: [SharedModule],
+            providers: [AuthRepository],
         });
         repository = TestBed.inject(AuthRepository);
         httpClient = TestBed.inject(HttpClient);
     });
-
 
     it('should sign in', () => {
         const authDto = new AuthDto();
@@ -32,11 +27,10 @@ describe('Auth Repository', () => {
         authDto.token = '';
         spyOn(httpClient, 'post').and.returnValue(of(authDto));
 
-        repository.signIn(dto)
-            .subscribe(data => {
-                expect(data.token).toBeInstanceOf(String);
-                expect(data.role).toBeInstanceOf(String);
-                expect(data).toBeInstanceOf(AuthDto);
-            });
+        repository.signIn(dto).subscribe(data => {
+            expect(data.token).toBeInstanceOf(String);
+            expect(data.role).toBeInstanceOf(String);
+            expect(data).toBeInstanceOf(AuthDto);
+        });
     });
 });

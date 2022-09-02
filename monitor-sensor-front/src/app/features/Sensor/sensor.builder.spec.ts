@@ -4,17 +4,12 @@ import { SensorDto } from './sensor.dto';
 import { SensorBuilder } from './sensor.builder';
 
 describe('Sensor Builder', () => {
-
     let builder: SensorBuilder;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                SharedModule,
-            ],
-            providers: [
-                SensorBuilder
-            ]
+            imports: [SharedModule],
+            providers: [SensorBuilder],
         });
         builder = TestBed.inject(SensorBuilder);
     });

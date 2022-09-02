@@ -10,57 +10,49 @@ const SENSOR_SET_SELECTED = '[SENSOR] Set selected object';
 const SENSOR_SEARCH = '[SENSOR] Search for objects';
 
 export class SensorFetchAllAction {
-
     static readonly type = SENSOR_FETCH_ALL;
 
-    constructor() { }
+    constructor() {}
 }
 
 export class SensorFetchAllByPageAction {
-
     static readonly type = SENSOR_FETCH_ALL_BY_PAGE;
 
-    constructor(public page: number) { }
+    constructor(public page: number) {}
 }
 
 export class SensorFetchByIdAction {
-
     static readonly type = SENSOR_FETCH_BY_ID;
 
-    constructor(public id: number) { }
+    constructor(public id: number) {}
 }
 
 export class SensorCreateOneAction {
-
     static readonly type = SENSOR_CREATE_ONE;
 
-    constructor(public payload: SensorModel) { }
+    constructor(public payload: SensorModel) {}
 }
 
 export class SensorEditOneAction {
-
     static readonly type = SENSOR_EDIT_ONE;
 
-    constructor(public payload: SensorModel, public id: number) { }
+    constructor(public payload: SensorModel, public id: number) {}
 }
 
 export class SensorDeleteOneAction {
-
     static readonly type = SENSOR_DELETE_ONE;
 
-    constructor(public id: number) { }
+    constructor(public id: number) {}
 }
 
 export class SensorSetSelectedAction {
-
     static readonly type = SENSOR_SET_SELECTED;
 
-    constructor(public payload: SensorModel) { }
+    constructor(public payload: SensorModel) {}
 }
 
 export class SensorSearchAction {
-
     static readonly type = SENSOR_SEARCH;
 
-    constructor(public substr: any, public page: number) { }
+    constructor(public substr: any, public page: number) {}
 }

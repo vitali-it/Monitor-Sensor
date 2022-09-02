@@ -6,7 +6,7 @@ export class AuthDto {
     public static convert(response: any): AuthDto {
 
         if (!response) {
-          return null;
+            return null;
         }
 
         const dto = new AuthDto();

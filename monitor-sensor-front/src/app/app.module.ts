@@ -8,17 +8,8 @@ import { NgxsModule } from '@ngxs/store';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    RouterModule,
-    AppRoutingModule,
-    CoreModule,
-    SharedModule,
-    NgxsModule.forRoot()
-  ],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent],
+    imports: [BrowserModule, RouterModule, AppRoutingModule, CoreModule, SharedModule, NgxsModule.forRoot()],
+    bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

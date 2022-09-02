@@ -7,34 +7,32 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class SensorService {
-
-    constructor(private readonly repository: SensorRepository,
-                private readonly builder: SensorBuilder) { }
+    constructor(private readonly repository: SensorRepository, private readonly builder: SensorBuilder) {}
 
     getAll(): Observable<Array<SensorModel>> {
-        return this.repository.findAll()
-                .pipe(map(data => {
-                    const result = this.builder.build(data);
-                    return result;
-                }));
+        return this.repository.findAll().pipe(
+            map(data => {
+                const result = this.builder.build(data);
+                return result;
+            })
+        );
     }
 
     seekBySubstrWithPage(substr: string, page: number): Observable<Array<any>> {
-        return this.repository.findBySubstrAndPage(substr, page)
-                .pipe(map(data => this.pageToCollection(data)));
+        return this.repository.findBySubstrAndPage(substr, page).pipe(map(data => this.pageToCollection(data)));
     }
 
     getAllByPage(page: number): Observable<Array<any>> {
-        return this.repository.findAllByPage(page)
-                .pipe(map(data => this.pageToCollection(data)));
+        return this.repository.findAllByPage(page).pipe(map(data => this.pageToCollection(data)));
     }
 
     getById(id: number): Observable<SensorModel> {
-        return this.repository.findById(id)
-                .pipe(map(data => {
-                    const result = this.builder.buildOne(data);
-                    return result;
-                }));
+        return this.repository.findById(id).pipe(
+            map(data => {
+                const result = this.builder.buildOne(data);
+                return result;
+            })
+        );
     }
 
     addOne(model: SensorModel): Observable<SensorModel> {

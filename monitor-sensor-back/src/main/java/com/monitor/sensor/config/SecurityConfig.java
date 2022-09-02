@@ -1,6 +1,5 @@
 package com.monitor.sensor.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,17 +8,19 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.monitor.sensor.enums.UserRole;
 import com.monitor.sensor.security.JwtEntryPoint;
 import com.monitor.sensor.security.JwtTokenFilter;
+import com.monitor.sensor.security.JwtUserDetailsService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -28,19 +29,13 @@ import lombok.SneakyThrows;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     private final JwtEntryPoint entryPoint;
 
     private final JwtTokenFilter jwtTokenFilter;
 
-    private final UserDetailsService detailService;
-
-    @Autowired
-    @SneakyThrows
-    public void configureGlobal(final AuthenticationManagerBuilder auth) {
-        auth.userDetailsService(detailService).passwordEncoder(passwordEncoder());
-    }
+    private final JwtUserDetailsService jwtUserDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -48,34 +43,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    @Override
-    @SneakyThrows
-    public AuthenticationManager authenticationManagerBean() {
-        return super.authenticationManagerBean();
-    }
-
-    @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH").allowedOrigins("*")
-                        .allowedHeaders("*").allowCredentials(true);
+                registry.addMapping("/**").allowedMethods("*");
             }
         };
     }
 
-    @Override
+    @Bean
     @SneakyThrows
-    protected void configure(final HttpSecurity httpSecurity) {
+    public AuthenticationManager authManager(HttpSecurity httpSecurity, UserDetailsService userDetailService) {
+        return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder()).and().build();
+    }
+
+    @Bean
+    @SneakyThrows
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) {
         httpSecurity.cors().and().csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, "/auth").permitAll()
-                .antMatchers("**/actuator/**").permitAll().antMatchers("/v2/api-docs").permitAll()
-                .antMatchers("/swagger*/**").permitAll().antMatchers("/configuration/**").permitAll()
-                .antMatchers("/webjars/**").permitAll().antMatchers(HttpMethod.POST, "**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "**").hasRole("ADMIN").antMatchers(HttpMethod.DELETE, "**")
-                .hasRole("ADMIN").antMatchers(HttpMethod.PATCH, "**").hasRole("ADMIN").anyRequest().authenticated()
-                .and().exceptionHandling().authenticationEntryPoint(entryPoint).and().sessionManagement()
+                .antMatchers("/actuator/**", "/v3/**", "/swagger*/**", "/configuration/**", "/webjars/**").permitAll()
+                .antMatchers(HttpMethod.POST, "**").hasRole(UserRole.ADMIN.name()).antMatchers(HttpMethod.PUT, "**")
+                .hasRole(UserRole.ADMIN.name()).antMatchers(HttpMethod.DELETE, "**").hasRole(UserRole.ADMIN.name())
+                .antMatchers(HttpMethod.PATCH, "**").hasRole(UserRole.ADMIN.name()).anyRequest().authenticated().and()
+                .exceptionHandling().authenticationEntryPoint(entryPoint).and().httpBasic().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        return httpSecurity.build();
     }
 }

@@ -5,6 +5,6 @@ import { SharedModule } from '../../../app/shared.module';
 @NgModule({
     imports: [SharedModule],
     declarations: [HeaderComponent],
-    exports: [HeaderComponent]
+    exports: [HeaderComponent],
 })
-export class HeaderModule { }
+export class HeaderModule {}

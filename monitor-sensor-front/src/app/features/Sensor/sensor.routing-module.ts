@@ -8,24 +8,24 @@ import { FormGuard } from 'src/app/core/guard/form.guard';
 const routes: Routes = [
     {
         path: '',
-        component: SensorComponent
+        component: SensorComponent,
     },
     {
         path: 'form',
         component: SensorAddEditComponent,
         canActivate: [RoleGuard],
-        canDeactivate: [FormGuard]
+        canDeactivate: [FormGuard],
     },
     {
         path: 'form/:id',
         component: SensorAddEditComponent,
         canActivate: [RoleGuard],
-        canDeactivate: [FormGuard]
-    }
+        canDeactivate: [FormGuard],
+    },
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
-export class SensorRoutingModule { }
+export class SensorRoutingModule {}

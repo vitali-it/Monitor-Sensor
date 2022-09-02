@@ -15,10 +15,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SensorCreateOneAction, SensorEditOneAction } from './sensor.actions';
 import { SensorModel } from './sensor.model';
 import { SensorUnitModel } from '../SensorUnit/sensorunit.model';
-
+import { CoreModule } from '../../../app/core.module';
+import { HeaderModule } from '../../../app/core/header/header.module';
+import { SensorComponent } from './sensor.component';
 
 describe('Sensor Add Edit Component', () => {
-
     let httpTestingController: HttpTestingController;
     let store: Store;
     let service: SensorService;
@@ -27,20 +28,20 @@ describe('Sensor Add Edit Component', () => {
         TestBed.configureTestingModule({
             imports: [
                 SharedModule,
+                CoreModule,
+                HeaderModule,
                 HttpClientModule,
                 HttpClientTestingModule,
                 SensorRoutingModule,
                 ReactiveFormsModule,
-                RouterTestingModule.withRoutes([]),
+                RouterTestingModule.withRoutes([
+                    { path: 'sensors', component: SensorComponent}
+                ]),
                 NgxsModule.forFeature([SensorState]),
-                NgxsModule.forRoot()
+                NgxsModule.forRoot(),
             ],
             declarations: [SensorAddEditComponent],
-            providers: [
-                SensorRepository,
-                SensorService,
-                SensorBuilder
-            ]
+            providers: [SensorRepository, SensorService, SensorBuilder],
         }).compileComponents();
     }));
 
@@ -66,8 +67,9 @@ describe('Sensor Add Edit Component', () => {
         fakeForm(componentInstance);
         componentInstance.isNameReserved = false;
         componentInstance.ngDoCheck();
-        expect(componentInstance.isDisabled)
-                .toEqual(componentInstance.formGroup.invalid && componentInstance.isNameReserved);
+        expect(componentInstance.isDisabled).toEqual(
+            componentInstance.formGroup.invalid && componentInstance.isNameReserved
+        );
     });
 
     it('should edit', () => {
@@ -134,6 +136,6 @@ const fakeForm = (componentInstance: SensorAddEditComponent) => {
         type: new FormControl(),
         unit: new FormControl(),
         location: new FormControl(),
-        description: new FormControl()
+        description: new FormControl(),
     });
 };

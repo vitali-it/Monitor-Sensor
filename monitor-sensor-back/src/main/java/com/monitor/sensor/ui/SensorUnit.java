@@ -2,9 +2,10 @@ package com.monitor.sensor.ui;
 
 import lombok.Data;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.Range;
 
 import com.monitor.sensor.enums.SensorType;
 
@@ -19,10 +20,12 @@ public class SensorUnit {
     private String unit;
 
     @NotNull(message = "(*) The field Range Beginning is mandatory")
-    @Range(min = -1000, max = 10000)
+    @Min(-1000)
+    @Max(10000)
     private Integer rangeBegin;
 
     @NotNull(message = "(*) The field Range End is mandatory")
-    @Range(min = -1000, max = 10000)
+    @Min(-1000)
+    @Max(10000)
     private Integer rangeEnd;
 }

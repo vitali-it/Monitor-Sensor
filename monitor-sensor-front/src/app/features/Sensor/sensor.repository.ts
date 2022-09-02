@@ -7,25 +7,20 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class SensorRepository {
-
     private httpOptions: any;
 
     constructor(private readonly httpClient: HttpClient) {
         this.httpOptions = {
-            headers: new HttpHeaders({ 'Content-type': 'application/json' })
+            headers: new HttpHeaders({ 'Content-type': 'application/json' }),
         };
     }
 
     findAll(): Observable<Array<SensorDto>> {
-        return this.httpClient
-            .get<Array<SensorDto>>(`${environment.baseUrl}sensors`)
-            .pipe(tap(data => data));
+        return this.httpClient.get<Array<SensorDto>>(`${environment.baseUrl}sensors`).pipe(tap(data => data));
     }
 
     findAllByPage(page: number): Observable<any> {
-        return this.httpClient
-            .get<any>(`${environment.baseUrl}sensors/page?page=${page}`)
-            .pipe(tap(data => data));
+        return this.httpClient.get<any>(`${environment.baseUrl}sensors/page?page=${page}`).pipe(tap(data => data));
     }
 
     findBySubstrAndPage(substr: string, page: number): Observable<any> {
@@ -36,9 +31,7 @@ export class SensorRepository {
     }
 
     findById(id: number): Observable<SensorDto> {
-        return this.httpClient
-            .get<SensorDto>(`${environment.baseUrl}sensors/${id}`)
-            .pipe(tap(data => data));
+        return this.httpClient.get<SensorDto>(`${environment.baseUrl}sensors/${id}`).pipe(tap(data => data));
     }
 
     saveOne(obj: SensorDto): Observable<any> {
@@ -54,8 +47,6 @@ export class SensorRepository {
     }
 
     removeById(id: number): Observable<number> {
-        return this.httpClient
-            .delete<number>(`${environment.baseUrl}sensors/${id}`)
-            .pipe(tap(data => data));
+        return this.httpClient.delete<number>(`${environment.baseUrl}sensors/${id}`).pipe(tap(data => data));
     }
 }

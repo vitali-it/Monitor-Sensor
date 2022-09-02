@@ -22,17 +22,9 @@ import { FormGuard } from '../../../app/core/guard/form.guard';
         SearchModule,
         SensorRoutingModule,
         ReactiveFormsModule,
-        NgxsModule.forFeature([SensorState])
+        NgxsModule.forFeature([SensorState]),
     ],
-    declarations: [
-        SensorComponent,
-        SensorAddEditComponent
-    ],
-    providers: [
-        SensorService,
-        SensorBuilder,
-        SensorRepository,
-        FormGuard
-    ]
+    declarations: [SensorComponent, SensorAddEditComponent],
+    providers: [SensorService, SensorBuilder, SensorRepository, FormGuard],
 })
-export class SensorModule { }
+export class SensorModule {}

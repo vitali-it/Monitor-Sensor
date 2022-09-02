@@ -6,20 +6,13 @@ import { AuthRepository } from '../auth/auth.repository';
 import { HeaderComponent } from './header.component';
 
 describe('Header Component', () => {
-
     let authService: AuthService;
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
-            imports: [
-                SharedModule,
-                RouterTestingModule.withRoutes([]),
-            ],
+            imports: [SharedModule, RouterTestingModule.withRoutes([])],
             declarations: [HeaderComponent],
-            providers: [
-                AuthService,
-                AuthRepository
-            ]
+            providers: [AuthService, AuthRepository],
         }).compileComponents();
     }));
 

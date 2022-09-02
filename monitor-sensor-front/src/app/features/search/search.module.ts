@@ -5,6 +5,6 @@ import { SearchComponent } from './search.component';
 @NgModule({
     imports: [SharedModule],
     declarations: [SearchComponent],
-    exports: [SearchComponent]
+    exports: [SearchComponent],
 })
-export class SearchModule { }
+export class SearchModule {}
