@@ -1,10 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'invalidmessage'
+    name: 'invalidmessage',
 })
 export class ValidationPipe implements PipeTransform {
-
     transform(value: any) {
         const min = 'min';
         const max = 'max';

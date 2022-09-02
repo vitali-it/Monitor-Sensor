@@ -1,6 +1,10 @@
 import { SensorComponent } from './sensor.component';
-import { SensorSetSelectedAction,
-    SensorDeleteOneAction, SensorFetchAllByPageAction, SensorSearchAction } from './sensor.actions';
+import {
+    SensorSetSelectedAction,
+    SensorDeleteOneAction,
+    SensorFetchAllByPageAction,
+    SensorSearchAction,
+} from './sensor.actions';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { SensorState } from './sensor.state';
 import { TestBed, waitForAsync } from '@angular/core/testing';
@@ -20,9 +24,11 @@ import { SensorUnitDto } from '../SensorUnit/sensorunit.dto';
 import { AuthService } from '../../../app/core/auth/auth.service';
 import { AuthRepository } from '../../../app/core/auth/auth.repository';
 import { PaginationModule } from '../pagination/pagination.module';
+import { SensorModule } from './sensor.module';
+import { CoreModule } from '../../../app/core.module';
+import { AppRoutingModule } from '../../../app/app-routing.module';
 
 describe('Sensor Component', () => {
-
     let httpTestingController: HttpTestingController;
     let store: Store;
     let service: SensorService;
@@ -31,23 +37,22 @@ describe('Sensor Component', () => {
         TestBed.configureTestingModule({
             imports: [
                 SharedModule,
+                SensorModule,
+                CoreModule,
                 HttpClientModule,
                 HttpClientTestingModule,
+                AppRoutingModule,
                 PaginationModule,
                 SensorRoutingModule,
                 ReactiveFormsModule,
-                RouterTestingModule.withRoutes([]),
+                RouterTestingModule.withRoutes([
+                    { path: 'sensors', component: SensorComponent}
+                ]),
                 NgxsModule.forFeature([SensorState]),
-                NgxsModule.forRoot()
+                NgxsModule.forRoot(),
             ],
             declarations: [SensorComponent],
-            providers: [
-                SensorRepository,
-                SensorService,
-                SensorBuilder,
-                AuthService,
-                AuthRepository
-            ]
+            providers: [SensorRepository, SensorService, SensorBuilder, AuthService, AuthRepository],
         }).compileComponents();
     }));
 
@@ -114,7 +119,6 @@ describe('Sensor Component', () => {
         expect([obj]).toBeDefined();
     });
 
-
     it('should dispatch all on previous page', () => {
         const { componentInstance, obj } = fakeObjects();
         const action = new SensorFetchAllByPageAction(componentInstance.currentPage - 1);
@@ -178,4 +182,3 @@ const fakeObjects = () => {
     componentInstance.totalPages = new Array<number>(2);
     return { componentInstance, component, obj };
 };
-

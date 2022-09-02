@@ -1,12 +1,18 @@
 import { SensorService } from './sensor.service';
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { SensorModel } from './sensor.model';
-import { SensorFetchAllAction, SensorEditOneAction, SensorFetchByIdAction,
-    SensorCreateOneAction, SensorSetSelectedAction, SensorDeleteOneAction,
-    SensorFetchAllByPageAction, SensorSearchAction } from './sensor.actions';
+import {
+    SensorFetchAllAction,
+    SensorEditOneAction,
+    SensorFetchByIdAction,
+    SensorCreateOneAction,
+    SensorSetSelectedAction,
+    SensorDeleteOneAction,
+    SensorFetchAllByPageAction,
+    SensorSearchAction,
+} from './sensor.actions';
 import { tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-
 
 @State<SensorStateModel>({
     name: 'sensorState',
@@ -14,13 +20,12 @@ import { Injectable } from '@angular/core';
         thisSensor: null,
         sensors: null,
         totalPages: 0,
-        totalElements: 0
-    }
+        totalElements: 0,
+    },
 })
 @Injectable()
 export class SensorState {
-
-    constructor(private readonly service: SensorService) { }
+    constructor(private readonly service: SensorService) {}
 
     @Selector()
     static selectAllData(stateModel: SensorStateModel): Array<SensorModel> {
@@ -43,105 +48,105 @@ export class SensorState {
     }
 
     @Action(SensorSetSelectedAction)
-    setSelectedSensor({getState, setState}: StateContext<SensorStateModel>, {payload}: SensorSetSelectedAction) {
+    setSelectedSensor({ getState, setState }: StateContext<SensorStateModel>, { payload }: SensorSetSelectedAction) {
         const state = getState();
         setState({
             ...state,
-            thisSensor: payload
+            thisSensor: payload,
         });
     }
 
     @Action(SensorSearchAction)
-    searchForSensors({getState, setState}: StateContext<SensorStateModel>, {substr, page}: SensorSearchAction) {
-        return this.service.seekBySubstrWithPage(substr, page)
-            .pipe(tap(data => {
+    searchForSensors({ getState, setState }: StateContext<SensorStateModel>, { substr, page }: SensorSearchAction) {
+        return this.service.seekBySubstrWithPage(substr, page).pipe(
+            tap(data => {
                 this.setStateWithPagination(getState, data, setState);
-            }
-        ));
+            })
+        );
     }
 
     @Action(SensorFetchAllAction)
-    fetchAll({getState, setState}: StateContext<SensorStateModel>) {
-        return this.service.getAll()
-            .pipe(tap(sensors => {
+    fetchAll({ getState, setState }: StateContext<SensorStateModel>) {
+        return this.service.getAll().pipe(
+            tap(sensors => {
                 const state = getState();
                 setState({
                     ...state,
-                    sensors
+                    sensors,
                 });
-            }
-        ));
+            })
+        );
     }
 
     @Action(SensorFetchAllByPageAction)
-    fetchAllByPage({getState, setState}: StateContext<SensorStateModel>, {page}: SensorFetchAllByPageAction) {
-        return this.service.getAllByPage(page)
-            .pipe(tap(data => {
+    fetchAllByPage({ getState, setState }: StateContext<SensorStateModel>, { page }: SensorFetchAllByPageAction) {
+        return this.service.getAllByPage(page).pipe(
+            tap(data => {
                 this.setStateWithPagination(getState, data, setState);
-            }
-        ));
+            })
+        );
     }
 
     @Action(SensorFetchByIdAction)
-    fetchById({getState, patchState}: StateContext<SensorStateModel>, {id}: SensorFetchByIdAction) {
-        return this.service.getById(id)
-            .pipe(tap(sensor => {
+    fetchById({ getState, patchState }: StateContext<SensorStateModel>, { id }: SensorFetchByIdAction) {
+        return this.service.getById(id).pipe(
+            tap(sensor => {
                 const state = getState();
                 patchState({
                     ...state,
-                    thisSensor: sensor
+                    thisSensor: sensor,
                 });
-            }
-        ));
+            })
+        );
     }
 
     @Action(SensorCreateOneAction)
-    createOne({getState, patchState}: StateContext<SensorStateModel>, {payload}: SensorCreateOneAction) {
-        return this.service.addOne(payload)
-            .pipe(tap(result => {
+    createOne({ getState, patchState }: StateContext<SensorStateModel>, { payload }: SensorCreateOneAction) {
+        return this.service.addOne(payload).pipe(
+            tap(result => {
                 const state = getState();
                 patchState({
-                    sensors: [...state.sensors, result]
+                    sensors: [...state.sensors, result],
                 });
-            }
-        ));
+            })
+        );
     }
 
     @Action(SensorEditOneAction)
-    editOne({getState, setState}: StateContext<SensorStateModel>, {payload, id}: SensorEditOneAction) {
-        return this.service.modifyOne(payload, id)
-            .pipe(tap(result => {
+    editOne({ getState, setState }: StateContext<SensorStateModel>, { payload, id }: SensorEditOneAction) {
+        return this.service.modifyOne(payload, id).pipe(
+            tap(result => {
                 const state = getState();
                 const shallowList = [...state.sensors];
                 const idx = shallowList.findIndex(item => item.id === id);
                 shallowList[idx] = result;
                 setState({
                     ...state,
-                    sensors: shallowList
+                    sensors: shallowList,
                 });
-            }
-        ));
+            })
+        );
     }
 
     @Action(SensorDeleteOneAction)
-    deleteOne({getState, setState}: StateContext<SensorStateModel>, {id}: SensorDeleteOneAction) {
-        return this.service.deleteById(id)
-            .pipe(tap(() => {
+    deleteOne({ getState, setState }: StateContext<SensorStateModel>, { id }: SensorDeleteOneAction) {
+        return this.service.deleteById(id).pipe(
+            tap(() => {
                 const state = getState();
                 const resultList = state.sensors.filter(el => el.id !== id);
                 const totalElements = state.totalElements - 1;
                 let totalPages = state.totalPages;
-                if (((totalElements / 4) % 1).toFixed(2) === '0.00'){
+                if (((totalElements / 4) % 1).toFixed(2) === '0.00') {
                     totalPages = state.totalPages - 1;
                 }
                 setState({
                     ...state,
                     sensors: resultList,
                     totalElements,
-                    totalPages
+                    totalPages,
                 });
-            }
-        ));
+            })
+        );
     }
 
     private setStateWithPagination(getState: () => SensorStateModel, data: any[], setState) {
@@ -153,13 +158,12 @@ export class SensorState {
             ...state,
             sensors: content,
             totalPages,
-            totalElements
+            totalElements,
         });
     }
 }
 
 class SensorStateModel {
-
     thisSensor: SensorModel;
     sensors: Array<SensorModel>;
     totalPages: number;

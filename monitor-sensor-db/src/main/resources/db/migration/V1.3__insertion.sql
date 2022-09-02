@@ -1,6 +1,6 @@
 INSERT INTO monitor_sensor.SENSOR_UNIT(sensor_type,	unit, range_begin, range_end) VALUES('PRESSURE', 'bar', 15, 900);
 INSERT INTO monitor_sensor.SENSOR_UNIT(sensor_type,	unit, range_begin, range_end) VALUES('VOLTAGE', 'voltage', 30, 125);
-INSERT INTO monitor_sensor.SENSOR_UNIT(sensor_type,	unit, range_begin, range_end) VALUES('TEMPERATURE', '°C', 25, 40);
+INSERT INTO monitor_sensor.SENSOR_UNIT(sensor_type,	unit, range_begin, range_end) VALUES('TEMPERATURE', 'â„ƒ', 25, 40);
 INSERT INTO monitor_sensor.SENSOR_UNIT(sensor_type,	unit, range_begin, range_end) VALUES('HUMIDITY', '%', 25, 80);
 
 INSERT INTO monitor_sensor.SENSOR(sensor_type_id, name, model, description, location, created_date, updated_date) 

@@ -7,16 +7,19 @@ import { SensorUnitModel } from '../SensorUnit/sensorunit.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { SensorState } from './sensor.state';
-import { SensorFetchByIdAction, SensorEditOneAction,
-    SensorCreateOneAction, SensorFetchAllAction} from './sensor.actions';
+import {
+    SensorFetchByIdAction,
+    SensorEditOneAction,
+    SensorCreateOneAction,
+    SensorFetchAllAction,
+} from './sensor.actions';
 
 @Component({
     selector: 'app-feature-sensor-add-edit',
     styleUrls: ['./sensor.component-add-edit.css'],
-    templateUrl: './sensor.component-add-edit.html'
+    templateUrl: './sensor.component-add-edit.html',
 })
 export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
-
     @Select(SensorState.selectAllData) sensorCollection: Observable<Array<SensorModel>>;
 
     @Select(SensorState.selectDataById) selectedSensor: Observable<SensorModel>;
@@ -35,9 +38,11 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
     public isCanceled: boolean;
     private isUpdate: boolean;
 
-    constructor(private readonly route: ActivatedRoute,
-                private readonly router: Router,
-                private readonly store: Store) { }
+    constructor(
+        private readonly route: ActivatedRoute,
+        private readonly router: Router,
+        private readonly store: Store
+    ) {}
 
     ngOnInit(): void {
         this.store.dispatch(new SensorFetchAllAction());
@@ -55,8 +60,9 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
 
     ngDoCheck(): void {
         this.checkName();
-        this.isRangeIncorrect = Number.parseInt(this.formGroup.get('rangeBegin').value, 10) >
-                                Number.parseInt(this.formGroup.get('rangeEnd').value, 10);
+        this.isRangeIncorrect =
+            Number.parseInt(this.formGroup.get('rangeBegin').value, 10) >
+            Number.parseInt(this.formGroup.get('rangeEnd').value, 10);
     }
 
     ngOnDestroy(): void {
@@ -82,9 +88,9 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
             return;
         }
 
-        this.isUpdate ?
-            this.store.dispatch(new SensorEditOneAction(this.sensor, this.sensorId)) :
-            this.store.dispatch(new SensorCreateOneAction(this.sensor));
+        this.isUpdate
+            ? this.store.dispatch(new SensorEditOneAction(this.sensor, this.sensorId))
+            : this.store.dispatch(new SensorCreateOneAction(this.sensor));
         setTimeout(() => {
             this.router.navigate(['/sensors']);
         }, 500);
@@ -101,17 +107,15 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
     private whetherToUpdate() {
         if (this.sensorId) {
             this.isUpdate = true;
-            this.subscriptionFetchById = this.selectedSensor
-                .subscribe(retrieved => {
-                    this.sensor = retrieved;
-                    if (this.sensor) {
-                        this.currentNameWhenUpdating = this.sensor.name;
-                        this.initForm(this.sensor);
-                    }
-                    else {
-                        this.store.dispatch(new SensorFetchByIdAction(this.sensorId));
-                    }
-                });
+            this.subscriptionFetchById = this.selectedSensor.subscribe(retrieved => {
+                this.sensor = retrieved;
+                if (this.sensor) {
+                    this.currentNameWhenUpdating = this.sensor.name;
+                    this.initForm(this.sensor);
+                } else {
+                    this.store.dispatch(new SensorFetchByIdAction(this.sensorId));
+                }
+            });
         }
     }
 
@@ -119,9 +123,11 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
         if (this.sensorWholeCollection && this.formGroup.get('name')) {
             this.isNameReserved = false;
             let collection = this.sensorWholeCollection;
+            console.log(collection);
             if (this.isUpdate && this.currentNameWhenUpdating) {
-                collection = this.sensorWholeCollection
-                    .filter(el =>  el.name.toLowerCase() !== this.currentNameWhenUpdating.toLowerCase());
+                collection = this.sensorWholeCollection.filter(
+                    el => el.name.toLowerCase() !== this.currentNameWhenUpdating.toLowerCase()
+                );
             }
             if (this.formGroup.get('name').value) {
                 for (const el of collection) {
@@ -139,38 +145,62 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
     private initForm(sensor: SensorModel) {
         const keys = Object.keys(SensorType);
         this.formGroup = new FormGroup({
-            name: new FormControl({
-                value: sensor.name,
-                disabled: false
-            }, [Validators.required, Validators.minLength(5), Validators.maxLength(30)]),
-            model: new FormControl({
-                value: sensor.model,
-                disabled: false
-            }, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]),
-            rangeBegin: new FormControl({
-                value: sensor.sensorUnit.rangeBegin,
-                disabled: false
-            }, [Validators.required, Validators.max(10000), Validators.min(-1000)]),
-            rangeEnd: new FormControl({
-                value: sensor.sensorUnit.rangeEnd,
-                disabled: false
-            }, [Validators.required, Validators.max(10000), Validators.min(-1000)]),
-            type: new FormControl({
-                value: sensor.sensorUnit.sensorType || keys[keys.length - 1],
-                disabled: false
-            }, [Validators.required]),
-            unit: new FormControl({
-                value: sensor.sensorUnit.unit || SensorType[keys[keys.length - 1]],
-                disabled: false
-            }, [Validators.required, Validators.minLength(1), Validators.maxLength(15)]),
-            location: new FormControl({
-                value: sensor.location,
-                disabled: false
-            }, [Validators.maxLength(40)]),
-            description: new FormControl({
-                value: sensor.description,
-                disabled: false
-            }, Validators.maxLength(200)),
+            name: new FormControl(
+                {
+                    value: sensor.name,
+                    disabled: false,
+                },
+                [Validators.required, Validators.minLength(5), Validators.maxLength(30)]
+            ),
+            model: new FormControl(
+                {
+                    value: sensor.model,
+                    disabled: false,
+                },
+                [Validators.required, Validators.minLength(3), Validators.maxLength(15)]
+            ),
+            rangeBegin: new FormControl(
+                {
+                    value: sensor.sensorUnit.rangeBegin,
+                    disabled: false,
+                },
+                [Validators.required, Validators.max(10000), Validators.min(-1000)]
+            ),
+            rangeEnd: new FormControl(
+                {
+                    value: sensor.sensorUnit.rangeEnd,
+                    disabled: false,
+                },
+                [Validators.required, Validators.max(10000), Validators.min(-1000)]
+            ),
+            type: new FormControl(
+                {
+                    value: sensor.sensorUnit.sensorType || keys[keys.length - 1],
+                    disabled: false,
+                },
+                [Validators.required]
+            ),
+            unit: new FormControl(
+                {
+                    value: sensor.sensorUnit.unit || SensorType[keys[keys.length - 1]],
+                    disabled: false,
+                },
+                [Validators.required, Validators.minLength(1), Validators.maxLength(15)]
+            ),
+            location: new FormControl(
+                {
+                    value: sensor.location,
+                    disabled: false,
+                },
+                [Validators.maxLength(40)]
+            ),
+            description: new FormControl(
+                {
+                    value: sensor.description,
+                    disabled: false,
+                },
+                Validators.maxLength(200)
+            ),
         });
     }
 }

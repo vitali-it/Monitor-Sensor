@@ -3,23 +3,27 @@ import { Observable, Subscription } from 'rxjs';
 import { SensorModel } from './sensor.model';
 import { Select, Store } from '@ngxs/store';
 import { SensorState } from './sensor.state';
-import { SensorDeleteOneAction, SensorSetSelectedAction,
-    SensorFetchAllByPageAction, SensorSearchAction } from './sensor.actions';
+import {
+    SensorDeleteOneAction,
+    SensorSetSelectedAction,
+    SensorFetchAllByPageAction,
+    SensorSearchAction,
+} from './sensor.actions';
 import { AuthService } from '../../core/auth/auth.service';
 import { UserRole } from '../User/user.enum';
 
 @Component({
     selector: 'app-feature-sensor',
     styleUrls: ['./sensor.component.css'],
-    templateUrl: './sensor.component.html'
+    templateUrl: './sensor.component.html',
 })
 export class SensorComponent implements OnInit, AfterContentInit, OnDestroy {
-
     @Select(SensorState.selectAllData) sensorCollection: Observable<Array<SensorModel>>;
 
     @Select(SensorState.selectTotalPages) pagesQuantity: Observable<number>;
 
-    @Select(SensorState.selectTotalElements) elementsQuantity: Observable<number>;
+    @Select(SensorState.selectTotalElements)
+    elementsQuantity: Observable<number>;
 
     public isAllowed: boolean;
     public pageQuantitySubscription: Subscription;
@@ -28,13 +32,12 @@ export class SensorComponent implements OnInit, AfterContentInit, OnDestroy {
     public isSought: boolean;
     public soughtData: string;
 
-    constructor(private readonly store: Store, private readonly authService: AuthService) { }
+    constructor(private readonly store: Store, private readonly authService: AuthService) {}
 
     ngOnInit(): void {
         this.currentPage = 0;
         this.isAllowed = this.authService.getRole === UserRole.ADMIN;
-        this.pageQuantitySubscription = this.pagesQuantity
-                                        .subscribe(num => this.totalPages = new Array(num));
+        this.pageQuantitySubscription = this.pagesQuantity.subscribe(num => (this.totalPages = new Array(num)));
     }
 
     ngAfterContentInit(): void {
@@ -79,15 +82,14 @@ export class SensorComponent implements OnInit, AfterContentInit, OnDestroy {
     }
 
     onNext() {
-        this.currentPage += 1 ;
+        this.currentPage += 1;
         this.whetherToShowSearchedCollection();
     }
 
     private whetherToShowSearchedCollection() {
         if (this.isSought) {
             this.store.dispatch(new SensorSearchAction(this.soughtData, this.currentPage));
-        }
-        else {
+        } else {
             this.store.dispatch(new SensorFetchAllByPageAction(this.currentPage));
         }
     }

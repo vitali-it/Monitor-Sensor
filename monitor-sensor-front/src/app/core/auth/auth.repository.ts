@@ -11,13 +11,14 @@ export class AuthRepository {
     public httpOptions: any;
 
     constructor(private readonly http: HttpClient) {
-      this.httpOptions = {
-          headers: new HttpHeaders({ 'Content-type': 'application/json' })
-      };
+        this.httpOptions = {
+            headers: new HttpHeaders({ 'Content-type': 'application/json' }),
+        };
     }
 
     signIn(dto: UserAuthDto): Observable<AuthDto> {
-      return this.http.post<AuthDto>(`http://localhost:8088/auth`, JSON.stringify(dto), this.httpOptions)
-          .pipe(map(response => AuthDto.convert(response)));
+        return this.http
+            .post<AuthDto>(`http://localhost:8088/auth`, JSON.stringify(dto), this.httpOptions)
+            .pipe(map(response => AuthDto.convert(response)));
     }
 }

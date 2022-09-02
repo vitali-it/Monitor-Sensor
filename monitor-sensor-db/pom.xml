@@ -9,7 +9,7 @@
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
-                <version>6.2.3</version>
+                <version>8.5.11</version>
                 <configuration>
                     <url>jdbc:postgresql://localhost:5432/monitor_sensor</url>
                     <user>${POSTGRESQL_USERNAME}</user>
@@ -22,7 +22,7 @@
                     <dependency>
                         <groupId>org.postgresql</groupId>
                         <artifactId>postgresql</artifactId>
-                        <version>42.2.8</version>
+                        <version>42.4.0</version>
                     </dependency>
                 </dependencies>
             </plugin>

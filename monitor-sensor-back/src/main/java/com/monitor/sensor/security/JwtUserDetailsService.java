@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 import com.monitor.sensor.dao.UserRepo;
 import com.monitor.sensor.entity.UserEntity;
@@ -31,7 +31,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
         User.UserBuilder builder = User.builder().username(username);
         String password = user.getPassword();
-        if (StringUtils.isEmpty(password)) {
+        if (ObjectUtils.isEmpty(password)) {
             password = "";
         }
 

@@ -2,15 +2,16 @@
 Consists of 3 applications
 
 ## Requirements 
-Java 13 (JDK) or above<br>
-Node.js latest stable versions<br>
+Java 17 (JDK) or above<br>
+Node.js lts<br>
 Postgresql<br>
 
 ### How to launch the db scripts
 Open `monitor-sensor-db` maven app<br>
 1. Flyway may be used:<br>
 Run mvn `mvn flyway:migrate` <br>
-2. If you cannot handle Flyway, just run the scripts regular way<br>
+Run mvn `mvn flyway:clean` may also be executed if we intend to reset the db progress<br>
+2. If you cannot handle Flyway, just run the scripts in a regular way<br>
 Run `mvn clean package spring-boot:run`
 
 ### How to launch the server-side app

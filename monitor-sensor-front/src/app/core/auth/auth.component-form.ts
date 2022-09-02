@@ -8,16 +8,15 @@ import { UserAuthModel } from '../../../app/features/User/user-auth.model';
 @Component({
     selector: 'app-auth-form',
     styleUrls: ['auth.component-form.css'],
-    templateUrl: 'auth.component-form.html'
+    templateUrl: 'auth.component-form.html',
 })
 export class AuthFormComponent implements OnInit, OnDestroy, DoCheck {
-
     public subscription: Subscription;
     public form: FormGroup;
     public isDisabled: boolean;
     public model: UserAuthModel;
 
-    constructor(private readonly service: AuthService, private readonly router: Router) { }
+    constructor(private readonly service: AuthService, private readonly router: Router) {}
 
     ngOnInit(): void {
         this.isDisabled = true;
@@ -33,15 +32,16 @@ export class AuthFormComponent implements OnInit, OnDestroy, DoCheck {
         this.model.password = this.form.get('password').value;
         this.model.username = this.form.get('username').value;
 
-        this.subscription = this.service.logIn(this.model)
-                            .subscribe(data => {
-                                this.service.setTokenAndRole(data);
-                                this.router.navigate(['/sensors']);
-                            });
+        this.subscription = this.service.logIn(this.model).subscribe(data => {
+            this.service.setTokenAndRole(data);
+            this.router.navigate(['/sensors']);
+        });
     }
 
     ngOnDestroy(): void {
-        this.form.reset();
+        if (this.form) {
+            this.form.reset();
+        }
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
@@ -49,14 +49,20 @@ export class AuthFormComponent implements OnInit, OnDestroy, DoCheck {
 
     private initForm(model: UserAuthModel) {
         this.form = new FormGroup({
-            username: new FormControl({
-                value: model.username,
-                disabled: false
-            }, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]),
-            password: new FormControl({
-                value: model.password,
-                disabled: false
-            }, [Validators.required, Validators.minLength(4)]),
+            username: new FormControl(
+                {
+                    value: model.username,
+                    disabled: false,
+                },
+                [Validators.required, Validators.minLength(4), Validators.maxLength(20)]
+            ),
+            password: new FormControl(
+                {
+                    value: model.password,
+                    disabled: false,
+                },
+                [Validators.required, Validators.minLength(4)]
+            ),
         });
     }
 }

@@ -6,18 +6,13 @@ import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 
 describe('Sensor Repository', () => {
-
     let repository: SensorRepository;
     let httpClient: HttpClient;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                SharedModule
-            ],
-            providers: [
-                SensorRepository
-            ]
+            imports: [SharedModule],
+            providers: [SensorRepository],
         });
         repository = TestBed.inject(SensorRepository);
         httpClient = TestBed.inject(HttpClient);
@@ -29,22 +24,20 @@ describe('Sensor Repository', () => {
         dtoArr.push(dto);
         spyOn(httpClient, 'get').and.returnValue(of(dtoArr));
 
-        repository.findAll()
-            .subscribe(data => {
-                expect(data).not.toBeNull();
-                expect(data).toBeDefined();
-            });
+        repository.findAll().subscribe(data => {
+            expect(data).not.toBeNull();
+            expect(data).toBeDefined();
+        });
     });
 
     it('should find an element by its id', () => {
         const dto = new SensorDto();
         spyOn(httpClient, 'get').and.returnValue(of(dto));
 
-        repository.findById(dto.id)
-            .subscribe(data => {
-                expect(data).not.toBeNull();
-                expect(data).toBeDefined();
-            });
+        repository.findById(dto.id).subscribe(data => {
+            expect(data).not.toBeNull();
+            expect(data).toBeDefined();
+        });
     });
 
     it('should save an element', () => {
@@ -53,11 +46,10 @@ describe('Sensor Repository', () => {
         dtoArr.push(dto);
         spyOn(httpClient, 'post').and.returnValue(of(dto));
 
-        repository.saveOne(dto)
-            .subscribe(data => {
-                expect(data).not.toBeNull();
-                expect(data).toBeDefined();
-            });
+        repository.saveOne(dto).subscribe(data => {
+            expect(data).not.toBeNull();
+            expect(data).toBeDefined();
+        });
     });
 
     it('should update an element', () => {
@@ -66,20 +58,18 @@ describe('Sensor Repository', () => {
         dtoArr.push(dto);
         spyOn(httpClient, 'put').and.returnValue(of(dto));
 
-        repository.updateOne(dto, dto.id)
-            .subscribe(data => {
-                expect(data).not.toBeNull();
-                expect(data).toBeDefined();
-            });
+        repository.updateOne(dto, dto.id).subscribe(data => {
+            expect(data).not.toBeNull();
+            expect(data).toBeDefined();
+        });
     });
 
     it('should remove an element', () => {
         const dto = new SensorDto();
         spyOn(httpClient, 'delete').and.returnValue(of(dto.id));
-        repository.removeById(dto.id)
-            .subscribe((data) => {
-                expect(data).not.toBeNaN();
-                expect(httpClient.delete).toHaveBeenCalled();
-            });
+        repository.removeById(dto.id).subscribe(data => {
+            expect(data).not.toBeNaN();
+            expect(httpClient.delete).toHaveBeenCalled();
+        });
     });
 });

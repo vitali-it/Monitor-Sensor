@@ -11,9 +11,9 @@ import { AuthRepository } from './auth.repository';
 import { Subscription, of } from 'rxjs';
 import { UserAuthModel } from '../../../app/features/User/user-auth.model';
 import { AuthDto } from './auth.dto';
+import { SensorComponent } from '../../../app/features/Sensor/sensor.component';
 
 describe('Auth Form Component', () => {
-
     let httpTestingController: HttpTestingController;
     let service: AuthService;
 
@@ -25,13 +25,12 @@ describe('Auth Form Component', () => {
                 HttpClientTestingModule,
                 AuthRoutingModule,
                 ReactiveFormsModule,
-                RouterTestingModule.withRoutes([]),
+                RouterTestingModule.withRoutes([
+                    { path: 'sensors', component: SensorComponent}
+                ]),
             ],
             declarations: [AuthFormComponent],
-            providers: [
-                AuthService,
-                AuthRepository
-            ]
+            providers: [AuthService, AuthRepository],
         }).compileComponents();
     }));
 
@@ -85,9 +84,8 @@ describe('Auth Form Component', () => {
 });
 
 const fakeForm = (componentInstance: AuthFormComponent) => {
-        componentInstance.form = new FormGroup({
-            username: new FormControl(),
-            password: new FormControl()
-        });
+    componentInstance.form = new FormGroup({
+        username: new FormControl(),
+        password: new FormControl(),
+    });
 };
-
