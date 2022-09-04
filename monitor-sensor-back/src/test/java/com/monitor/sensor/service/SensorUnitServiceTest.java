@@ -9,7 +9,6 @@ import java.util.stream.Stream;
 import javax.persistence.EntityNotFoundException;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +36,9 @@ public class SensorUnitServiceTest {
     @Mock
     private SensorUnitMapper mapper;
 
+    @Mock
+    private List<SensorUnitEntity> fakeEntityCollection;
+
     private static final Faker FAKER = Faker.instance(Locale.ENGLISH, ThreadLocalRandom.current());
 
     private static final Integer RANDOM_DIGIT = FAKER.number().randomDigit();
@@ -53,7 +55,7 @@ public class SensorUnitServiceTest {
 
     @Test
     public void shouldGetAll() {
-        final List<SensorUnitEntity> list = fakeEntityCollection();
+        final List<SensorUnitEntity> list = fakeEntityCollection;
 
         Mockito.when(repo.findAll()).thenReturn(list);
         Mockito.when(mapper.entityToDomain(Mockito.any(SensorUnitEntity.class))).thenReturn(new SensorUnit());
@@ -72,15 +74,13 @@ public class SensorUnitServiceTest {
         Mockito.verify(mapper, Mockito.times(1)).entityToDomain(Mockito.any(SensorUnitEntity.class));
     }
 
-//    @Test
-//    public void shouldThrowExceptionGettingById() {
-//        Mockito.when(repo.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(null));
-//
-//        service.getEntityById(RANDOM_DIGIT);
-//        Mockito.verify(repo, Mockito.times(1)).findById(Mockito.anyInt());
-//        Mockito.verify(mapper, Mockito.times(1)).entityToDomain(Mockito.any(SensorUnitEntity.class));
-//        Assertions.assertThrows(EntityNotFoundException.class, () -> repo.findById(Mockito.anyInt()));
-//    }
+    @Test
+    public void shouldThrowExceptionGettingById() {
+        Mockito.when(repo.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(null));
+
+        Assertions.assertThrows(EntityNotFoundException.class, () -> service.getEntityById(RANDOM_DIGIT));
+        Mockito.verify(repo, Mockito.times(1)).findById(Mockito.anyInt());
+    }
 
     @Test
     public void shouldGetEntityById() {
@@ -138,10 +138,6 @@ public class SensorUnitServiceTest {
     public void shouldRemoveOne() {
         service.removeOne(sensorUnitEntity.getId());
         Mockito.verify(repo, Mockito.times(1)).deleteById(sensorUnitEntity.getId());
-    }
-
-    private List<SensorUnitEntity> fakeEntityCollection() {
-        return Mockito.mock(List.class);
     }
 
     private SensorUnitEntity fakeEntity() {

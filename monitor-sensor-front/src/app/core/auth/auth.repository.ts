@@ -7,7 +7,6 @@ import { UserAuthDto } from '../../features/User/user-auth.dto';
 
 @Injectable()
 export class AuthRepository {
-
     public httpOptions: any;
 
     constructor(private readonly http: HttpClient) {

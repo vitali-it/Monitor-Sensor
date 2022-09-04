@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class MonitorSensorBackApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MonitorSensorBackApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(MonitorSensorBackApplication.class, args);
+    }
 }

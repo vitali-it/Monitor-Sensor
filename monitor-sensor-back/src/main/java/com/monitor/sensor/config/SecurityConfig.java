@@ -20,7 +20,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.monitor.sensor.enums.UserRole;
 import com.monitor.sensor.security.JwtEntryPoint;
 import com.monitor.sensor.security.JwtTokenFilter;
-import com.monitor.sensor.security.JwtUserDetailsService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -31,11 +30,11 @@ import lombok.SneakyThrows;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtEntryPoint entryPoint;
+    private final JwtEntryPoint jwtEntryPoint;
 
     private final JwtTokenFilter jwtTokenFilter;
 
-    private final JwtUserDetailsService jwtUserDetailsService;
+    private final UserDetailsService jwtUserDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -67,7 +66,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST, "**").hasRole(UserRole.ADMIN.name()).antMatchers(HttpMethod.PUT, "**")
                 .hasRole(UserRole.ADMIN.name()).antMatchers(HttpMethod.DELETE, "**").hasRole(UserRole.ADMIN.name())
                 .antMatchers(HttpMethod.PATCH, "**").hasRole(UserRole.ADMIN.name()).anyRequest().authenticated().and()
-                .exceptionHandling().authenticationEntryPoint(entryPoint).and().httpBasic().and().sessionManagement()
+                .exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and().httpBasic().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();

@@ -3,7 +3,7 @@ import { SensorComponent } from './sensor.component';
 import { Routes, RouterModule } from '@angular/router';
 import { SensorAddEditComponent } from './sensor.component-add-edit';
 import { RoleGuard } from '../../../app/core/guard/role.guard';
-import { FormGuard } from 'src/app/core/guard/form.guard';
+import { FormGuard } from '../../../app/core/guard/form.guard';
 
 const routes: Routes = [
     {

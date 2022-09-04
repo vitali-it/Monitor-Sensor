@@ -32,12 +32,12 @@ public class SensorServiceImpl implements SensorService {
     private final SensorMapper mapper;
 
     private final SensorUnitService sensorUnitService;
-    
+
     private final static String NAME_EXISTS = "The name already exists";
 
     @Override
     public List<Sensor> getAll() {
-        return repo.findAll().stream().map(mapper::entityToDomain).collect(Collectors.toUnmodifiableList()); // Java 10
+        return repo.findAll().stream().map(mapper::entityToDomain).collect(Collectors.toUnmodifiableList()); // Java10
     }
 
     @Override
@@ -118,8 +118,8 @@ public class SensorServiceImpl implements SensorService {
     }
 
     private String strManager(final String substr) {
-        final String toQueryStr =
-                substr.toUpperCase().replaceAll("%", "|%").replaceAll("_", "|_").replaceAll("#", "|#");
+        final String toQueryStr = substr.toUpperCase().replaceAll("%", "|%").replaceAll("_", "|_").replaceAll("#",
+                "|#");
         return toQueryStr;
     }
 
