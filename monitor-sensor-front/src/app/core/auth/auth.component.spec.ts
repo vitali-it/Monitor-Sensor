@@ -25,9 +25,7 @@ describe('Auth Form Component', () => {
                 HttpClientTestingModule,
                 AuthRoutingModule,
                 ReactiveFormsModule,
-                RouterTestingModule.withRoutes([
-                    { path: 'sensors', component: SensorComponent}
-                ]),
+                RouterTestingModule.withRoutes([{ path: 'sensors', component: SensorComponent }]),
             ],
             declarations: [AuthFormComponent],
             providers: [AuthService, AuthRepository],

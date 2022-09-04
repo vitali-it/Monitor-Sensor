@@ -5,9 +5,7 @@ import { CoreModule } from '../../../app/core.module';
 describe('Pagination Component', () => {
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
-            imports: [
-                CoreModule
-            ],
+            imports: [CoreModule],
             declarations: [PaginationComponent],
         }).compileComponents();
     }));

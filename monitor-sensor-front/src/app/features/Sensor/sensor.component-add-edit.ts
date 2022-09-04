@@ -123,7 +123,6 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
         if (this.sensorWholeCollection && this.formGroup.get('name')) {
             this.isNameReserved = false;
             let collection = this.sensorWholeCollection;
-            console.log(collection);
             if (this.isUpdate && this.currentNameWhenUpdating) {
                 collection = this.sensorWholeCollection.filter(
                     el => el.name.toLowerCase() !== this.currentNameWhenUpdating.toLowerCase()

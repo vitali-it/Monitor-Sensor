@@ -4,7 +4,6 @@ import { SensorModel } from './sensor.model';
 
 @Injectable()
 export class SensorBuilder {
-
     build(dtoArr?: Array<SensorDto>): Array<SensorModel> {
         if (!dtoArr) {
             return null;

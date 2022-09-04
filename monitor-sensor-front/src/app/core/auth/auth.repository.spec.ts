@@ -7,7 +7,6 @@ import { of } from 'rxjs';
 import { UserAuthDto } from '../../../app/features/User/user-auth.dto';
 
 describe('Auth Repository', () => {
-
     let repository: AuthRepository;
     let httpClient: HttpClient;
 

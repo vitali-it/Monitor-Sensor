@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserRole } from 'src/app/features/User/user.enum';
+import { UserRole } from '../../../app/features/User/user.enum';
 import { AuthService } from '../auth/auth.service';
 
 @Component({

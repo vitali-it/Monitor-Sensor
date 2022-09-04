@@ -10,6 +10,6 @@ import com.monitor.sensor.ui.Sensor;
 public interface SensorMapper {
 
     SensorEntity domainToEntity(Sensor domain);
-    
+
     Sensor entityToDomain(SensorEntity entity);
 }

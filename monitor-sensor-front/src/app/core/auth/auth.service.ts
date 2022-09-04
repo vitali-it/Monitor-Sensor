@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, NgZone } from '@angular/core';
 import { AuthRepository } from './auth.repository';
 import { AuthDto } from './auth.dto';
 import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
@@ -15,7 +15,8 @@ export class AuthService {
     constructor(
         @Inject(LOCAL_STORAGE) private readonly localStorage: StorageService,
         private readonly repository: AuthRepository,
-        private readonly router: Router
+        private readonly router: Router,
+        private ngZone: NgZone
     ) {}
 
     get getToken(): string {
@@ -38,7 +39,7 @@ export class AuthService {
     }
 
     logOut(): void {
-        this.router.navigate(['auth']);
+        this.ngZone.run(() => this.router.navigate(['auth']));
         this.clearStorage();
     }
 

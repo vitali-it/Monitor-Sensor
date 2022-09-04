@@ -31,21 +31,20 @@ public class UserServiceTest {
     @Mock
     private UserMapper mapper;
 
+    @Mock
+    private List<UserEntity> fakeEntityCollection;
+
     private static final Faker FAKER = Faker.instance(Locale.ENGLISH, ThreadLocalRandom.current());
 
     @Test
     public void shouldGetAll() {
-        final List<UserEntity> list = fakeEntityCollection();
+        final List<UserEntity> list = fakeEntityCollection;
         Mockito.when(repo.findAll()).thenReturn(list);
         Mockito.when(mapper.entityToDomain(Mockito.any(UserEntity.class))).thenReturn(new User());
         Mockito.when(list.stream()).thenReturn(Stream.of(fakeEntity()));
         service.getAll();
         Mockito.verify(repo, Mockito.times(1)).findAll();
         Mockito.verify(mapper, Mockito.times(1)).entityToDomain(Mockito.any(UserEntity.class));
-    }
-
-    private List<UserEntity> fakeEntityCollection() {
-        return Mockito.mock(List.class);
     }
 
     private UserEntity fakeEntity() {

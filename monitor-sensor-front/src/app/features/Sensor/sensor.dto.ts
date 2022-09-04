@@ -1,7 +1,6 @@
 import { SensorUnitModel } from '../SensorUnit/sensorunit.model';
 
 export class SensorDto {
-
     public id: number;
     public sensorUnit: SensorUnitModel;
     public name: string;

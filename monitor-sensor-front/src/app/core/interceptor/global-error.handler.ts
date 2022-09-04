@@ -6,7 +6,6 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class GlobalErrorHandler implements HttpInterceptor {
-
     constructor(private readonly service: AuthService) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -17,7 +16,7 @@ export class GlobalErrorHandler implements HttpInterceptor {
                     this.service.logOut();
                 }
 
-                const error = err.error.message || err.statusText;
+                const error = err.message || err.statusText;
                 return throwError(error);
             })
         );

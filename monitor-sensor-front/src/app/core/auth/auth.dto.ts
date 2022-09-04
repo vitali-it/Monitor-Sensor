@@ -1,10 +1,8 @@
 export class AuthDto {
-
     token: string;
     role: string;
 
     public static convert(response: any): AuthDto {
-
         if (!response) {
             return null;
         }

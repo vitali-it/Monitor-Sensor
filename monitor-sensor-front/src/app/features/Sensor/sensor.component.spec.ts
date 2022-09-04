@@ -45,9 +45,7 @@ describe('Sensor Component', () => {
                 PaginationModule,
                 SensorRoutingModule,
                 ReactiveFormsModule,
-                RouterTestingModule.withRoutes([
-                    { path: 'sensors', component: SensorComponent}
-                ]),
+                RouterTestingModule.withRoutes([{ path: 'sensors', component: SensorComponent }]),
                 NgxsModule.forFeature([SensorState]),
                 NgxsModule.forRoot(),
             ],
