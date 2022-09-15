@@ -18,6 +18,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.github.javafaker.Faker;
+import com.monitor.sensor.config.YamlProperties;
+import com.monitor.sensor.config.model.Element;
 import com.monitor.sensor.dao.SensorRepo;
 import com.monitor.sensor.entity.SensorEntity;
 import com.monitor.sensor.entity.SensorUnitEntity;
@@ -43,11 +45,18 @@ public class SensorServiceTest {
     private SensorUnitService sensorUnitService;
 
     @Mock
+    private YamlProperties yamlProperties;
+
+    @Mock
     private List<SensorEntity> fakeEntityCollection;
 
     private static final Faker FAKER = Faker.instance(Locale.ENGLISH, ThreadLocalRandom.current());
 
     private static final Integer RANDOM_DIGIT = FAKER.number().randomDigit();
+
+    private static final String DESCRIPTION_JAVA_14 = """
+                   My text
+            with white spaces """;
 
     private SensorEntity sensorEntity;
 
@@ -77,6 +86,7 @@ public class SensorServiceTest {
 
         Mockito.verify(repo, Mockito.times(1)).save(sensorEntity);
         Mockito.verify(mapper, Mockito.times(1)).domainToEntity(sensor);
+        Assertions.assertEquals(sensor.getDescription(), DESCRIPTION_JAVA_14.indent(Integer.MIN_VALUE));
     }
 
     @Test
@@ -96,6 +106,7 @@ public class SensorServiceTest {
 
     @Test
     public void shouldThrowExceptionGettingById() {
+        Mockito.when(yamlProperties.getElement()).thenReturn(new Element());
         Mockito.when(repo.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(null));
 
         Assertions.assertThrows(EntityNotFoundException.class, () -> service.getEntityById(RANDOM_DIGIT));
@@ -121,6 +132,7 @@ public class SensorServiceTest {
         sensorUnitService.addOneReturningEntity(sensorUnit);
         service.addOneWithNestedObj(sensor);
 
+        Assertions.assertEquals(sensor.getDescription(), DESCRIPTION_JAVA_14.indent(Integer.MIN_VALUE));
         Mockito.verify(repo, Mockito.times(1)).save(sensorEntity);
         Mockito.verify(mapper, Mockito.times(1)).domainToEntity(sensor);
     }
@@ -129,7 +141,6 @@ public class SensorServiceTest {
     public void shouldThrowExceptionWhileAddingOneWithNestedObj() {
         final SensorUnit sensorUnit = Mockito.mock(SensorUnit.class);
         final Sensor sensor = fakeSensorThrowing();
-
         sensorUnitService.addOneReturningEntity(sensorUnit);
         Assertions.assertThrows(RangeException.class, () -> service.addOneWithNestedObj(sensor));
     }
@@ -153,6 +164,7 @@ public class SensorServiceTest {
         Mockito.verify(repo, Mockito.times(1)).save(fakeEntity);
         Mockito.verify(mapper, Mockito.times(1)).domainToEntity(sensor);
         Mockito.verify(repo, Mockito.times(1)).findById(RANDOM_DIGIT);
+        Assertions.assertEquals(sensor.getDescription(), DESCRIPTION_JAVA_14.indent(Integer.MIN_VALUE));
     }
 
     @Test
@@ -181,6 +193,7 @@ public class SensorServiceTest {
         sensor.setSensorUnit(new SensorUnit());
         sensor.getSensorUnit().setRangeBegin(1);
         sensor.getSensorUnit().setRangeEnd(-1);
+        sensor.setDescription(DESCRIPTION_JAVA_14);
         return sensor;
     }
 
@@ -189,6 +202,7 @@ public class SensorServiceTest {
         sensor.setSensorUnit(new SensorUnit());
         sensor.getSensorUnit().setRangeBegin(1);
         sensor.getSensorUnit().setRangeEnd(10);
+        sensor.setDescription(DESCRIPTION_JAVA_14);
         return sensor;
     }
 }

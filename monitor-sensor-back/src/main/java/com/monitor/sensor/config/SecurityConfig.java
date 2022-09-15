@@ -36,6 +36,9 @@ public class SecurityConfig {
 
     private final UserDetailsService jwtUserDetailsService;
 
+    private final static String[] ANT_PATTERNS = { "/actuator/**", "/v3/**", "/swagger*/**", "/configuration/**",
+            "/webjars/**" };
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -62,12 +65,11 @@ public class SecurityConfig {
     @SneakyThrows
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) {
         httpSecurity.cors().and().csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, "/auth").permitAll()
-                .antMatchers("/actuator/**", "/v3/**", "/swagger*/**", "/configuration/**", "/webjars/**").permitAll()
-                .antMatchers(HttpMethod.POST, "**").hasRole(UserRole.ADMIN.name()).antMatchers(HttpMethod.PUT, "**")
-                .hasRole(UserRole.ADMIN.name()).antMatchers(HttpMethod.DELETE, "**").hasRole(UserRole.ADMIN.name())
-                .antMatchers(HttpMethod.PATCH, "**").hasRole(UserRole.ADMIN.name()).anyRequest().authenticated().and()
-                .exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and().httpBasic().and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .antMatchers(ANT_PATTERNS).permitAll().antMatchers(HttpMethod.POST, "**").hasRole(UserRole.ADMIN.name())
+                .antMatchers(HttpMethod.PUT, "**").hasRole(UserRole.ADMIN.name()).antMatchers(HttpMethod.DELETE, "**")
+                .hasRole(UserRole.ADMIN.name()).antMatchers(HttpMethod.PATCH, "**").hasRole(UserRole.ADMIN.name())
+                .anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and()
+                .httpBasic().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }

@@ -18,6 +18,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.github.javafaker.Faker;
+import com.monitor.sensor.config.YamlProperties;
+import com.monitor.sensor.config.model.Element;
 import com.monitor.sensor.dao.SensorUnitRepo;
 import com.monitor.sensor.entity.SensorUnitEntity;
 import com.monitor.sensor.mapper.SensorUnitMapper;
@@ -35,6 +37,9 @@ public class SensorUnitServiceTest {
 
     @Mock
     private SensorUnitMapper mapper;
+
+    @Mock
+    private YamlProperties yamlProperties;
 
     @Mock
     private List<SensorUnitEntity> fakeEntityCollection;
@@ -76,6 +81,7 @@ public class SensorUnitServiceTest {
 
     @Test
     public void shouldThrowExceptionGettingById() {
+        Mockito.when(yamlProperties.getElement()).thenReturn(new Element());
         Mockito.when(repo.findById(Mockito.anyInt())).thenReturn(Optional.ofNullable(null));
 
         Assertions.assertThrows(EntityNotFoundException.class, () -> service.getEntityById(RANDOM_DIGIT));

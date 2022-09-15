@@ -1,0 +1,4 @@
+element:
+  alreadyexist: The name already exists
+  notexist: Element does not exist
+  notfound: "Not found #: %s"

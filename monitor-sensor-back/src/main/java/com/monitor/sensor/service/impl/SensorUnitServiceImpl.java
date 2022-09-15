@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
 import org.springframework.stereotype.Service;
+
+import com.monitor.sensor.config.YamlProperties;
 import com.monitor.sensor.dao.SensorUnitRepo;
 import com.monitor.sensor.entity.SensorUnitEntity;
 import com.monitor.sensor.mapper.SensorUnitMapper;
@@ -23,6 +25,8 @@ public class SensorUnitServiceImpl implements SensorUnitService {
     private final SensorUnitRepo repo;
 
     private final SensorUnitMapper mapper;
+
+    private final YamlProperties yamlProperties;
 
     @Override
     public List<SensorUnit> getAll() {
@@ -44,7 +48,7 @@ public class SensorUnitServiceImpl implements SensorUnitService {
     @SneakyThrows
     public SensorUnitEntity getEntityById(final Integer id) {
         return repo.findById(id).orElseThrow(() -> {
-            final String msg = String.format("Not found #: %s", id);
+            final String msg = String.format(yamlProperties.getElement().getNotfound(), id);
             throw new EntityNotFoundException(msg);
         });
     }

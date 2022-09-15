@@ -34,7 +34,7 @@ public class JwtTokenUtil {
     }
 
     public String generateToken(final UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
+        final Map<String, Object> claims = new HashMap<>();
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
@@ -47,11 +47,6 @@ public class JwtTokenUtil {
     public Boolean validateToken(final String token, final UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-    }
-
-    private Boolean isTokenExpired(final String token) {
-        final Date expiration = getExpirationDateFromToken(token);
-        return expiration.before(new Date());
     }
 
     public String getUsernameFromRequestTokenHeader(final String requestTokenHeader) {
@@ -67,5 +62,10 @@ public class JwtTokenUtil {
             token = Optional.of(requestTokenHeader.substring(7));
         }
         return token;
+    }
+
+    private Boolean isTokenExpired(final String token) {
+        final Date expiration = getExpirationDateFromToken(token);
+        return expiration.before(new Date());
     }
 }

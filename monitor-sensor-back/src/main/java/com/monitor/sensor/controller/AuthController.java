@@ -39,7 +39,7 @@ public class AuthController {
         final String token = jwtTokenUtil.generateToken(userDetails);
         final Map<String, Object> responseBody = new HashMap<>();
         final Optional<? extends GrantedAuthority> authority = userDetails.getAuthorities().stream().findFirst();
-        String role = "";
+        var role = "";
 
         if (authority.isPresent()) {
             role = authority.get().getAuthority().replace("ROLE_", "");

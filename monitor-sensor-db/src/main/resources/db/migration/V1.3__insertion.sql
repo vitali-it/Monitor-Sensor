@@ -1,10 +1,10 @@
 INSERT INTO monitor_sensor.SENSOR_UNIT(sensor_type,	unit, range_begin, range_end) VALUES('PRESSURE', 'bar', 15, 900);
 INSERT INTO monitor_sensor.SENSOR_UNIT(sensor_type,	unit, range_begin, range_end) VALUES('VOLTAGE', 'voltage', 30, 125);
-INSERT INTO monitor_sensor.SENSOR_UNIT(sensor_type,	unit, range_begin, range_end) VALUES('TEMPERATURE', 'â„ƒ', 25, 40);
+INSERT INTO monitor_sensor.SENSOR_UNIT(sensor_type,	unit, range_begin, range_end) VALUES('TEMPERATURE', '°C', 25, 40);
 INSERT INTO monitor_sensor.SENSOR_UNIT(sensor_type,	unit, range_begin, range_end) VALUES('HUMIDITY', '%', 25, 80);
 
 INSERT INTO monitor_sensor.SENSOR(sensor_type_id, name, model, description, location, created_date, updated_date) 
-			VALUES(1, 'Sens1', 'MDL1', 'description1', 'Minsk', '2020-04-25T01:05:56.956', '2020-04-25T01:05:57.443');
+			VALUES(1, 'Sens1', 'MDL1', 'description1', 'Bruxelles', '2020-04-25T01:05:56.956', '2020-04-25T01:05:57.443');
 INSERT INTO monitor_sensor.SENSOR(sensor_type_id, name,	model, description, location, created_date, updated_date) 
 			VALUES(2, 'Sens2', 'MDL2', 'description2', 'Paris', '2020-04-25T07:55:29.956', '2020-04-25T07:55:30.323');
 INSERT INTO monitor_sensor.SENSOR(sensor_type_id, name,	model, description, location, created_date, updated_date) 
