@@ -6,14 +6,20 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
+
+import com.monitor.sensor.config.YamlProperties;
 import com.monitor.sensor.error.ElementNotFoundException;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Aspect
 @Slf4j
+@RequiredArgsConstructor
 public class ThrowableAspect {
+
+    private final YamlProperties yamlFooProperties;
 
     @Pointcut("execution(* com.monitor.sensor.controller.*.*(..) )")
     private void controllerLayer() {
@@ -38,8 +44,8 @@ public class ThrowableAspect {
             result = pjp.proceed();
         } catch (final EmptyResultDataAccessException e) {
             log.warn(e.getMessage());
-            result = "Element does not exist for removal";
-            throw new ElementNotFoundException("Element does not exist");
+            result = yamlFooProperties.getElement().getNotexist();
+            throw new ElementNotFoundException(result.toString());
         }
         return result;
 
@@ -53,7 +59,7 @@ public class ThrowableAspect {
         } catch (final EntityNotFoundException e) {
             final String msg = e.getMessage();
             log.warn(msg);
-            result = "Element does not exist";
+            result = yamlFooProperties.getElement().getNotexist();
             throw new ElementNotFoundException(msg);
         }
         return result;

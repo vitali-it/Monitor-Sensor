@@ -29,7 +29,7 @@ public class JwtUserDetailsService implements UserDetailsService {
             throw new RuntimeException(message);
         });
 
-        User.UserBuilder builder = User.builder().username(username);
+        final User.UserBuilder builder = User.builder().username(username);
         String password = user.getPassword();
         if (ObjectUtils.isEmpty(password)) {
             password = "";
@@ -38,11 +38,10 @@ public class JwtUserDetailsService implements UserDetailsService {
         builder.password(password);
 
         if (UserRole.ADMIN.equals(user.getRole())) {
-            builder.roles("ADMIN");
+            builder.roles(UserRole.ADMIN.name());
         } else {
-            builder.roles("VIEWER");
+            builder.roles(UserRole.VIEWER.name());
         }
-
         return builder.build();
     }
 
