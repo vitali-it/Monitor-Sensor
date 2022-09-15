@@ -17,7 +17,7 @@ export class GlobalErrorHandler implements HttpInterceptor {
                 }
 
                 const error = err.message || err.statusText;
-                return throwError(error);
+                return throwError(() => error);
             })
         );
     }

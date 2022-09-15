@@ -94,7 +94,6 @@ export class SensorAddEditComponent implements OnInit, OnDestroy, DoCheck {
         setTimeout(() => {
             this.router.navigate(['/sensors']);
         }, 500);
-        // TODO: Find out a more elegant way for navigation, not failing tests
     }
 
     leaveForm(): boolean {
