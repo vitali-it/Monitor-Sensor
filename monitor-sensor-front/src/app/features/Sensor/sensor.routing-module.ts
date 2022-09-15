@@ -13,12 +13,14 @@ const routes: Routes = [
     {
         path: 'form',
         component: SensorAddEditComponent,
+        title: 'Creation',
         canActivate: [RoleGuard],
         canDeactivate: [FormGuard],
     },
     {
         path: 'form/:id',
         component: SensorAddEditComponent,
+        title: 'Modification',
         canActivate: [RoleGuard],
         canDeactivate: [FormGuard],
     },

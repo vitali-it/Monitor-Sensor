@@ -22,8 +22,7 @@ export class SensorComponent implements OnInit, AfterContentInit, OnDestroy {
 
     @Select(SensorState.selectTotalPages) pagesQuantity: Observable<number>;
 
-    @Select(SensorState.selectTotalElements)
-    elementsQuantity: Observable<number>;
+    @Select(SensorState.selectTotalElements) elementsQuantity: Observable<number>;
 
     public isAllowed: boolean;
     public pageQuantitySubscription: Subscription;
